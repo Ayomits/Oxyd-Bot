@@ -1,0 +1,27 @@
+{
+  "name": "snowflake",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "npx ts-node -r tsconfig-paths/register src/main.ts",
+    "dev": "npx nodemon",
+    "prod": "node dist/main.js",
+    "build": "npx tsc --build && npx tsc-alias"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.2",
+    "nodemon": "^3.1.4",
+    "ts-node": "^10.9.2",
+    "tsc-alias": "^1.8.10",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.5.4",
+    "typescript-paths": "^1.5.1"
+  },
+  "dependencies": {
+    "@napi-rs/canvas": "^0.1.53",
+    "discord.js": "^14.15.3",
+    "dotenv": "^16.4.5",
+    "glob": "^11.0.0"
+  }
+}
