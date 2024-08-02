@@ -14,6 +14,7 @@ export default abstract class BaseSelectMenuValue {
       | RoleSelectMenuInteraction
       | ChannelSelectMenuInteraction
       | UserSelectMenuInteraction
-      | AnySelectMenuInteraction
+      | AnySelectMenuInteraction,
+    _args: string[]
   ): Promise<any> {}
 }

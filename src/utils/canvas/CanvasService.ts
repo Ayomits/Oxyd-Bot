@@ -10,6 +10,7 @@ import {
   CanvasOptionsType,
   FontsType,
 } from "./CanvasTypes";
+import Logger from "../system/Logger";
 
 export class CanvasService {
   private imageCache: Map<string, any>;
@@ -17,9 +18,8 @@ export class CanvasService {
   constructor() {
     this.imageCache = new Map();
   }
-  
-  async generate(options: CanvasOptionsType) {
 
+  async generate(options: CanvasOptionsType) {
     const canvas = createCanvas(options.width, options.height);
     const ctx = canvas.getContext("2d");
     const ctx2 = canvas.getContext("2d");
@@ -31,6 +31,7 @@ export class CanvasService {
       await this.loadAndDrawBackground(ctx2, options.background),
       await this.processElements(ctx3, options.elements),
     ]);
+    Logger.success(`Image successfully generated`);
     return canvas.toBuffer("image/png");
   }
   private registerFonts(requiredFonts: FontsType[]) {
@@ -38,7 +39,7 @@ export class CanvasService {
       try {
         GlobalFonts.registerFromPath(font.path, font.fontName);
       } catch (error) {
-        console.error(
+        Logger.error(
           `Failed to register font: ${font.fontName} from ${font.path}`,
           error
         );
@@ -55,7 +56,7 @@ export class CanvasService {
       const backgroundImage = await this.loadImageWithCache(backgroundPath);
       ctx.drawImage(backgroundImage, 0, 0, ctx.canvas.width, ctx.canvas.height);
     } catch (error) {
-      console.error(
+      Logger.error(
         `Failed to load background image from ${backgroundPath}`,
         error
       );
@@ -121,10 +122,7 @@ export class CanvasService {
         );
       }
     } catch (error) {
-      console.error(
-        `Failed to load avatar image from ${data.image.url}`,
-        error
-      );
+      Logger.error(`Failed to load avatar image from ${data.image.url}`, error);
       throw error;
     }
   }
@@ -135,7 +133,7 @@ export class CanvasService {
   ) {
     if (!data.text) return;
 
-    ctx.save(); 
+    ctx.save();
 
     if (data.text.font) {
       ctx.font = data.text.font;

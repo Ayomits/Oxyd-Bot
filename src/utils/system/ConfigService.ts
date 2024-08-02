@@ -13,12 +13,12 @@ class ConfigService {
     this.config = parsed;
   }
 
-  get(key: string): string | never {
+  get(key: string, _default?: any): string | never {
     const res = this.config[key];
-    if (!res) {
+    if (!res && !_default) {
       throw new Error(`This key does not exists`);
     }
-    return res;
+    return res ? res : _default;
   }
 }
 const configService = new ConfigService();

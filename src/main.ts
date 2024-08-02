@@ -1,4 +1,4 @@
-import { Client, Collection, GatewayIntentBits } from "discord.js";
+import { Client, Collection, GatewayIntentBits, Options } from "discord.js";
 import * as path from "path";
 
 import BaseSubCommand from "@/abstractions/BaseSubCommand";
@@ -29,6 +29,15 @@ const client = new Client({
     GatewayIntentBits.GuildModeration,
     GatewayIntentBits.GuildMembers,
   ],
+  makeCache: Options.cacheWithLimits({
+    ...Options.DefaultMakeCacheSettings,
+    ReactionManager: 0,
+    GuildEmojiManager: 0,
+    GuildScheduledEventManager: 0,
+    GuildStickerManager: 0,
+    MessageManager: 0,
+    PresenceManager: 0,
+  }),
 });
 
 global.rootDir = path.resolve(__dirname);
@@ -52,3 +61,10 @@ async function bootstrap() {
 }
 
 bootstrap();
+
+process.on("exit", (reason: string) => {
+  Logger.log(`Bot stopped: ${reason}`);
+});
+process.on("uncaughtException", (err) => {
+  Logger.error(err);
+});

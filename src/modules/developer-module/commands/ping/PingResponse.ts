@@ -1,4 +1,5 @@
 import { SnowflakeColors } from "@/enums";
+import { positiveNumber } from "@/utils/functions/positiveNumber";
 import Logger from "@/utils/system/Logger";
 import {
   ActionRowBuilder,
@@ -26,20 +27,21 @@ export function pingResponse(
     .setFields(
       {
         name: `Задержка вебсокета`,
-        value: `\`\`\`${wsPing} ms\`\`\``,
+        value: `\`\`\`${positiveNumber(wsPing)} ms\`\`\``,
         inline: true,
       },
       {
         name: `Задержка сообщений`,
-        value: `\`\`\`${msgPing} ms\`\`\``,
+        value: `\`\`\`${positiveNumber(msgPing)} ms\`\`\``,
         inline: true,
       }
     );
-  Logger.log(`Ws: ${wsPing} ms, Msg: ${msgPing} ms`);
+  Logger.log(`Ws: ${positiveNumber(wsPing)} ms, Msg: ${positiveNumber(msgPing)} ms`);
   return {
     embeds: [embed],
     components: [
       new ActionRowBuilder<ButtonBuilder>().addComponents(refreshButton),
     ],
   };
+
 }

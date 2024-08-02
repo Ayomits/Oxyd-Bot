@@ -1,8 +1,10 @@
 import BaseCommand from "@/abstractions/BaseCommand";
 import BaseEvent from "@/abstractions/BaseEvent";
 import { SnowflakeType } from "@/enums/SnowflakeType";
+import configService from "@/utils/system/ConfigService";
 import Logger from "@/utils/system/Logger";
 import { Client, Events, REST, Routes } from "discord.js";
+import * as mongoose from "mongoose";
 
 export class ClientReadyEvent extends BaseEvent {
   constructor() {
@@ -14,8 +16,8 @@ export class ClientReadyEvent extends BaseEvent {
 
   async execute(client: Client) {
     Logger.success(`${client.user.username} is launched`);
-    this.registerCommand(client);
-    Logger.log(`Startup websocket ping: ${client.ws.ping}`)
+    await Promise.all([this.registerCommand(client), this.connectToDb()]);
+    Logger.log(`Startup websocket ping: ${client.ws.ping}`);
   }
 
   private async registerCommand(client: Client) {
@@ -55,5 +57,12 @@ export class ClientReadyEvent extends BaseEvent {
     } catch (err) {
       Logger.error(err);
     }
+  }
+
+  private async connectToDb() {
+    return mongoose
+      .connect(configService.get("DB_URI"))
+      .then(() => Logger.success(`connect to db`))
+      .catch((err) => Logger.error(err));
   }
 }

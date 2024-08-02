@@ -9,6 +9,7 @@ import {
   RoleSelectMenuInteraction,
   StringSelectMenuInteraction,
   UserSelectMenuInteraction,
+  AnySelectMenuInteraction,
 } from "discord.js";
 
 export class InteractionCreate extends BaseEvent {
@@ -53,6 +54,21 @@ export class InteractionCreate extends BaseEvent {
         const splitedCustomId = interaction.customId.split("_");
         const component = interaction.client.buttons.get(splitedCustomId[0]);
         if (!component) return;
+        if (interaction.isAnySelectMenu()) {
+          const value = interaction.values[0].split("_");
+          const valueCallback = interaction.client.values.get(value[0]);
+          if (valueCallback) {
+            try {
+              valueCallback.execute(interaction, value.slice(1));
+              Logger.log(
+                `value ${value} launched for select menu ${splitedCustomId[0]}`
+              );
+              return;
+            } catch (err) {
+              Logger.error(err);
+            }
+          }
+        }
         try {
           component!.execute(interaction, splitedCustomId.slice(1));
           Logger.log(
