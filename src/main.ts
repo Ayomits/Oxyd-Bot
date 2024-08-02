@@ -1,10 +1,15 @@
 import { Client, Collection, GatewayIntentBits } from "discord.js";
-import configService from "@utils/system/ConfigService";
-import actionCollector from "@utils/system/ActionCollector";
+import * as path from "path";
+
 import BaseSubCommand from "@/abstractions/BaseSubCommand";
 import BaseCommand from "@/abstractions/BaseCommand";
 import BaseComponent from "@/abstractions/BaseComponent";
 import BaseSelectMenuValue from "@/abstractions/BaseSelectMenuValue";
+
+import i18n from "@/i18n/i18n-instance";
+import configService from "@utils/system/ConfigService";
+import actionCollector from "@utils/system/ActionCollector";
+import Logger from "./utils/system/Logger";
 
 declare module "discord.js" {
   export interface Client {
@@ -18,7 +23,6 @@ declare module "discord.js" {
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildInvites,
     GatewayIntentBits.GuildWebhooks,
     GatewayIntentBits.GuildVoiceStates,
     GatewayIntentBits.GuildMessages,
@@ -27,14 +31,23 @@ const client = new Client({
   ],
 });
 
-client.commands = new Collection<string, BaseCommand>(); // Команды
+global.rootDir = path.resolve(__dirname);
+
+client.commands = new Collection<string, BaseCommand>();
 client.subCommands = new Collection<string, BaseSubCommand>();
-client.buttons = new Collection<string, BaseComponent>(); // Кнопки, селекты, модалки и т.п.
+client.buttons = new Collection<string, BaseComponent>();
 client.values = new Collection<string, BaseSelectMenuValue>();
 
 async function bootstrap() {
-  actionCollector(client);
-  client.login(configService.get("TOKEN"));
+  try {
+    await actionCollector(client);
+    await i18n.init();
+    await client
+      .login(configService.get("TOKEN"))
+      .then(() => Logger.success(`loggined`));
+  } catch (err) {
+    Logger.error(err);
+  }
 }
 
 bootstrap();

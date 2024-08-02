@@ -1,19 +1,16 @@
 import { Client, ClientEvents } from "discord.js";
 import { glob } from "glob";
-
-import * as path from "path";
 import BaseSubCommand from "@/abstractions/BaseSubCommand";
 import BaseSelectMenuValue from "@/abstractions/BaseSelectMenuValue";
 import BaseEvent from "@/abstractions/BaseEvent";
 import BaseCommand from "@/abstractions/BaseCommand";
 import BaseComponent from "@/abstractions/BaseComponent";
+import * as path from "path";
 
 const actionCollector = async (client: Client) => {
-  const rootDir = path.resolve();
-  const currentDir = path.basename(rootDir);
-  const pattern = `${currentDir}/**/*.{js,ts}`;
+  const currentDir = path.basename(global.rootDir);
+  const pattern = `${currentDir}/**/*{.ts,.js}`;
   const files = await glob(pattern);
-
   await Promise.all(
     files.map(async (file) => {
       if (file.includes(`.d`)) return;
