@@ -1,4 +1,5 @@
 import { SnowflakeColors } from "@/enums";
+import Logger from "@/utils/system/Logger";
 import {
   ActionRowBuilder,
   ButtonBuilder,
@@ -11,6 +12,10 @@ import {
 export function pingResponse(
   interaction: CommandInteraction | ButtonInteraction
 ) {
+  const wsPing = interaction.client.ws.ping;
+  const msgPing = Math.floor(
+    new Date().getTime() - interaction.createdTimestamp
+  );
   const refreshButton = new ButtonBuilder()
     .setLabel(`Обновить`)
     .setStyle(ButtonStyle.Success)
@@ -21,17 +26,16 @@ export function pingResponse(
     .setFields(
       {
         name: `Задержка вебсокета`,
-        value: `\`\`\`${interaction.client.ws.ping}\`\`\``,
+        value: `\`\`\`${wsPing} ms\`\`\``,
         inline: true,
       },
       {
         name: `Задержка сообщений`,
-        value: `\`\`\`${Math.floor(
-          new Date().getTime() - interaction.createdTimestamp
-        )}\`\`\``,
+        value: `\`\`\`${msgPing} ms\`\`\``,
         inline: true,
       }
     );
+  Logger.log(`Ws: ${wsPing} ms, Msg: ${msgPing} ms`);
   return {
     embeds: [embed],
     components: [

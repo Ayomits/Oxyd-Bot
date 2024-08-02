@@ -1,6 +1,15 @@
 import BaseEvent from "@/abstractions/BaseEvent";
 import Logger from "@/utils/system/Logger";
-import { Events, Interaction } from "discord.js";
+import {
+  ButtonInteraction,
+  ChannelSelectMenuInteraction,
+  Events,
+  Interaction,
+  ModalSubmitInteraction,
+  RoleSelectMenuInteraction,
+  StringSelectMenuInteraction,
+  UserSelectMenuInteraction,
+} from "discord.js";
 
 export class InteractionCreate extends BaseEvent {
   constructor() {
@@ -44,10 +53,31 @@ export class InteractionCreate extends BaseEvent {
         const splitedCustomId = interaction.customId.split("_");
         const component = interaction.client.buttons.get(splitedCustomId[0]);
         if (!component) return;
-        return component!.execute(interaction, splitedCustomId.slice(1));
+        try {
+          component!.execute(interaction, splitedCustomId.slice(1));
+          Logger.log(
+            `${interaction.customId} ${this.componentCalc(
+              interaction
+            )} component launched`
+          );
+        } catch (err) {
+          Logger.error(err);
+        }
       }
     } catch (err) {
       Logger.error(err);
     }
+  }
+
+  private componentCalc(interaction: any) {
+    if (interaction instanceof ButtonInteraction) return "button";
+    if (interaction instanceof StringSelectMenuInteraction)
+      return "string select";
+    if (interaction instanceof RoleSelectMenuInteraction) return "role select";
+    if (interaction instanceof ChannelSelectMenuInteraction)
+      return "channel select";
+    if (interaction instanceof UserSelectMenuInteraction) return "user select";
+    if (interaction instanceof ModalSubmitInteraction) return "modal";
+    return "";
   }
 }
