@@ -32,6 +32,7 @@ const client = new Client({
 });
 
 global.rootDir = path.resolve(__dirname);
+global.testGuilds = ["1268160506623950868"];
 
 client.commands = new Collection<string, BaseCommand>();
 client.subCommands = new Collection<string, BaseSubCommand>();
@@ -42,7 +43,7 @@ async function bootstrap() {
   try {
     await actionCollector(client);
     await i18n.init();
-    await client
+    client
       .login(configService.get("TOKEN"))
       .then(() => Logger.success(`loggined`));
   } catch (err) {
