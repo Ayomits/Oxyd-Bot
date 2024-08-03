@@ -1,10 +1,9 @@
 import BaseCommand from "@/abstractions/BaseCommand";
 import BaseEvent from "@/abstractions/BaseEvent";
+import prisma from "@prisma";
 import { SnowflakeType } from "@/enums/SnowflakeType";
-import configService from "@/utils/system/ConfigService";
 import Logger from "@/utils/system/Logger";
 import { Client, Events, REST, Routes } from "discord.js";
-import * as mongoose from "mongoose";
 
 export class ClientReadyEvent extends BaseEvent {
   constructor() {
@@ -60,9 +59,9 @@ export class ClientReadyEvent extends BaseEvent {
   }
 
   private async connectToDb() {
-    return mongoose
-      .connect(configService.get("DB_URI"))
-      .then(() => Logger.success(`connect to db`))
+    return await prisma
+      .$connect()
+      .then(() => Logger.success(`Db connected`))
       .catch((err) => Logger.error(err));
   }
 }

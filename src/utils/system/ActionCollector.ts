@@ -6,6 +6,7 @@ import BaseEvent from "@/abstractions/BaseEvent";
 import BaseCommand from "@/abstractions/BaseCommand";
 import BaseComponent from "@/abstractions/BaseComponent";
 import * as path from "path";
+import Logger from "./Logger";
 
 const actionCollector = async (client: Client) => {
   const currentDir = path.basename(global.rootDir);
@@ -19,7 +20,7 @@ const actionCollector = async (client: Client) => {
       try {
         module = await import(resolvedPath);
       } catch (err) {
-        console.error(`Error importing ${resolvedPath}:`, err);
+        Logger.error(`Error importing ${resolvedPath}:`, err);
         return;
       }
 
@@ -28,15 +29,15 @@ const actionCollector = async (client: Client) => {
           if (typeof exported === "function") {
             if (exported.prototype instanceof BaseEvent) {
               const eventInstance = new exported() as BaseEvent;
+              const eventName = eventInstance.options.name;
               if (eventInstance.options.once) {
-                client.once(
-                  eventInstance.options.name as keyof ClientEvents,
-                  (...args) => eventInstance.execute(...args)
+                Logger.log(`${eventName} event was launched`);
+                client.once(eventName as keyof ClientEvents, (...args) =>
+                  eventInstance.execute(...args)
                 );
               } else {
-                client.on(
-                  eventInstance.options.name as keyof ClientEvents,
-                  (...args) => eventInstance.execute(...args)
+                client.on(eventName as keyof ClientEvents, (...args) =>
+                  eventInstance.execute(...args)
                 );
               }
             } else if (exported.prototype instanceof BaseCommand) {
@@ -63,7 +64,7 @@ const actionCollector = async (client: Client) => {
             }
           }
         } catch (err) {
-          console.error(`Error processing ${resolvedPath}:`, err);
+          Logger.error(`Error processing ${resolvedPath}:`, err);
           throw err;
         }
       });

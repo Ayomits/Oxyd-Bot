@@ -50,8 +50,12 @@ client.values = new Collection<string, BaseSelectMenuValue>();
 
 async function bootstrap() {
   try {
-    await actionCollector(client);
-    await i18n.init();
+    await actionCollector(client).then(() =>
+      Logger.success(`All bot actions successfully collected to cache`)
+    );
+    await i18n
+      .init()
+      .then(() => Logger.success(`i18n successfully initialize`));
     client
       .login(configService.get("TOKEN"))
       .then(() => Logger.success(`loggined`));

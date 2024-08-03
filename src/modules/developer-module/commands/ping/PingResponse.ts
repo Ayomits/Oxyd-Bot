@@ -18,8 +18,8 @@ export function pingResponse(
     new Date().getTime() - interaction.createdTimestamp
   );
   const refreshButton = new ButtonBuilder()
-    .setLabel(`Обновить`)
-    .setStyle(ButtonStyle.Success)
+    .setEmoji("🔃")
+    .setStyle(ButtonStyle.Secondary)
     .setCustomId(`pingRefresh_${interaction.user.id}`);
   const embed = new EmbedBuilder()
     .setColor(SnowflakeColors.DEFAULT)
