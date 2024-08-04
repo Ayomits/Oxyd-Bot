@@ -30,12 +30,14 @@ const actionCollector = async (client: Client) => {
             if (exported.prototype instanceof BaseEvent) {
               const eventInstance = new exported() as BaseEvent;
               const eventName = eventInstance.options.name;
+
               if (eventInstance.options.once) {
-                Logger.log(`${eventName} event was launched`);
+                Logger.log(`${eventName} (once) event was launched`);
                 client.once(eventName as keyof ClientEvents, (...args) =>
                   eventInstance.execute(...args)
                 );
               } else {
+                Logger.log(`${eventName} (on) event was launched`);
                 client.on(eventName as keyof ClientEvents, (...args) =>
                   eventInstance.execute(...args)
                 );

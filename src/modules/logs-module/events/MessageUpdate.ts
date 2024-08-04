@@ -1,0 +1,72 @@
+import BaseEvent from "@/abstractions/BaseEvent";
+import { EmbedBuilder, Events, Message, TextChannel } from "discord.js";
+import SettingsService from "../commands/SettingsService";
+import { SnowflakeColors } from "@/enums";
+
+export class MessageUpdate extends BaseEvent {
+  constructor() {
+    super({
+      once: false,
+      name: Events.MessageUpdate,
+    });
+  }
+
+  async execute(oldMessage: Message, newMessage: Message) {
+    if (oldMessage.author.bot) return;
+    const { message } = await SettingsService.findOne(oldMessage.guild.id);
+    const logChannel = (await oldMessage.guild.channels.fetch(
+      message
+    )) as TextChannel;
+    if (!logChannel) return;
+    const embed = new EmbedBuilder()
+      .setTitle(`Редактирование сообщения`)
+      .setColor(SnowflakeColors.DEFAULT)
+      .setFields(
+        {
+          name: `> Канал`,
+          value: `${oldMessage.channel}`,
+          inline: true,
+        },
+        {
+          name: `> Сообщение`,
+          value: `${oldMessage.url}`,
+          inline: true,
+        },
+        {
+          name: `> Автор`,
+          value: `${oldMessage.author}`,
+          inline: true,
+        },
+        {
+          name: `> Старое сообщение:`,
+          value: `${
+            oldMessage.content.length >= 1 ? oldMessage.content : "None"
+          }`,
+          inline: false,
+        },
+        {
+          name: `> Новое сообщение`,
+          value: `${
+            newMessage.content.length >= 1 ? newMessage.content : "None"
+          }`,
+          inline: false,
+        }
+      )
+      .setThumbnail(oldMessage.author.displayAvatarURL())
+      .setTimestamp(new Date())
+      .setFooter({
+        text: `${oldMessage.author.globalName} | ${oldMessage.author.id}`,
+        iconURL: oldMessage.author.displayAvatarURL(),
+      });
+    let content = ``;
+    if (oldMessage.attachments) {
+      content += oldMessage.attachments
+        .map((attachment) => attachment.url)
+        .join("\n");
+    }
+    return logChannel.send({
+      content: content.length >= 1 ? content : null,
+      embeds: [embed],
+    });
+  }
+}

@@ -17,11 +17,11 @@ export class SettingsModal extends BaseComponent {
     const existedChannel = interaction.guild.channels.cache.get(channelId);
     if (channelId && !existedChannel)
       return new ChannelDoesNotExists(interaction);
-    if (existedChannel.type !== ChannelType.GuildText)
+    if (existedChannel && !existedChannel?.isTextBased())
       return new ChannelTypeError(interaction);
     return await Promise.all([
       SettingsService.update(interaction.guildId, {
-        [field]: channelId,
+        [field]: channelId ? channelId : null,
       }),
       interaction.editReply({
         content: `Успешно **${
