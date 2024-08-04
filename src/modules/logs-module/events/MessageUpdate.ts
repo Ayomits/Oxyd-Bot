@@ -2,6 +2,7 @@ import BaseEvent from "@/abstractions/BaseEvent";
 import { EmbedBuilder, Events, Message, TextChannel } from "discord.js";
 import SettingsService from "../commands/SettingsService";
 import { SnowflakeColors } from "@/enums";
+import Logger from "@/utils/system/Logger";
 
 export class MessageUpdate extends BaseEvent {
   constructor() {
@@ -38,14 +39,14 @@ export class MessageUpdate extends BaseEvent {
           inline: true,
         },
         {
-          name: `> Старое сообщение:`,
+          name: `> Старое содержимое:`,
           value: `${
             oldMessage.content.length >= 1 ? oldMessage.content : "None"
           }`,
           inline: false,
         },
         {
-          name: `> Новое сообщение`,
+          name: `> Новое содержимое:`,
           value: `${
             newMessage.content.length >= 1 ? newMessage.content : "None"
           }`,
@@ -64,9 +65,19 @@ export class MessageUpdate extends BaseEvent {
         .map((attachment) => attachment.url)
         .join("\n");
     }
-    return logChannel.send({
-      content: content.length >= 1 ? content : null,
-      embeds: [embed],
-    });
+    try {
+      return logChannel
+        .send({
+          content: content.length >= 1 ? content : null,
+          embeds: [embed],
+        })
+        .then(() =>
+          Logger.log(
+            `message update event logged (authorId: ${oldMessage.author.id}, guildId: ${oldMessage.guild.id})`
+          )
+        );
+    } catch (err) {
+      Logger.error(err);
+    }
   }
 }
