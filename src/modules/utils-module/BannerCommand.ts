@@ -1,6 +1,10 @@
 import BaseCommand from "@/abstractions/BaseCommand";
-import { SnowflakeType } from "@/enums";
-import { CommandInteraction, SlashCommandBuilder } from "discord.js";
+import { SnowflakeColors, SnowflakeType } from "@/enums";
+import {
+  CommandInteraction,
+  EmbedBuilder,
+  SlashCommandBuilder,
+} from "discord.js";
 
 export class BannerCommand extends BaseCommand {
   constructor() {
@@ -11,14 +15,26 @@ export class BannerCommand extends BaseCommand {
         .setDescription(`Просмотреть баннер пользователя`)
         .addUserOption((option) =>
           option
-            .setName(`Пользователь`)
+            .setName(`пользователь`)
             .setDescription(`Пользователь чей баннер вы хотите просмотреть`)
         ),
       isSlash: true,
     });
   }
 
-  async execute(interaction: CommandInteraction) {
-    
+  public async execute(interaction: CommandInteraction) {
+    await interaction.deferReply();
+    const user =
+      interaction.options.get("пользователь")?.user || interaction.user;
+    const bannerURL = user?.bannerURL({ size: 4096 });
+    const embed = new EmbedBuilder()
+      .setColor(SnowflakeColors.DEFAULT)
+      .setTitle(`Баннер - ${user.displayName}`);
+    if (!bannerURL) {
+      embed.setDescription(`Указанный пользователь **не имеет** баннера`);
+    } else {
+      embed.setImage(bannerURL);
+    }
+    await interaction.editReply({ embeds: [embed] });
   }
 }

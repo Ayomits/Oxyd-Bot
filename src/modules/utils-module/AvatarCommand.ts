@@ -1,5 +1,5 @@
 import BaseCommand from "@/abstractions/BaseCommand";
-import { SnowflakeType } from "@/enums";
+import { SnowflakeColors, SnowflakeType } from "@/enums";
 import {
   CommandInteraction,
   EmbedBuilder,
@@ -15,12 +15,12 @@ export class AvatarCommand extends BaseCommand {
         .setDescription(`Просмотреть аватар пользователя`)
         .addUserOption((option) =>
           option
-            .setName(`Пользователь`)
+            .setName(`пользователь`)
             .setDescription(`Пользователь чей аватар вы хотите просмотреть`)
         )
         .addStringOption((option) =>
           option
-            .setName(`Тип`)
+            .setName(`тип`)
             .setDescription(`Аватар пользователя на сервере или в профиле`)
             .setChoices(
               {
@@ -39,13 +39,15 @@ export class AvatarCommand extends BaseCommand {
 
   public async execute(interaction: CommandInteraction) {
     await interaction.deferReply()
-    const user = interaction.options.get("Пользователь").user;
-    const type = interaction.options.get("Тип").value as string;
+    const user = interaction.options.get("пользователь")?.user || interaction.user;
+    const type = interaction.options.get("тип")?.value as string;
     const member = await interaction.guild.members.fetch(user.id);
+    const size = 4096
     const embed = new EmbedBuilder()
       .setTitle(`Аватар - ${user.displayName}`)
+      .setColor(SnowflakeColors.DEFAULT)
       .setImage(
-        type === "server" ? member.displayAvatarURL() : user.displayAvatarURL()
+        type === "server" ? member.displayAvatarURL({size}) : user.displayAvatarURL({size})
       );
     return interaction.editReply({embeds: [embed]})
   }
