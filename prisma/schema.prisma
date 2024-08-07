@@ -30,8 +30,10 @@ model LogSettings {
   guild   Guild  @relation(fields: [guildId], references: [id], onDelete: Cascade)
 
   // Channel ids
-  message String?
-  voice   String?
-  roles   String?
-  members String?
+  message  String?
+  voice    String?
+  roles    String?
+  joins    String?
+  channels String?
+  members  String?
 }

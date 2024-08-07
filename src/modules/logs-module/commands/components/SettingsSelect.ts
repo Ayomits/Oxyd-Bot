@@ -13,9 +13,9 @@ export class SettingsSelect extends BaseComponent {
   }
 
   async execute(interaction: StringSelectMenuInteraction) {
-    const value = interaction.values[0];
+    const value = interaction.values;
     const modal = new ModalBuilder()
-      .setCustomId(`settingsModal_${value}`)
+      .setCustomId(`settingsModal_${value.map(val => val).join("_")}`)
       .setTitle(`Настройка логгирования`);
     const channelId = new ActionRowBuilder<TextInputBuilder>().addComponents(
       new TextInputBuilder()

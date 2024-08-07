@@ -22,7 +22,10 @@ export class VoiceStateUpdate extends BaseEvent {
   async execute(oldState: VoiceState, newState: VoiceState) {
     const member = newState.member;
     const { voice } = await SettingsService.findOne(newState.guild.id);
-    const logChannel = newState.guild.channels.cache.get(voice) as TextChannel;
+    const logChannel = (await newState.guild.channels.fetch(voice, {
+      cache: true,
+    })) as TextChannel;
+    if (!logChannel) return;
     const embed = new EmbedBuilder()
       .setColor(SnowflakeColors.DEFAULT)
       .setTimestamp(new Date())
@@ -30,7 +33,6 @@ export class VoiceStateUpdate extends BaseEvent {
         text: `${member.user.globalName} | ${member.user.id}`,
         iconURL: member.displayAvatarURL(),
       });
-    if (!logChannel) return;
     // connection
     if (newState.channel) {
       embed
@@ -67,6 +69,10 @@ export class VoiceStateUpdate extends BaseEvent {
         `User disconnect from voice channel (userId: ${member.id}, guildId: ${oldState.guild.id}, channelId: ${oldState.channel.id})`
       );
     }
-    return logChannel.send({ embeds: [embed] });
+    try {
+      return logChannel.send({ embeds: [embed] });
+    } catch (err) {
+      Logger.error(err);
+    }
   }
 }

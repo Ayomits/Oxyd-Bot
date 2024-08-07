@@ -14,7 +14,9 @@ export class MessageDelete extends BaseEvent {
   async execute(msg: Message) {
     if (msg.author.bot) return;
     const { message } = await SettingsService.findOne(msg.guild.id);
-    const logChannel = (await msg.guild.channels.fetch(message)) as TextChannel;
+    const logChannel = (await msg.guild.channels.fetch(message, {
+      cache: true,
+    })) as TextChannel;
     if (!logChannel) return;
     const embed = new EmbedBuilder()
       .setTitle(`Редактирование сообщения`)
@@ -51,9 +53,11 @@ export class MessageDelete extends BaseEvent {
     if (msg.attachments) {
       content += msg.attachments.map((attachment) => attachment.url).join("\n");
     }
-    return logChannel.send({
-      content: content.length >= 1 ? content : null,
-      embeds: [embed],
-    });
+    try {
+      return logChannel.send({
+        content: content.length >= 1 ? content : null,
+        embeds: [embed],
+      });
+    } catch {}
   }
 }

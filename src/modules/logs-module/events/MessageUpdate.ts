@@ -15,10 +15,14 @@ export class MessageUpdate extends BaseEvent {
   async execute(oldMessage: Message, newMessage: Message) {
     if (oldMessage.author.bot) return;
     const { message } = await SettingsService.findOne(oldMessage.guild.id);
-    const logChannel = (await oldMessage.guild.channels.fetch(
-      message
-    )) as TextChannel;
+    const logChannel = (await oldMessage.guild.channels.fetch(message, {
+      cache: true,
+    })) as TextChannel;
     if (!logChannel) return;
+
+    const oldContent = oldMessage.content.replaceAll("`", "");
+    const newContent = newMessage.content.replaceAll("`", "");
+
     const embed = new EmbedBuilder()
       .setTitle(`Редактирование сообщения`)
       .setColor(SnowflakeColors.DEFAULT)
@@ -41,14 +45,14 @@ export class MessageUpdate extends BaseEvent {
         {
           name: `> Старое содержимое:`,
           value: `${
-            oldMessage.content.length >= 1 ? oldMessage.content : "None"
+            oldContent.length >= 1 ? "```" + oldContent + "```" : "None"
           }`,
           inline: false,
         },
         {
           name: `> Новое содержимое:`,
           value: `${
-            newMessage.content.length >= 1 ? newMessage.content : "None"
+            newContent.length >= 1 ? "```" + newContent + "```" : "None"
           }`,
           inline: false,
         }
@@ -59,12 +63,14 @@ export class MessageUpdate extends BaseEvent {
         text: `${oldMessage.author.globalName} | ${oldMessage.author.id}`,
         iconURL: oldMessage.author.displayAvatarURL(),
       });
+
     let content = ``;
     if (oldMessage.attachments) {
       content += oldMessage.attachments
         .map((attachment) => attachment.url)
         .join("\n");
     }
+
     try {
       return logChannel
         .send({
