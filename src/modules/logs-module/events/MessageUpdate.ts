@@ -1,6 +1,6 @@
 import BaseEvent from "@/abstractions/BaseEvent";
 import { EmbedBuilder, Events, Message, TextChannel } from "discord.js";
-import SettingsService from "../commands/SettingsService";
+import SettingsService from "../../settings-module/log-settings-module/commands/SettingsService";
 import { SnowflakeColors } from "@/enums";
 import Logger from "@/utils/system/Logger";
 
@@ -14,10 +14,11 @@ export class MessageUpdate extends BaseEvent {
 
   async execute(oldMessage: Message, newMessage: Message) {
     if (oldMessage.author.bot) return;
-    const { message } = await SettingsService.findOne(oldMessage.guild.id);
-    const logChannel = (await oldMessage.guild.channels.fetch(message, {
-      cache: true,
-    })) as TextChannel;
+    const logChannel = await SettingsService.fetchLogChannel(
+      newMessage.guild,
+      "messages"
+    );
+    if (!logChannel) return;
     if (!logChannel) return;
 
     const oldContent = oldMessage.content.replaceAll("`", "");

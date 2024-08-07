@@ -6,7 +6,7 @@ import {
   TextChannel,
   VoiceState,
 } from "discord.js";
-import SettingsService from "../commands/SettingsService";
+import SettingsService from "../../settings-module/log-settings-module/commands/SettingsService";
 import { SnowflakeColors } from "@/enums";
 import { mention } from "@/utils/functions/mentions";
 import { SnowflakeMentionType } from "@/enums/SnowflakeMentionType";

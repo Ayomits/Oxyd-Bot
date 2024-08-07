@@ -1,6 +1,6 @@
 import BaseEvent from "@/abstractions/BaseEvent";
 import { EmbedBuilder, Events, Message, TextChannel } from "discord.js";
-import SettingsService from "../commands/SettingsService";
+import SettingsService from "../../settings-module/log-settings-module/commands/SettingsService";
 import { SnowflakeColors } from "@/enums";
 
 export class MessageDelete extends BaseEvent {
@@ -13,10 +13,10 @@ export class MessageDelete extends BaseEvent {
 
   async execute(msg: Message) {
     if (msg.author.bot) return;
-    const { message } = await SettingsService.findOne(msg.guild.id);
-    const logChannel = (await msg.guild.channels.fetch(message, {
-      cache: true,
-    })) as TextChannel;
+    const logChannel = await SettingsService.fetchLogChannel(
+      msg.guild,
+      "messages"
+    );
     if (!logChannel) return;
     const embed = new EmbedBuilder()
       .setTitle(`Редактирование сообщения`)

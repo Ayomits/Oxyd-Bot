@@ -29,7 +29,6 @@ model LogSettings {
   guildId String @unique
   guild   Guild  @relation(fields: [guildId], references: [id], onDelete: Cascade)
 
-  // Channel ids
   message  String?
   voice    String?
   roles    String?

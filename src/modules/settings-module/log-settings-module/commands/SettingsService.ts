@@ -1,4 +1,5 @@
 import prisma from "@/db/prisma";
+import { Guild, TextChannel } from "discord.js";
 
 export default class SettingsService {
   static async findOne(guildId: string) {
@@ -9,5 +10,11 @@ export default class SettingsService {
       where: { guildId: guildId },
       data: dto,
     });
+  }
+
+  static async fetchLogChannel(guild: Guild, key: string) {
+    const query = await this.findOne(guild.id);
+    const logChannel = await guild.channels.fetch(query[key]);
+    return logChannel as TextChannel;
   }
 }

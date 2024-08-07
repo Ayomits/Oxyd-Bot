@@ -1,5 +1,5 @@
 import BaseEvent from "@/abstractions/BaseEvent";
-import SettingsService from "../commands/SettingsService";
+import SettingsService from "../../settings-module/log-settings-module/commands/SettingsService";
 import { EmbedBuilder, Events, GuildMember, TextChannel } from "discord.js";
 import { SnowflakeColors } from "@/enums";
 import { discordTimestampFormat } from "@/utils/functions/discordTimestamp";
@@ -14,11 +14,10 @@ export class GuildMemberAdd extends BaseEvent {
   }
 
   async execute(member: GuildMember) {
-    const { joins } = await SettingsService.findOne(member.guild.id);
-    const logChannel = (await member.guild.channels.fetch(
-      joins,
-      {cache: true}
-    )) as TextChannel;
+    const logChannel = await SettingsService.fetchLogChannel(
+      member.guild,
+      "joins"
+    );
     if (!logChannel) return;
     try {
       const embed = new EmbedBuilder()

@@ -6,7 +6,7 @@ import {
   GuildMember,
   TextChannel,
 } from "discord.js";
-import SettingsService from "../commands/SettingsService";
+import SettingsService from "../../settings-module/log-settings-module/commands/SettingsService";
 import { SnowflakeColors } from "@/enums";
 
 export class GuildMemberUpdate extends BaseEvent {
@@ -18,10 +18,10 @@ export class GuildMemberUpdate extends BaseEvent {
   }
 
   async execute(oldMember: GuildMember, newMember: GuildMember) {
-    const { roles } = await SettingsService.findOne(newMember.guild.id);
-    const logChannel = (await oldMember.guild.channels.fetch(roles, {
-      cache: true,
-    })) as TextChannel;
+    const logChannel = await SettingsService.fetchLogChannel(
+      newMember.guild,
+      "members"
+    );
     if (!logChannel) return;
 
     try {
@@ -33,25 +33,30 @@ export class GuildMemberUpdate extends BaseEvent {
         })
         .setThumbnail(newMember.displayAvatarURL())
         .setTimestamp(new Date());
-      if (oldMember.nickname !== newMember.nickname) {
+
+      const oldNickname = oldMember.nickname || oldMember.user.displayName;
+      const newNickname = newMember.nickname || newMember.user.displayName;
+
+      if (oldNickname !== newNickname) {
         embed.setTitle(`Изменение никнейма`).setFields(
           {
             name: `> Старый никнейм`,
-            value: `\`\`\`${oldMember.nickname.replaceAll("`", "")}\`\`\``,
+            value: `\`\`\`${oldNickname.replaceAll("`", "")}\`\`\``,
           },
           {
             name: `> Новый никнейм`,
-            value: `\`\`\`${newMember.nickname.replaceAll("`", "")}\`\`\``,
+            value: `\`\`\`${newNickname.replaceAll("`", "")}\`\`\``,
           }
         );
       }
-      const newRoles = this.filterRoles(newMember, oldMember);
-      const removedRoles = this.filterRoles(oldMember, newMember);
 
       if (
         oldMember.roles.cache.size < newMember.roles.cache.size ||
         oldMember.roles.cache.size > newMember.roles.cache.size
       ) {
+        const newRoles = this.filterRoles(newMember, oldMember);
+        const removedRoles = this.filterRoles(oldMember, newMember);
+
         embed.setTitle(`Действия с ролями участника`).setFields(
           {
             name: `> Добавленные роли`,
@@ -65,13 +70,17 @@ export class GuildMemberUpdate extends BaseEvent {
           }
         );
       }
-      if (oldMember.displayAvatarURL() != newMember.displayAvatarURL()) {
+
+      if (oldMember.displayAvatarURL() !== newMember.displayAvatarURL()) {
         embed
           .setTitle(`Изменение аватара`)
           .setThumbnail(newMember.displayAvatarURL());
       }
+
       return logChannel.send({ embeds: [embed] });
-    } catch {}
+    } catch (error) {
+      console.error("Error executing GuildMemberUpdate event:", error);
+    }
   }
 
   private filterRoles(firstState: GuildMember, secondState: GuildMember) {

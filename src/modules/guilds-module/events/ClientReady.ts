@@ -3,7 +3,7 @@ import { Client, Events } from "discord.js";
 import Logger from "@/utils/system/Logger";
 import prisma from "@prisma";
 import { SnowflakeType } from "@/enums";
-import GuildService from "./GuildService";
+import GuildService from "../shared/GuildService";
 
 export class GuildClientReady extends BaseEvent {
   constructor() {

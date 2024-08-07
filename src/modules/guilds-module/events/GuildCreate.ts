@@ -1,6 +1,6 @@
 import BaseEvent from "@/abstractions/BaseEvent";
 import { Events, Guild } from "discord.js";
-import GuildService from "./GuildService";
+import GuildService from "../shared/GuildService";
 import Logger from "@/utils/system/Logger";
 
 export class GuildCreate extends BaseEvent {
