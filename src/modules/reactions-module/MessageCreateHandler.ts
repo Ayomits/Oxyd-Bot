@@ -47,7 +47,7 @@ export class MessageReactionHandler extends BaseEvent {
       : findReactionByAliases(reactionCommand, reactions as any);
     const reactionConfig = reactions[reactionKey] as ReactionConfig;
     if (!reactionConfig) return;
-    if (reactionConfig.isNsfw && !(msg.channel as TextChannel)?.nsfw) return;
+    if (reactionConfig.nsfw && !(msg.channel as TextChannel)?.nsfw) return;
     const url = reactionConfig.isApi
       ? (await axios.get(API_URL + reactionKey))?.data?.url
       : randomValue(reactionsLinks[reactionKey]);
@@ -97,6 +97,7 @@ export class MessageReactionHandler extends BaseEvent {
           .setImage(url);
       }
     } else {
+      if (!reactionConfig.everyone) return;
       embed
         .setDescription(
           `Пользователь ${userMention(msg.author.id)} ${

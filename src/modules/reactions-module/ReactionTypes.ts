@@ -13,7 +13,7 @@ export type ReactionConfig = {
   aliases: string[];
   cost: number;
   message?: string;
-  isNsfw: boolean;
+  nsfw: boolean;
 };
 
 export type Reaction = { [key: string]: ReactionConfig };
