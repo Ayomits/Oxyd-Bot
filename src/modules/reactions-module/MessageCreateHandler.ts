@@ -19,6 +19,7 @@ import {
 } from "./ReactionTypes";
 import axios from "axios";
 import { SnowflakeColors } from "@/enums";
+import { randomValue } from "@/utils/functions/random";
 
 const API_URL = "https://api.otakugifs.xyz/gif?reaction=";
 
@@ -44,10 +45,14 @@ export class MessageReactionHandler extends BaseEvent {
       if (!reactionConfig) return;
       const url = reactionConfig.isApi
         ? (await axios.get(API_URL + reactionKey))?.data?.url
-        : reactionsLinks[reactionKey];
+        : randomValue(reactionsLinks[reactionKey]);
       const embed = new EmbedBuilder()
         .setTitle(`Реакция - ${reactionConfig.action.toLowerCase()}`)
-        .setColor(SnowflakeColors.DEFAULT);
+        .setColor(SnowflakeColors.DEFAULT)
+        .setFooter({
+          iconURL: msg.author.displayAvatarURL(),
+          text: msg.author.globalName,
+        });
       const pingedUser = msg.mentions?.users?.first();
       const res: any = {};
       if (pingedUser) {
@@ -75,16 +80,10 @@ export class MessageReactionHandler extends BaseEvent {
           embed
             .setDescription(
               `Пользователь ${userMention(msg.author.id)} ${
-                reactionConfig.memberVerb
-              } ${reactionConfig.verbal} пользователя ${userMention(
-                pingedUser.id
-              )}`
+                reactionConfig.verbal
+              } ${reactionConfig.memberVerb}  ${userMention(pingedUser.id)}`
             )
             .setTimestamp(new Date())
-            .setFooter({
-              iconURL: msg.author.displayAvatarURL(),
-              text: msg.author.globalName,
-            })
             .setImage(url);
         }
       } else {
@@ -95,10 +94,6 @@ export class MessageReactionHandler extends BaseEvent {
             } ${reactionConfig.everyoneVerb} `
           )
           .setTimestamp(new Date())
-          .setFooter({
-            iconURL: msg.author.displayAvatarURL(),
-            text: msg.author.globalName,
-          })
           .setImage(url);
       }
       res.embeds = [embed];
@@ -122,10 +117,6 @@ export class MessageReactionHandler extends BaseEvent {
                       } ${reactionConfig.everyoneVerb} `
                     )
                     .setTimestamp(new Date())
-                    .setFooter({
-                      iconURL: msg.author.displayAvatarURL(),
-                      text: msg.author.globalName,
-                    })
                     .setImage(url),
                 ],
               });

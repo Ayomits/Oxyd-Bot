@@ -1,10 +1,11 @@
-import { SnowflakeType } from "@/enums";
+import { SnowflakeLanguage, SnowflakeType } from "@/enums";
 import { Document, model, Schema } from "mongoose";
 
 export interface GuildDocument extends Document {
   guildId: string;
   type: SnowflakeType;
   prefix: string;
+  language: SnowflakeLanguage;
 }
 
 export const GuildSchema = new Schema<GuildDocument>({
@@ -22,6 +23,10 @@ export const GuildSchema = new Schema<GuildDocument>({
     type: String,
     default: ".",
   },
+  language: {
+    type: String,
+    default: SnowflakeLanguage.ENGLISH,
+  },
 });
 
-export const GuildModel = model<GuildDocument>("guilds", GuildSchema)
+export const GuildModel = model<GuildDocument>("guilds", GuildSchema);
