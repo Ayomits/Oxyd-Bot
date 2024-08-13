@@ -1,5 +1,5 @@
-import * as Colors from "colors";
-import * as moment from "moment";
+import Colors from "colors";
+import moment from "moment";
 import { inspect } from "util";
 
 export default class Logger {

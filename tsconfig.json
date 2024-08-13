@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
+    "target": "ES2022",
     "module": "CommonJS",
-    "declaration": true,
     "moduleResolution": "Node",
-    "target": "ES2021",
+    "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -18,14 +18,14 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
     "paths": {
       "@/*": ["./src/*"],
       "@utils/*": ["./src/utils/*"],
-      "@prisma": ["./src/db/prisma.ts"],
+      "@prisma": ["./src/db/prisma.ts"]
     }
   },
-  "include": [
-    "src/**/*.ts"
-  ],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "**/**/*.spec.ts", "**/**/*.test.ts"]
 }

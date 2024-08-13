@@ -1,0 +1,165 @@
+{
+  "smoke": {
+    "action": "Курить",
+    "api_name": "smoke",
+    "everyone": true,
+    "everyoneVerb": "",
+    "isApi": false,
+    "memberVerb": "с пользователем",
+    "verbal": "курит",
+    "isAcceptable": false
+  },
+  "lick": {
+    "action": "Облизывать",
+    "api_name": "lick",
+    "everyone": true,
+    "everyoneVerb": "весь сервер",
+    "isApi": false,
+    "memberVerb": "пользователя",
+    "verbal": "облизывает",
+    "isAcceptable": false
+  },
+  "pat": {
+    "action": "Погладить",
+    "api_name": "pat",
+    "everyone": true,
+    "everyoneVerb": "весь сервер",
+    "isApi": true,
+    "memberVerb": "пользователя",
+    "verbal": "гладит",
+    "isAcceptable": false
+  },
+  "poke": {
+    "action": "Тыкнуть",
+    "api_name": "poke",
+    "everyone": true,
+    "everyoneVerb": "весь сервер",
+    "isApi": true,
+    "memberVerb": "пользователя",
+    "verbal": "тыкает",
+    "isAcceptable": false
+  },
+  "sad": {
+    "action": "Грустить",
+    "api_name": "sad",
+    "everyone": true,
+    "everyoneVerb": "",
+    "isApi": true,
+    "memberVerb": "с пользователем",
+    "verbal": "грустит",
+    "isAcceptable": false
+  },
+  "punch": {
+    "action": "Ударить",
+    "api_name": "punch",
+    "everyone": true,
+    "everyoneVerb": "весь сервер",
+    "isApi": false,
+    "memberVerb": "пользователя",
+    "verbal": "бьёт",
+    "isAcceptable": false
+  },
+  "sleep": {
+    "action": "Спать",
+    "api_name": "sleep",
+    "everyone": true,
+    "everyoneVerb": "",
+    "isApi": false,
+    "memberVerb": "с пользователем",
+    "verbal": "спит",
+    "isAcceptable": true,
+    "message": "хочет спать с тобой"
+  },
+  "tea": {
+    "action": "Чаепитие",
+    "api_name": "tea",
+    "everyone": true,
+    "everyoneVerb": "",
+    "isApi": false,
+    "memberVerb": "с пользователем",
+    "verbal": "пьёт чай",
+    "isAcceptable": false
+  },
+  "coffee":{
+    "action": "Кофе",
+    "api_name": "coffee",
+    "everyone": true,
+    "everyoneVerb": "со всем сервером",
+    "isApi": false,
+    "memberVerb": "с пользователем",
+    "verbal": "пьёт кофе",
+    "isAcceptable": false
+  },
+  "love": {
+    "action": "Признаться в любви",
+    "api_name": "love",
+    "everyone": true,
+    "everyoneVerb": "всему серверу",
+    "isApi": false,
+    "memberVerb": "пользователю",
+    "verbal": "признаётся в любви",
+    "isAcceptable": false
+  },
+  "bite": {
+    "action": "Куснуть",
+    "api_name": "bite",
+    "everyone": true,
+    "everyoneVerb": "весь сервер",
+    "isApi": false,
+    "memberVerb": "пользователя",
+    "verbal": "кусает",
+    "isAcceptable": false
+  },
+  "cry": {
+    "action": "Плакать",
+    "api_name": "cry",
+    "everyone": true,
+    "everyoneVerb": "",
+    "isApi": false,
+    "memberVerb": "с пользователем",
+    "verbal": "плачет",
+    "isAcceptable": false
+  },
+  "happy": {
+    "action": "Радоваться",
+    "api_name": "happy",
+    "everyone": true,
+    "everyoneVerb": "",
+    "isApi": false,
+    "memberVerb": "с пользователем",
+    "verbal": "радуется",
+    "isAcceptable": false
+  },
+  "hug": {
+    "action": "Обнять",
+    "api_name": "hug",
+    "everyone": true,
+    "everyoneVerb": "весь сервер",
+    "isApi": true,
+    "memberVerb": "пользователя",
+    "verbal": "обнимает",
+    "isAcceptable": false
+  },
+  "kiss": {
+    "action": "Поцеловать",
+    "api_name": "kiss",
+    "everyone": true,
+    "everyoneVerb": "весь сервер",
+    "isApi": false,
+    "memberVerb": "пользователя",
+    "verbal": "целует",
+    "isAcceptable": true,
+    "message": "хочет поцеловать тебя"
+  },
+  "dance":{
+    "action": "Танцевать",
+    "api_name": "dance",
+    "everyone": true,
+    "everyoneVerb": "",
+    "isApi": true,
+    "memberVerb":"с пользователем",
+    "verbal": "танцует",
+    "isAcceptable": true,
+    "message": "хочет потанцевать с тобой"
+  }
+}
