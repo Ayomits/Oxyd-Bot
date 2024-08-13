@@ -9,10 +9,7 @@
     "verbal": "послал(-а)",
     "type": "love",
     "isAcceptable": false,
-    "aliases": [
-      "айркисс",
-      "воздушный"
-    ],
+    "aliases": ["айркисс", "воздушный"],
     "cost": 15
   },
   "angrystare": {
@@ -26,9 +23,7 @@
     "type": "action",
     "isAcceptable": false,
     "nsfw": false,
-    "aliases": [
-      "смотреть"
-    ],
+    "aliases": ["смотреть"],
     "cost": 5
   },
   "bite": {
@@ -40,10 +35,7 @@
     "memberVerb": "пользователя",
     "verbal": "укусил(-а)",
     "type": "action",
-    "aliases": [
-      "кусь",
-      "кусание"
-    ],
+    "aliases": ["кусь", "кусание"],
     "cost": 5
   },
   "blush": {
@@ -55,10 +47,7 @@
     "memberVerb": "из-за пользователя",
     "verbal": "смущается",
     "type": "emotion",
-    "aliases": [
-      "краснеет",
-      "стесняется"
-    ],
+    "aliases": ["краснеет", "стесняется"],
     "cost": 10
   },
   "brofist": {
@@ -72,10 +61,7 @@
     "type": "action",
     "isAcceptable": false,
     "nsfw": false,
-    "aliases": [
-      "пять",
-      "пятьвверх"
-    ],
+    "aliases": ["пять", "пятьвверх"],
     "cost": 5
   },
   "celebrate": {
@@ -89,10 +75,7 @@
     "type": "action",
     "isAcceptable": false,
     "nsfw": false,
-    "aliases": [
-      "праздник",
-      "празднование"
-    ],
+    "aliases": ["праздник", "празднование"],
     "cost": 5
   },
   "cheers": {
@@ -106,11 +89,7 @@
     "type": "action",
     "isAcceptable": false,
     "nsfw": false,
-    "aliases": [
-      "дринк",
-      "выпить",
-      "drink"
-    ],
+    "aliases": ["дринк", "выпить", "drink"],
     "cost": 5
   },
   "clap": {
@@ -124,10 +103,7 @@
     "type": "action",
     "isAcceptable": false,
     "nsfw": false,
-    "aliases": [
-      "аплодисменты",
-      "хлопки"
-    ],
+    "aliases": ["аплодисменты", "хлопки"],
     "cost": 5
   },
   "confused": {
@@ -141,10 +117,7 @@
     "type": "emotion",
     "isAcceptable": false,
     "nsfw": false,
-    "aliases": [
-      "озадаченность",
-      "запутаться"
-    ],
+    "aliases": ["озадаченность", "запутаться"],
     "cost": 10
   },
   "cry": {
@@ -158,10 +131,7 @@
     "type": "emotion",
     "isAcceptable": false,
     "nsfw": false,
-    "aliases": [
-      "грусть",
-      "печаль"
-    ],
+    "aliases": ["грусть", "печаль"],
     "cost": 10
   },
   "dance": {
@@ -175,12 +145,9 @@
     "type": "action",
     "isAcceptable": true,
     "nsfw": false,
-    "aliases": [
-      "танец",
-      "танцы",
-      "танцевать"
-    ],
-    "cost": 5
+    "aliases": ["танец", "танцы", "танцевать"],
+    "cost": 5,
+    "message": "хочет потанцевать с тобой"
   },
   "droll": {
     "action": "Пускать слюни",
@@ -193,10 +160,7 @@
     "type": "action",
     "isAcceptable": false,
     "nsfw": false,
-    "aliases": [
-      "слюни",
-      "слюнявить"
-    ],
+    "aliases": ["слюни", "слюнявить"],
     "cost": 5
   },
   "evillaugh": {
@@ -210,10 +174,7 @@
     "type": "action",
     "isAcceptable": false,
     "nsfw": false,
-    "aliases": [
-      "злорадство",
-      "зловещаяулыбка"
-    ],
+    "aliases": ["злорадство", "зловещаяулыбка"],
     "cost": 5
   },
   "facepalm": {
@@ -227,10 +188,7 @@
     "type": "emotion",
     "isAcceptable": false,
     "nsfw": false,
-    "aliases": [
-      "фейспалм",
-      "печаль"
-    ],
+    "aliases": ["фейспалм", "печаль"],
     "cost": 10
   },
   "handhold": {
@@ -244,11 +202,7 @@
     "type": "love",
     "isAcceptable": false,
     "nsfw": false,
-    "aliases": [
-      "руки",
-      "подержаться",
-      "ручки"
-    ],
+    "aliases": ["руки", "подержаться", "ручки"],
     "cost": 15
   },
   "happy": {
@@ -262,11 +216,7 @@
     "type": "emotion",
     "isAcceptable": false,
     "nsfw": false,
-    "aliases": [
-      "радость",
-      "счастье",
-      "хэппи"
-    ],
+    "aliases": ["радость", "счастье", "хэппи"],
     "cost": 10
   },
   "headbang": {
@@ -280,10 +230,7 @@
     "type": "action",
     "isAcceptable": false,
     "nsfw": false,
-    "aliases": [
-      "головой",
-      "бейхедом"
-    ],
+    "aliases": ["головой", "бейхедом"],
     "cost": 5
   },
   "hug": {
@@ -297,11 +244,7 @@
     "type": "love",
     "isAcceptable": false,
     "nsfw": false,
-    "aliases": [
-      "объятие",
-      "обнимашки",
-      "обнять"
-    ],
+    "aliases": ["объятие", "обнимашки", "обнять"],
     "cost": 15
   },
   "kiss": {
@@ -315,13 +258,9 @@
     "type": "love",
     "isAcceptable": true,
     "nsfw": false,
-    "aliases": [
-      "поцелуй",
-      "целую",
-      "поцеловать",
-      "кис"
-    ],
-    "cost": 15
+    "aliases": ["поцелуй", "целую", "поцеловать", "кис"],
+    "cost": 15,
+    "message": "хочет поцеловать тебя"
   },
   "laugh": {
     "action": "Смеяться",
@@ -334,10 +273,7 @@
     "type": "emotion",
     "isAcceptable": false,
     "nsfw": false,
-    "aliases": [
-      "смех",
-      "хаха"
-    ],
+    "aliases": ["смех", "хаха"],
     "cost": 10
   },
   "lick": {
@@ -351,11 +287,7 @@
     "type": "love",
     "isAcceptable": false,
     "nsfw": false,
-    "aliases": [
-      "лизать",
-      "лизание",
-      "лизь"
-    ],
+    "aliases": ["лизать", "лизание", "лизь"],
     "cost": 15
   },
   "love": {
@@ -369,10 +301,7 @@
     "type": "love",
     "isAcceptable": false,
     "nsfw": false,
-    "aliases": [
-      "люблю",
-      "любовь"
-    ],
+    "aliases": ["люблю", "любовь"],
     "cost": 15
   },
   "mad": {
@@ -386,10 +315,7 @@
     "type": "emotion",
     "isAcceptable": false,
     "nsfw": false,
-    "aliases": [
-      "безумие",
-      "сердито"
-    ],
+    "aliases": ["безумие", "сердито"],
     "cost": 10
   },
   "nervous": {
@@ -403,10 +329,7 @@
     "type": "emotion",
     "isAcceptable": false,
     "nsfw": false,
-    "aliases": [
-      "нервотрепка",
-      "волнение"
-    ],
+    "aliases": ["нервотрепка", "волнение"],
     "cost": 10
   },
   "pat": {
@@ -420,21 +343,13 @@
     "type": "love",
     "isAcceptable": false,
     "nsfw": false,
-    "aliases": [
-      "гладить",
-      "поглаживание",
-      "погладить"
-    ],
+    "aliases": ["гладить", "поглаживание", "погладить"],
     "cost": 15
   },
   "sad": {
     "action": "Грустить",
     "api_name": "sad",
-    "aliases": [
-      "грусть",
-      "грустно",
-      "тильт"
-    ],
+    "aliases": ["грусть", "грустно", "тильт"],
     "everyone": true,
     "everyoneVerb": "",
     "isApi": true,
@@ -448,10 +363,7 @@
   "shy": {
     "action": "Стесняться",
     "api_name": "shy",
-    "aliases": [
-      "стесняться",
-      "стеснение"
-    ],
+    "aliases": ["стесняться", "стеснение"],
     "everyone": true,
     "everyoneVerb": "",
     "isApi": true,
@@ -465,11 +377,8 @@
   "sleep": {
     "action": "Поспать",
     "api_name": "sleep",
-    "aliases": [
-      "сон",
-      "уснуть",
-      "спать"
-    ],
+    "aliases": ["сон", "уснуть", "спать"],
+    "message": "хочет спать с тобой",
     "everyone": true,
     "everyoneVerb": "",
     "isApi": true,
@@ -483,10 +392,7 @@
   "smile": {
     "action": "Улыбаться",
     "api_name": "smile",
-    "aliases": [
-      "улыбка",
-      "улыбнуться"
-    ],
+    "aliases": ["улыбка", "улыбнуться"],
     "everyone": true,
     "everyoneVerb": "всему серверу",
     "isApi": true,
@@ -500,11 +406,7 @@
   "smoke": {
     "action": "Курить",
     "api_name": "smoke",
-    "aliases": [
-      "курение",
-      "курить",
-      "смоке"
-    ],
+    "aliases": ["курение", "курить", "смоке"],
     "everyone": true,
     "everyoneVerb": "",
     "isApi": false,
@@ -518,9 +420,7 @@
   "tea": {
     "action": "Пить чай",
     "api_name": "tea",
-    "aliases": [
-      "чай"
-    ],
+    "aliases": ["чай"],
     "everyone": true,
     "everyoneVerb": "",
     "isApi": false,
@@ -534,9 +434,7 @@
   "coffee": {
     "action": "Пить кофе",
     "api_name": "coffee",
-    "aliases": [
-      "кофе"
-    ],
+    "aliases": ["кофе"],
     "everyone": true,
     "everyoneVerb": "",
     "isApi": false,
@@ -550,9 +448,7 @@
   "squeeze": {
     "action": "Тискать",
     "api_name": "squeeze",
-    "aliases": [
-      "тискать"
-    ],
+    "aliases": ["тискать"],
     "everyone": true,
     "everyoneVerb": "весь сервер",
     "isApi": false,
@@ -566,10 +462,7 @@
   "cheek": {
     "action": "Поцеловать в щечку",
     "api_name": "cheek",
-    "aliases": [
-      "поцелуй",
-      "поцеловать"
-    ],
+    "aliases": ["поцелуй", "поцеловать"],
     "everyone": false,
     "everyoneVerb": "",
     "isApi": false,
@@ -583,10 +476,7 @@
   "bonk": {
     "action": "Ударить по голове",
     "api_name": "bonk",
-    "aliases": [
-      "бонк",
-      "ударить"
-    ],
+    "aliases": ["бонк", "ударить"],
     "everyone": true,
     "everyoneVerb": "весь сервер",
     "isApi": false,
@@ -600,10 +490,7 @@
   "slap": {
     "action": "Дать пощёчину",
     "api_name": "slap",
-    "aliases": [
-      "пощечина",
-      "слэп"
-    ],
+    "aliases": ["пощечина", "слэп"],
     "everyone": true,
     "everyoneVerb": "самому себе",
     "isApi": false,
@@ -617,10 +504,7 @@
   "wave": {
     "action": "Помахать",
     "api_name": "wave",
-    "aliases": [
-      "махать",
-      "помахать"
-    ],
+    "aliases": ["махать", "помахать"],
     "everyone": true,
     "everyoneVerb": "всему серверу ручкой",
     "isApi": true,
@@ -634,10 +518,7 @@
   "fuck": {
     "action": "трахнуть",
     "api_name": "fuck",
-    "aliases": [
-      "секс",
-      "трахаться"
-    ],
+    "aliases": ["секс", "трахаться"],
     "everyone": false,
     "everyoneVerb": "",
     "isApi": false,
@@ -645,15 +526,13 @@
     "verbal": "трахает",
     "type": "nsfw",
     "nsfw": true,
-    "isAcceptable": true
+    "isAcceptable": true,
+    "message": "хочет трахнуть тебя"
   },
   "poke": {
     "action": "тыкать",
     "api_name": "poke",
-    "aliases": [
-      "тык",
-      "тыкнуть"
-    ],
+    "aliases": ["тык", "тыкнуть"],
     "everyone": true,
     "everyoneVerb": "весь сервер",
     "isApi": false,
@@ -667,11 +546,7 @@
   "feed": {
     "action": "кормить",
     "api_name": "feed",
-    "aliases": [
-      "кормить",
-      "есть",
-      "eat"
-    ],
+    "aliases": ["кормить", "есть", "eat"],
     "everyone": true,
     "everyoneVerb": "весь сервер",
     "isApi": false,
@@ -685,14 +560,12 @@
   "snowball": {
     "action": "кинуть снежок",
     "api_name": "snowball",
-    "aliases": [
-      "снежок"
-    ],
+    "aliases": ["снежок"],
     "everyone": false,
-    "everyoneVerb": "",
+    "everyoneVerb": "в весь сервер",
     "isApi": false,
-    "memberVerb": "пользователя",
-    "verbal": "кинул снежок в",
+    "memberVerb": "в пользователя",
+    "verbal": "кинул снежок",
     "type": "action",
     "nsfw": false,
     "isAcceptable": false,

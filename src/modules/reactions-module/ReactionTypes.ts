@@ -13,6 +13,7 @@ export type ReactionConfig = {
   aliases: string[];
   cost: number;
   message?: string;
+  isNsfw: boolean;
 };
 
 export type Reaction = { [key: string]: ReactionConfig };
@@ -36,5 +37,5 @@ export function findReactionByAliases(alias: string, conf: ReactionConfig) {
     const reaction = conf[key] as ReactionConfig;
     if (reaction.aliases.includes(alias)) return key;
   }
-  return null
+  return null;
 }
