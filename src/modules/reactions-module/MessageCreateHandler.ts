@@ -36,6 +36,7 @@ export class MessageReactionHandler extends BaseEvent {
     const reactionModule = await ReactionModuleModel.findOne({
       guildId: msg.guild.id,
     });
+    if (!reactionModule) return;
     if (!reactionModule.enable) return;
     if (!msg.content.startsWith(guild.prefix)) return;
     const content = msg.content.split(" ");

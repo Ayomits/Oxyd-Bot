@@ -25,9 +25,7 @@ export class ReadyEvent extends BaseEvent {
         .then((guilds) => `${guilds.length} added to db`)
         .catch((err) => Logger.error(err)),
       this.registerCommand(client),
-      this.collectAllUsers(client)
-        .then(() => Logger.log(`all users successfully created`))
-        .catch((err) => Logger.error(err)),
+      
     ]);
   }
 

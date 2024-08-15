@@ -13,6 +13,7 @@ import {
   CommandInteraction,
   EmbedBuilder,
   Guild,
+  PermissionFlagsBits,
   SlashCommandBuilder,
 } from "discord.js";
 import { reactionModuleResponse } from "./response";
@@ -24,12 +25,13 @@ export class SetupCommand extends BaseCommand {
       builder: new SlashCommandBuilder()
         .setName(`reactions-settings`)
         .setDescription(`Настройка модуля реакций`)
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .setDMPermission(false),
       type: SnowflakeType.Everyone,
     });
   }
   public async execute(interaction: CommandInteraction) {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
     try {
       const response = await reactionModuleResponse(interaction);
       return interaction.editReply({ ...response });
