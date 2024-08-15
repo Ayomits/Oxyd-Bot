@@ -24,8 +24,17 @@
       "@/*": ["./src/*"],
       "@utils/*": ["./src/utils/*"],
       "@prisma": ["./src/db/prisma.ts"]
-    }
+    },
+    "plugins": [
+      {
+        "name": "@mizdra/typescript-plugin-asset",
+        "include": ["./src/assets/**/*"],
+        "extensions": [".png", ".jpg", ".svg"],
+        "exportedNameCase": "constantCase",
+        "exportedNamePrefix": "I_"
+      }
+    ]
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "src/assets/**/*"],
   "exclude": ["node_modules", "**/**/*.spec.ts", "**/**/*.test.ts"]
 }

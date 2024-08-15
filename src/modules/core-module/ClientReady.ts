@@ -32,18 +32,21 @@ export class ReadyEvent extends BaseEvent {
   }
 
   private async collectAllUsers(client: Client) {
-    const promises = [];
+    const allNotCreated = [];
     for (const [_, guild] of client.guilds.cache) {
-      const users = (await EconomyUserModel.find({ guildId: guild.id })).map(
+      const dbUsers = (await EconomyUserModel.find({ guildId: guild.id })).map(
         (user) => user.userId
       );
-      const notCreated = guild.members.cache
-        .filter((user) => !users.includes(user.id) && !user.user.bot)
-        .map(
-          (user) => new EconomyUserModel({ userId: user.id, guildId: guild.id })
-        );
-      await GuildModel.insertMany(notCreated);
+      const notCreated = (await (await guild.fetch()).members.fetch())
+        .filter((member) => {
+          return !dbUsers.includes(member.id) && !member.user.bot;
+        })
+        .map((member) => {
+          return new EconomyUserModel({ userId: member.id, guildId: guild.id });
+        });
+      allNotCreated.push(...notCreated);
     }
+    return await EconomyUserModel.insertMany(allNotCreated);
   }
 
   private async connectToDb(): Promise<void> {
@@ -72,13 +75,16 @@ export class ReadyEvent extends BaseEvent {
       );
       if (_developer) {
         for (const guildId of global.testGuilds) {
-          promises.push(
-            rest.put(Routes.applicationGuildCommands(client.user.id, guildId), {
-              body: _developer.map((command) =>
-                command.options.builder.toJSON()
-              ),
-            })
-          );
+          try {
+            await rest.put(
+              Routes.applicationGuildCommands(client.user.id, guildId),
+              {
+                body: _developer.map((command) =>
+                  command.options.builder.toJSON()
+                ),
+              }
+            );
+          } catch {}
         }
       }
       await Promise.all(promises);

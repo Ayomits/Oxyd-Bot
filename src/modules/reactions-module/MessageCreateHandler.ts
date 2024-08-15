@@ -4,7 +4,6 @@ import {
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
-  ChannelType,
   ComponentType,
   EmbedBuilder,
   Events,
@@ -14,11 +13,7 @@ import {
 } from "discord.js";
 import reactions from "./configs/react.json";
 import reactionsLinks from "./configs/reactlink.json";
-import {
-  findReactionByAliases,
-  Reaction,
-  ReactionConfig,
-} from "./ReactionTypes";
+import { findReactionByAliases, ReactionConfig } from "./ReactionTypes";
 import axios from "axios";
 import { SnowflakeColors } from "@/enums";
 import { randomValue } from "@/utils/functions/random";
@@ -62,19 +57,25 @@ export class MessageReactionHandler extends BaseEvent {
     const res: any = {};
     if (pingedUser) {
       if (pingedUser.bot) {
-        embed.setDescription(
-          `Я тоже считаю, что боты живые, но может быть Вы выберете пользователя?`
-        );
+        embed
+          .setThumbnail(msg.author.displayAvatarURL())
+          .setDescription(
+            `Я тоже считаю, что боты живые, но может быть Вы выберете пользователя?`
+          );
       } else if (pingedUser.id === msg.author.id) {
-        embed.setDescription(
-          `Я понимаю, что Вам одиноко, но быть может Вы выберете другого пользователя?`
-        );
+        embed
+          .setThumbnail(msg.author.displayAvatarURL())
+          .setDescription(
+            `Я понимаю, что Вам одиноко, но быть может Вы выберете другого пользователя?`
+          );
       } else if (reactionConfig.isAcceptable) {
-        embed.setDescription(
-          `Эй, ${userMention(pingedUser.id)},  пользователь ${userMention(
-            msg.author.id
-          )} ${reactionConfig.message}.\n Что скажешь?`
-        );
+        embed
+          .setThumbnail(msg.author.displayAvatarURL())
+          .setDescription(
+            `Эй, ${userMention(pingedUser.id)},  пользователь ${userMention(
+              msg.author.id
+            )} ${reactionConfig.message}.\n Что скажешь?`
+          );
         const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
           new ButtonBuilder()
             .setCustomId(`reaction_accept`)
@@ -115,25 +116,29 @@ export class MessageReactionHandler extends BaseEvent {
         time: 15_000,
       });
       let isClicked = false;
-      collector.once("collect", (inter) => {
+      collector.once("collect", async (inter) => {
+        await inter.deferUpdate();
         if (inter.user.id === pingedUser.id) {
           if (inter.customId === "reaction_accept") {
             isClicked = true;
-            reply.edit({
+            inter.editReply({
               embeds: [
                 embed
                   .setDescription(
                     `Пользователь ${userMention(msg.author.id)} ${
                       reactionConfig.verbal
-                    } ${reactionConfig.everyoneVerb} `
+                    } ${reactionConfig.memberVerb} ${userMention(
+                      pingedUser.id
+                    )}`
                   )
                   .setTimestamp(new Date())
                   .setImage(url),
               ],
+              components: [],
             });
           } else if (inter.customId === "reaction_decline") {
             isClicked = true;
-            reply.edit({
+            inter.editReply({
               embeds: [
                 embed.setDescription(
                   `Пользователь ${userMention(

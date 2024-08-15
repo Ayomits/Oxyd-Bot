@@ -25,7 +25,8 @@ export class BannerCommand extends BaseCommand {
   public async execute(interaction: CommandInteraction) {
     await interaction.deferReply();
     const user =
-      interaction.options.get("пользователь")?.user || interaction.user;
+      (await interaction.options.get("пользователь")?.user.fetch()) ||
+      (await interaction.user.fetch());
     const bannerURL = user?.bannerURL({ size: 4096 });
     const embed = new EmbedBuilder()
       .setColor(SnowflakeColors.DEFAULT)

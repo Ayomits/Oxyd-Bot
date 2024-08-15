@@ -10,8 +10,8 @@ RUN yarn install
 
 COPY . .
 
-RUN yarn global add nodemon
+RUN yarn build
 
 EXPOSE 4000
 
-CMD ["nodemon"]
+CMD ["node dist/main.js"]

@@ -7,6 +7,7 @@ export interface EconomyUserDocument extends Document {
   balance: number;
   xp: number;
   lvl: number;
+  status: string;
   marry?: {
     partnerId: string;
     createdAt: Date;
@@ -14,7 +15,7 @@ export interface EconomyUserDocument extends Document {
       name: string;
       voiceActivity: number;
     };
-  };
+  } | null;
 }
 
 // Defining the Mongoose schema for EconomyUserDocument
@@ -39,30 +40,37 @@ export const EconomyUserSchema = new Schema<EconomyUserDocument>({
     type: Number,
     default: 1,
   },
+  status: {
+    type: String,
+    default: "Не указано",
+  },
   marry: {
-    partnerId: {
-      type: String,
-      required: true,
-    },
-    createdAt: {
-      type: Date,
-      required: true,
-      default: Date.now,
-    },
-    loveroom: {
-      type: {
-        name: {
-          type: String,
-          required: true,
-        },
-        voiceActivity: {
-          type: Number,
-          required: true,
-          default: 0,
-        },
+    type: {
+      partnerId: {
+        type: String,
+        required: true,
       },
-      required: false,
+      createdAt: {
+        type: Date,
+        required: true,
+        default: Date.now,
+      },
+      loveroom: {
+        type: {
+          name: {
+            type: String,
+            required: true,
+          },
+          voiceActivity: {
+            type: Number,
+            required: true,
+            default: 0,
+          },
+        },
+        required: false,
+      },
     },
+    default: null,
   },
 });
 

@@ -26,6 +26,7 @@ export class CanvasService {
     const ctx3 = canvas.getContext("2d");
     ctx.textAlign = "center";
     this.registerFonts(options.requiredFonts);
+    
     await Promise.all([
       this.setupContext(ctx, options),
       await this.loadAndDrawBackground(ctx2, options.background),
@@ -43,7 +44,6 @@ export class CanvasService {
           `Failed to register font: ${font.fontName} from ${font.path}`,
           error
         );
-        throw error;
       }
     });
   }

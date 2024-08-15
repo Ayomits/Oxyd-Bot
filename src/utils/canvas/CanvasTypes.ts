@@ -27,7 +27,7 @@ export type CanvasOptionsMetaDataType = {
   text?: {
     maxWidth?: number;
     font?: string;
-    color?: string;
+    color?: any;
     gradient?: GradientType;
     value: string;
     stroke?: string;
@@ -46,8 +46,8 @@ export type CanvasOptionsType = {
   width: number;
   height: number;
   globalFont: string;
-  globalColor: string;
-  background: string;
+  globalColor: any;
+  background: any;
   requiredFonts: FontsType[];
   elements: CanvasKeyValueType[];
 };
