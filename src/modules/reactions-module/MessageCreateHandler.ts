@@ -17,6 +17,7 @@ import { findReactionByAliases, ReactionConfig } from "./ReactionTypes";
 import axios from "axios";
 import { SnowflakeColors } from "@/enums";
 import { randomValue } from "@/utils/functions/random";
+import { ReactionModuleModel } from "@/models/reactions.model";
 
 const API_URL = "https://api.otakugifs.xyz/gif?reaction=";
 
@@ -32,9 +33,11 @@ export class MessageReactionHandler extends BaseEvent {
     const guild = await GuildModel.findOne({
       guildId: msg.guild.id,
     });
-
+    const reactionModule = await ReactionModuleModel.findOne({
+      guildId: msg.guild.id,
+    });
+    if (!reactionModule.enable) return;
     if (!msg.content.startsWith(guild.prefix)) return;
-
     const content = msg.content.split(" ");
     const reactionCommand = content[0].slice(1);
     const reactionKey = reactions[reactionCommand]
@@ -42,7 +45,13 @@ export class MessageReactionHandler extends BaseEvent {
       : findReactionByAliases(reactionCommand, reactions as any);
     const reactionConfig = reactions[reactionKey] as ReactionConfig;
     if (!reactionConfig) return;
-    if (reactionConfig.nsfw && !(msg.channel as TextChannel)?.nsfw) return;
+    if (
+      reactionConfig.nsfw &&
+      !(msg.channel as TextChannel)?.nsfw &&
+      !reactionModule.nsfwReactions.includes(msg.channel.id)
+    )
+      return;
+    if (!reactionModule.commonReactions.includes(msg.channel.id)) return;
     const url = reactionConfig.isApi
       ? (await axios.get(API_URL + reactionKey))?.data?.url
       : randomValue(reactionsLinks[reactionKey]);
