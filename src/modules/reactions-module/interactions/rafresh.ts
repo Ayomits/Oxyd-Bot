@@ -4,7 +4,7 @@ import { reactionModuleResponse } from "./response";
 
 export class RefreshButton extends BaseComponent {
   constructor() {
-    super("reactionRefresh");
+    super("reactionRefresh", 600);
   }
   async execute(interaction: ButtonInteraction, args?: string[]) {
     const authorId = args[0];

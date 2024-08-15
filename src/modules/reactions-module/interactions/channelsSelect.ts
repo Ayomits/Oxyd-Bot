@@ -11,7 +11,7 @@ import {
 
 export class ReactionsChannelsSetup extends BaseComponent {
   constructor() {
-    super("setupRolesChannels");
+    super("setupRolesChannels", 600);
   }
 
   async execute(interaction: ChannelSelectMenuInteraction, args: string[]) {

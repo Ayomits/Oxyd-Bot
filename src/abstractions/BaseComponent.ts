@@ -1,3 +1,4 @@
+import { ComponentOptions } from "@/types/options/ComponentConfig";
 import {
   AnySelectMenuInteraction,
   ButtonInteraction,
@@ -9,8 +10,10 @@ import {
 
 export default abstract class BaseComponent {
   declare readonly customId: string;
-  constructor(customId: string) {
+  declare readonly ttl: number | null | undefined;
+  constructor(customId: string, ttl?: number) {
     this.customId = customId;
+    this.ttl = ttl;
   }
   execute(
     _interaction:

@@ -54,6 +54,13 @@ export class InteractionCreate extends BaseEvent {
         const splitedCustomId = interaction.customId.split("_");
         const component = interaction.client.buttons.get(splitedCustomId[0]);
         if (!component) return;
+        if (component.ttl) {
+          const msgCreated = Math.floor(
+            interaction.message.createdTimestamp / 1000
+          );
+          const now = Math.floor(new Date().getTime() / 1000);
+          if (msgCreated - now <= component.ttl) return;
+        }
         if (interaction.isAnySelectMenu()) {
           const value = interaction.values[0].split("_");
           const valueCallback = interaction.client.values.get(value[0]);

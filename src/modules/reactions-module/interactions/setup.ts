@@ -5,14 +5,7 @@ import {
   ReactionModuleModel,
 } from "@/models/reactions.model";
 import {
-  ActionRowBuilder,
-  ButtonBuilder,
-  ButtonStyle,
-  ChannelSelectMenuBuilder,
-  ChannelType,
   CommandInteraction,
-  EmbedBuilder,
-  Guild,
   PermissionFlagsBits,
   SlashCommandBuilder,
 } from "discord.js";

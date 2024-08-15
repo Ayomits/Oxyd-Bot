@@ -5,7 +5,7 @@ import { ReactionModuleModel } from "@/models/reactions.model";
 
 export class RefreshButton extends BaseComponent {
   constructor() {
-    super("toggleReactionModule");
+    super("toggleReactionModule", 600);
   }
   async execute(interaction: ButtonInteraction, args?: string[]) {
     const authorId = args[0];
