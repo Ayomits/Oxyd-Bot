@@ -59,7 +59,7 @@ export class InteractionCreate extends BaseEvent {
             interaction.message.createdTimestamp / 1000
           );
           const now = Math.floor(new Date().getTime() / 1000);
-          if (msgCreated - now <= component.ttl) return;
+          if (now > msgCreated + component.ttl) return;
         }
         if (interaction.isAnySelectMenu()) {
           const value = interaction.values[0].split("_");
