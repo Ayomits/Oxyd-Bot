@@ -37,7 +37,7 @@ export type CanvasOptionsMetaDataType = {
     height: number;
     color: string;
     stroke?: string;
-    isRound?: boolean
+    radius: number
     gradient?: GradientType;
   };
 };

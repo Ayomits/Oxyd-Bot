@@ -26,7 +26,7 @@ export class CanvasService {
     const ctx3 = canvas.getContext("2d");
     ctx.textAlign = "center";
     this.registerFonts(options.requiredFonts);
-    
+
     await Promise.all([
       this.setupContext(ctx, options),
       await this.loadAndDrawBackground(ctx2, options.background),
@@ -165,20 +165,18 @@ export class CanvasService {
     data: CanvasOptionsMetaDataType
   ) {
     if (!data.progressBar) return;
-    ctx.fillStyle = data.progressBar.color;
-    ctx.fillRect(
-      data.x,
-      data.y,
-      data.progressBar.width,
-      data.progressBar.height
-    );
-    ctx.arcTo(
-      data.x,
-      data.y + data.progressBar.height - 50,
-      50,
-      Math.PI * 2,
-      Math.PI
-    );
+
+    const { width, height, radius, color } = data.progressBar!;
+    const { x, y } = data;
+    ctx.beginPath();
+    ctx.moveTo(x + radius, y);
+    ctx.arcTo(x + width, y, x + width, y + height, radius);
+    ctx.arcTo(x + width, y + height, x, y + height, radius);
+    ctx.arcTo(x, y + height, x, y, radius);
+    ctx.arcTo(x, y, x + width, y, radius);
+    ctx.closePath();
+    ctx.fillStyle = color;
+    ctx.fill();
   }
 
   private roundImage(

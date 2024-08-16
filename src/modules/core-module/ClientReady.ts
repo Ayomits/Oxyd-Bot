@@ -5,7 +5,7 @@ import { GuildDocument, GuildModel } from "@/models/guilds.model";
 import { EconomyUserModel } from "@/models/user.model";
 import configService from "@/utils/system/ConfigService";
 import Logger from "@/utils/system/Logger";
-import { Client, Events, REST, Routes } from "discord.js";
+import { ActivityType, Client, Events, REST, Routes } from "discord.js";
 import mongoose from "mongoose";
 
 export class ReadyEvent extends BaseEvent {
@@ -25,30 +25,29 @@ export class ReadyEvent extends BaseEvent {
         .then((guilds) => `${guilds.length} added to db`)
         .catch((err) => Logger.error(err)),
       this.registerCommand(client),
-      
+      this.setStatus(client),
     ]);
-  }
-
-  private async collectAllUsers(client: Client) {
-    const allNotCreated = [];
-    for (const [_, guild] of client.guilds.cache) {
-      const dbUsers = (await EconomyUserModel.find({ guildId: guild.id })).map(
-        (user) => user.userId
-      );
-      const notCreated = (await (await guild.fetch()).members.fetch())
-        .filter((member) => {
-          return !dbUsers.includes(member.id) && !member.user.bot;
-        })
-        .map((member) => {
-          return new EconomyUserModel({ userId: member.id, guildId: guild.id });
-        });
-      allNotCreated.push(...notCreated);
-    }
-    return await EconomyUserModel.insertMany(allNotCreated);
   }
 
   private async connectToDb(): Promise<void> {
     await mongoose.connect(configService.get("MONGODB_URI"));
+  }
+
+  private async setStatus(client: Client) {
+    const status = async () => {
+      let totalMemberCount = 0;
+      for (const guild of client.guilds.cache) {
+        totalMemberCount += (await guild[1].fetch()).memberCount;
+      }
+      return client.user.setActivity({
+        type: ActivityType.Playing,
+        name: ` Участников: ${totalMemberCount}. Серверов: ${client.guilds.cache.size}`,
+      });
+    };
+    await status();
+    setInterval(async () => {
+      await status();
+    }, 60_000);
   }
 
   private async registerCommand(client: Client) {
