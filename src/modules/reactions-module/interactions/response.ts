@@ -3,6 +3,8 @@ import {
   ReactionModuleDocument,
   ReactionModuleModel,
 } from "@/models/reactions.model";
+import { isEnabled } from "@/utils/functions/isEnabled";
+import { snowflakeArraysFilter } from "@/utils/functions/snowflakeArraysFilter";
 import {
   ActionRowBuilder,
   AnySelectMenuInteraction,
@@ -30,27 +32,23 @@ export async function reactionModuleResponse(
     .setFields(
       {
         name: `Состояние модуля`,
-        value: `${reactionSettings.enable ? "Включен" : "Выключен"}`,
+        value: `${isEnabled(reactionSettings.enable)}`,
       },
       {
         name: `> Каналы для обычных реакций`,
-        value: `${
-          reactionSettings.commonReactions.length >= 1
-            ? reactionSettings.commonReactions
-                .map((channel) => channelMention(channel))
-                .join(" ")
-            : "Нет"
-        }`,
+        value: `${snowflakeArraysFilter(
+          reactionSettings.commonReactions,
+          interaction.guild,
+          "channels"
+        )}`,
       },
       {
         name: `> Каналы для nsfw реакций`,
-        value: `${
-          reactionSettings.nsfwReactions.length >= 1
-            ? reactionSettings.nsfwReactions
-                .map((channel) => channelMention(channel))
-                .join(" ")
-            : "Нет"
-        }`,
+        value: `${snowflakeArraysFilter(
+          reactionSettings.nsfwReactions,
+          interaction.guild,
+          "channels"
+        )}`,
       }
     )
     .setColor(SnowflakeColors.DEFAULT)
@@ -62,7 +60,9 @@ export async function reactionModuleResponse(
     });
   const buttonsRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
     new ButtonBuilder()
-      .setCustomId(`toggleReactionModule_${interaction.user.id}_${interaction.guild.id}_${reactionSettings.enable}`)
+      .setCustomId(
+        `toggleReactionModule_${interaction.user.id}_${interaction.guild.id}_${reactionSettings.enable}`
+      )
       .setLabel(`Включить/Выключить`)
       .setStyle(ButtonStyle.Secondary),
     new ButtonBuilder()

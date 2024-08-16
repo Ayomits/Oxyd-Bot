@@ -7,14 +7,6 @@ export function mention(
   type: SnowflakeMentionType,
   lang: SnowflakeLanguage = SnowflakeLanguage.ENGLISH
 ): string {
-  if (!snowflake) {
-    switch (lang) {
-      case SnowflakeLanguage.RUSSIAN:
-        return "Нет";
-      case SnowflakeLanguage.ENGLISH:
-        return "None";
-    }
-  }
   switch (type) {
     case SnowflakeMentionType.ROLE:
       return `<@&${snowflake}>`;
