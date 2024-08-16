@@ -23,6 +23,7 @@ export class SetupLogs extends BaseCommand {
   }
 
   public async execute(interaction: CommandInteraction) {
+    await interaction.deferReply();
     const logSettings =
       (await LogModuleModel.findOne({
         guildId: interaction.guild.id,
@@ -39,5 +40,6 @@ export class SetupLogs extends BaseCommand {
           value: `${isEnabled(logSettings.message.enable)}`,
         }
       );
+    return interaction.editReply({ embeds: [embed] });
   }
 }

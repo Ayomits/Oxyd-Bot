@@ -142,6 +142,7 @@ export class MessageReactionHandler extends BaseEvent {
                     )}`
                   )
                   .setTimestamp(new Date())
+                  .setThumbnail(null)
                   .setImage(url),
               ],
               components: [],
