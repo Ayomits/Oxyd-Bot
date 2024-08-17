@@ -386,7 +386,8 @@
     "type": "love",
     "isAcceptable": true,
     "nsfw": false,
-    "cost": 15
+    "cost": 15,
+    "message":"хочет поцеловать тебя в щечку"
   },
   "bonk": {
     "action": "Ударить по голове",

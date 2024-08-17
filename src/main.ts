@@ -23,7 +23,6 @@ declare module "discord.js" {
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildWebhooks,
     GatewayIntentBits.GuildVoiceStates,
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.GuildModeration,
@@ -37,6 +36,10 @@ const client = new Client({
     GuildScheduledEventManager: 0,
     GuildStickerManager: 0,
     PresenceManager: 0,
+    ThreadManager: 0,
+    DMMessageManager: 0,
+    GuildInviteManager: 0,
+    StageInstanceManager: 0
   }),
 });
 
