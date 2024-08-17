@@ -1,6 +1,7 @@
 import { SnowflakeColors, SnowflakeLanguage } from "@/enums";
 import { SnowflakeMentionType } from "@/enums/SnowflakeMentionType";
 import { LogModuleModel } from "@/models/LogsModel";
+import { isEnabled } from "@/utils/functions/isEnabled";
 import { mentionOrNot } from "@/utils/functions/mentions";
 import {
   ActionRowBuilder,
@@ -16,12 +17,14 @@ import {
 export async function settingsResponse(
   interaction: CommandInteraction | ButtonInteraction
 ) {
-  const settings = await LogModuleModel.findOne({
-    guildId: interaction.guild.id,
-  });
+  const settings =
+    (await LogModuleModel.findOne({
+      guildId: interaction.guild.id,
+    })) || (await LogModuleModel.create({ guildId: interaction.guild.id }));
   const embed = new EmbedBuilder()
-    .setTitle(`Настройка логгирования ${interaction.guild.name}`)
+    .setTitle(`Настройка модуля логгирования для ${interaction.guild.name}`)
     .setColor(SnowflakeColors.DEFAULT)
+    .setDescription(`> Состояние модуля: ${isEnabled(settings.enable)}`)
     .setFields(
       {
         name: `> Логи сообщений`,
@@ -50,12 +53,6 @@ export async function settingsResponse(
     })
     .setThumbnail(interaction.user.displayAvatarURL());
 
-  const refreshButton = new ActionRowBuilder<ButtonBuilder>().addComponents(
-    new ButtonBuilder()
-      .setCustomId(`logsrefresh`)
-      .setEmoji("🔃")
-      .setStyle(ButtonStyle.Secondary)
-  );
   const options = [
     {
       label: `Сообщения`,
@@ -88,6 +85,16 @@ export async function settingsResponse(
       emoji: "🔯",
     },
   ];
+  const refreshButton = new ActionRowBuilder<ButtonBuilder>().addComponents(
+    new ButtonBuilder()
+      .setCustomId(`logsrefresh`)
+      .setEmoji("🔃")
+      .setStyle(ButtonStyle.Secondary),
+    new ButtonBuilder()
+      .setCustomId(`logsToggleModule`)
+      .setLabel(`Включить/Выключить`)
+      .setStyle(ButtonStyle.Secondary)
+  );
   const select = new StringSelectMenuBuilder()
     .setCustomId(`logSelect`)
     .setPlaceholder(`Выберите желаемую настройку логов`)

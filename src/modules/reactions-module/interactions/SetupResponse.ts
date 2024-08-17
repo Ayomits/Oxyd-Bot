@@ -28,7 +28,7 @@ export async function reactionModuleResponse(
     })) ||
     (await ReactionModuleModel.create({ guildId: interaction.guild.id }));
   const embed = new EmbedBuilder()
-    .setTitle(`Настройка модуля реакций`)
+    .setTitle(`Настройка модуля реакций для ${interaction.guild.name}`)
     .setFields(
       {
         name: `Состояние модуля`,
@@ -61,7 +61,7 @@ export async function reactionModuleResponse(
   const buttonsRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
     new ButtonBuilder()
       .setCustomId(
-        `toggleReactionModule_${interaction.user.id}_${interaction.guild.id}_${reactionSettings.enable}`
+        `toggleReactionModule_${interaction.user.id}_${interaction.guild.id}`
       )
       .setLabel(`Включить/Выключить`)
       .setStyle(ButtonStyle.Secondary),

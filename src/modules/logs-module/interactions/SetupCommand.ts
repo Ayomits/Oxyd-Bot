@@ -1,14 +1,9 @@
 import BaseCommand from "@/abstractions/BaseCommand";
-import { SnowflakeColors, SnowflakeType } from "@/enums";
-import { LogModuleModel } from "@/models/LogsModel";
-import { isEnabled } from "@/utils/functions/isEnabled";
+import { SnowflakeType } from "@/enums";
 import {
-  ActionRowBuilder,
   CommandInteraction,
-  EmbedBuilder,
   PermissionFlagsBits,
   SlashCommandBuilder,
-  StringSelectMenuBuilder,
 } from "discord.js";
 import { settingsResponse } from "./SetupResponse";
 
@@ -26,7 +21,7 @@ export class SetupLogs extends BaseCommand {
   }
 
   public async execute(interaction: CommandInteraction) {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
     return interaction.editReply(await settingsResponse(interaction));
   }
 }
