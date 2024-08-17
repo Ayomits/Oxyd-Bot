@@ -87,12 +87,12 @@ export async function settingsResponse(
   ];
   const refreshButton = new ActionRowBuilder<ButtonBuilder>().addComponents(
     new ButtonBuilder()
-      .setCustomId(`logsrefresh`)
-      .setEmoji("🔃")
-      .setStyle(ButtonStyle.Secondary),
-    new ButtonBuilder()
       .setCustomId(`logsToggleModule`)
       .setLabel(`Включить/Выключить`)
+      .setStyle(ButtonStyle.Secondary),
+    new ButtonBuilder()
+      .setCustomId(`logsrefresh`)
+      .setLabel("Обновить")
       .setStyle(ButtonStyle.Secondary)
   );
   const select = new StringSelectMenuBuilder()
