@@ -1,5 +1,5 @@
 import BaseEvent from "@/abstractions/BaseEvent";
-import { EconomyUserModel } from "@/models/user.model";
+import { EconomyUserModel } from "@/models/UserModel";
 import { Events, GuildMember } from "discord.js";
 
 export class GuildMemberAdd extends BaseEvent {

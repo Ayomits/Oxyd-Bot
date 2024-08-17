@@ -35,7 +35,7 @@
     "memberVerb": "пользователя",
     "verbal": "укусил(-а)",
     "type": "action",
-    "aliases": ["кусь", "кусание"],
+    "aliases": ["кусь", "кусание", "укусить"],
     "cost": 5
   },
   "blush": {
@@ -194,16 +194,17 @@
   "handhold": {
     "action": "Держаться за руки",
     "api_name": "handhold",
-    "everyone": true,
+    "everyone": false,
     "everyoneVerb": "всем сервером",
     "isApi": true,
     "memberVerb": "пользователем",
     "verbal": "держиться за руки с",
     "type": "love",
-    "isAcceptable": false,
+    "isAcceptable": true,
     "nsfw": false,
     "aliases": ["руки", "подержаться", "ручки"],
-    "cost": 15
+    "cost": 15,
+    "message": "хочет взять тебя за ручку"
   },
   "happy": {
     "action": "Радоваться",

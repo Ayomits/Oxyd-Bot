@@ -1,5 +1,5 @@
 import BaseComponent from "@/abstractions/BaseComponent";
-import { ReactionModuleModel } from "@/models/reactions.model";
+import { ReactionModuleModel } from "@/models/ReactionsModel";
 import {
   ButtonInteraction,
   ModalSubmitInteraction,

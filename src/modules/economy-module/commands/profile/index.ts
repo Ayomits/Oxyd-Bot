@@ -1,7 +1,7 @@
 import BaseCommand from "@/abstractions/BaseCommand";
 import { SnowflakeType } from "@/enums";
-import { ClansModel } from "@/models/clans.model";
-import { EconomyUserModel } from "@/models/user.model";
+import { ClansModel } from "@/models/ClansModel";
+import { EconomyUserModel } from "@/models/UserModel";
 import { CanvasServiceInstance } from "@/utils";
 import { getFontPath, getImagePath } from "@/utils/canvas/getPath";
 import {

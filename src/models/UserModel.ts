@@ -1,9 +1,8 @@
 import { Document, model, Schema } from "mongoose";
+import { UserDocument } from "./base/UserDocument";
 
 // Defining the interface for the EconomyUserDocument
-export interface EconomyUserDocument extends Document {
-  guildId: string;
-  userId: string;
+export interface EconomyUserDocument extends UserDocument {
   balance: number;
   xp: number;
   lvl: number;

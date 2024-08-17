@@ -7,6 +7,7 @@ export function mention(
   type: SnowflakeMentionType,
   lang: SnowflakeLanguage = SnowflakeLanguage.ENGLISH
 ): string {
+  if (!snowflake) return null;
   switch (type) {
     case SnowflakeMentionType.ROLE:
       return `<@&${snowflake}>`;
@@ -15,4 +16,11 @@ export function mention(
     case SnowflakeMentionType.USER:
       return `<@${snowflake}>`;
   }
+}
+
+export function mentionOrNot(
+  snowflake: Snowflake | null,
+  type: SnowflakeMentionType
+) {
+  return mention(snowflake, type) || "Нет";
 }

@@ -1,8 +1,8 @@
 import BaseCommand from "@/abstractions/BaseCommand";
 import BaseEvent from "@/abstractions/BaseEvent";
 import { SnowflakeType } from "@/enums";
-import { GuildDocument, GuildModel } from "@/models/guilds.model";
-import { EconomyUserModel } from "@/models/user.model";
+import { GuildDocument, GuildModel } from "@/models/GuildsModel";
+import { EconomyUserModel } from "@/models/UserModel";
 import configService from "@/utils/system/ConfigService";
 import Logger from "@/utils/system/Logger";
 import { Client, Events, REST, Routes } from "discord.js";

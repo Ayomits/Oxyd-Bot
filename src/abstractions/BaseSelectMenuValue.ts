@@ -8,6 +8,9 @@ import {
 
 export default abstract class BaseSelectMenuValue {
   declare readonly value: string;
+  constructor(value: string) {
+    this.value = value;
+  }
   public async execute(
     _interaction:
       | StringSelectMenuInteraction

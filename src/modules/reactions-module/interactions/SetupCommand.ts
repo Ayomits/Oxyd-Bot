@@ -3,13 +3,13 @@ import { SnowflakeColors, SnowflakeType } from "@/enums";
 import {
   ReactionModuleDocument,
   ReactionModuleModel,
-} from "@/models/reactions.model";
+} from "@/models/ReactionsModel";
 import {
   CommandInteraction,
   PermissionFlagsBits,
   SlashCommandBuilder,
 } from "discord.js";
-import { reactionModuleResponse } from "./response";
+import { reactionModuleResponse } from "./SetupResponse";
 
 export class SetupCommand extends BaseCommand {
   constructor() {

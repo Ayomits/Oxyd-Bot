@@ -1,8 +1,7 @@
 import { Document, model, Schema } from "mongoose";
+import { BaseModuleGuildDocument } from "./base/GuildDocument";
 
-export interface ReactionModuleDocument extends Document {
-  guildId: string;
-  enable: boolean;
+export interface ReactionModuleDocument extends BaseModuleGuildDocument {
   nsfwReactions: string[];
   commonReactions: string[];
 }

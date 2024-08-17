@@ -1,8 +1,8 @@
 import { SnowflakeLanguage, SnowflakeType } from "@/enums";
 import { Document, model, Schema } from "mongoose";
+import { BaseGuildDocument } from "./base/GuildDocument";
 
-export interface GuildDocument extends Document {
-  guildId: string;
+export interface GuildDocument extends BaseGuildDocument {
   type: SnowflakeType;
   prefix: string;
   language: SnowflakeLanguage;
