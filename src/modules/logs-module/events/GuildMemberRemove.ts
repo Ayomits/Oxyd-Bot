@@ -9,7 +9,7 @@ import Logger from "@/utils/system/Logger";
 export class GuildMemberAdd extends BaseEvent {
   constructor() {
     super({
-      name: Events.GuildMemberAdd,
+      name: Events.GuildMemberRemove,
       once: false,
     });
   }
@@ -44,7 +44,7 @@ export class GuildMemberAdd extends BaseEvent {
             },
             {
               name: `> Количество участников`,
-              value: `\`${member.guild.memberCount}\``,
+              value: `\`${member.guild.memberCount - 1}\``,
               inline: true,
             }
           )
