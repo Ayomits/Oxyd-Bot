@@ -1,11 +1,8 @@
 import BaseEvent from "@/abstractions/BaseEvent";
-import {
-  EmbedBuilder,
-  Events,
-  GuildMember,
-} from "discord.js";
+import { EmbedBuilder, Events, GuildMember, TextChannel } from "discord.js";
 import SettingsService from "../interactions/SetupService";
 import { SnowflakeColors } from "@/enums";
+import Logger from "@/utils/system/Logger";
 
 export class GuildMemberUpdate extends BaseEvent {
   constructor() {
@@ -16,68 +13,75 @@ export class GuildMemberUpdate extends BaseEvent {
   }
 
   async execute(oldMember: GuildMember, newMember: GuildMember) {
-    const logChannel = await SettingsService.fetchLogChannel(
-      newMember.guild,
-      "members"
-    );
-    if (!logChannel) return;
-
     try {
-      const embed = new EmbedBuilder()
-        .setColor(SnowflakeColors.DEFAULT)
-        .setAuthor({
-          name: newMember.user.username,
-          iconURL: newMember.displayAvatarURL(),
-        })
-        .setThumbnail(newMember.displayAvatarURL())
-        .setTimestamp(new Date());
+      const { enable, members } = await SettingsService.findOne(
+        newMember.guild.id
+      );
+      if (!enable) return;
+      const logChannel = (await newMember.guild.channels.fetch(members, {
+        cache: true,
+      })) as TextChannel;
+      if (!logChannel) return;
 
-      const oldNickname = oldMember.nickname || oldMember.user.displayName;
-      const newNickname = newMember.nickname || newMember.user.displayName;
+      try {
+        const embed = new EmbedBuilder()
+          .setColor(SnowflakeColors.DEFAULT)
+          .setAuthor({
+            name: newMember.user.username,
+            iconURL: newMember.displayAvatarURL(),
+          })
+          .setThumbnail(newMember.displayAvatarURL())
+          .setTimestamp(new Date());
 
-      if (oldNickname !== newNickname) {
-        embed.setTitle(`Изменение никнейма`).setFields(
-          {
-            name: `> Старый никнейм`,
-            value: `\`\`\`${oldNickname.replaceAll("`", "")}\`\`\``,
-          },
-          {
-            name: `> Новый никнейм`,
-            value: `\`\`\`${newNickname.replaceAll("`", "")}\`\`\``,
-          }
-        );
+        const oldNickname = oldMember.nickname || oldMember.user.displayName;
+        const newNickname = newMember.nickname || newMember.user.displayName;
+
+        if (oldNickname !== newNickname) {
+          embed.setTitle(`Изменение никнейма`).setFields(
+            {
+              name: `> Старый никнейм`,
+              value: `\`\`\`${oldNickname.replaceAll("`", "")}\`\`\``,
+            },
+            {
+              name: `> Новый никнейм`,
+              value: `\`\`\`${newNickname.replaceAll("`", "")}\`\`\``,
+            }
+          );
+        }
+
+        if (
+          oldMember.roles.cache.size < newMember.roles.cache.size ||
+          oldMember.roles.cache.size > newMember.roles.cache.size
+        ) {
+          const newRoles = this.filterRoles(newMember, oldMember);
+          const removedRoles = this.filterRoles(oldMember, newMember);
+
+          embed.setTitle(`Действия с ролями участника`).setFields(
+            {
+              name: `> Добавленные роли`,
+              value: `${newRoles.length >= 1 ? newRoles.join("\n") : "None"}`,
+            },
+            {
+              name: `> Удалённые роли`,
+              value: `${
+                removedRoles.length >= 1 ? removedRoles.join("\n") : "None"
+              }`,
+            }
+          );
+        }
+
+        if (oldMember.displayAvatarURL() !== newMember.displayAvatarURL()) {
+          embed
+            .setTitle(`Изменение аватара`)
+            .setThumbnail(newMember.displayAvatarURL());
+        }
+
+        return logChannel.send({ embeds: [embed] });
+      } catch (error) {
+        console.error("Error executing GuildMemberUpdate event:", error);
       }
-
-      if (
-        oldMember.roles.cache.size < newMember.roles.cache.size ||
-        oldMember.roles.cache.size > newMember.roles.cache.size
-      ) {
-        const newRoles = this.filterRoles(newMember, oldMember);
-        const removedRoles = this.filterRoles(oldMember, newMember);
-
-        embed.setTitle(`Действия с ролями участника`).setFields(
-          {
-            name: `> Добавленные роли`,
-            value: `${newRoles.length >= 1 ? newRoles.join("\n") : "None"}`,
-          },
-          {
-            name: `> Удалённые роли`,
-            value: `${
-              removedRoles.length >= 1 ? removedRoles.join("\n") : "None"
-            }`,
-          }
-        );
-      }
-
-      if (oldMember.displayAvatarURL() !== newMember.displayAvatarURL()) {
-        embed
-          .setTitle(`Изменение аватара`)
-          .setThumbnail(newMember.displayAvatarURL());
-      }
-
-      return logChannel.send({ embeds: [embed] });
-    } catch (error) {
-      console.error("Error executing GuildMemberUpdate event:", error);
+    } catch (err) {
+      Logger.error(err);
     }
   }
 
