@@ -39,7 +39,7 @@ export class GuildMemberAdd extends BaseEvent {
               value: `${discordTimestampFormat(
                 member.joinedTimestamp / 1000,
                 SnowflakeTimestamp.LONG_DATE_WITH_DAY_OF_WEEK_AND_SHORT_TIME
-              )}>`,
+              )}`,
               inline: true,
             },
             {

@@ -12,20 +12,6 @@
     "aliases": ["айркисс", "воздушный"],
     "cost": 15
   },
-  "angrystare": {
-    "action": "Злобно посмотреть",
-    "api_name": "angrystare",
-    "everyone": true,
-    "everyoneVerb": "на весь сервер",
-    "isApi": true,
-    "memberVerb": "на пользователя",
-    "verbal": "сердито смотрит",
-    "type": "action",
-    "isAcceptable": false,
-    "nsfw": false,
-    "aliases": ["смотреть"],
-    "cost": 5
-  },
   "bite": {
     "action": "Укусить",
     "api_name": "bite",
@@ -49,20 +35,6 @@
     "type": "emotion",
     "aliases": ["краснеет", "стесняется"],
     "cost": 10
-  },
-  "brofist": {
-    "action": "Дать пять",
-    "api_name": "brofist",
-    "everyone": true,
-    "everyoneVerb": "всему серверу",
-    "isApi": true,
-    "memberVerb": "пользователю",
-    "verbal": "даёт пять",
-    "type": "action",
-    "isAcceptable": false,
-    "nsfw": false,
-    "aliases": ["пять", "пятьвверх"],
-    "cost": 5
   },
   "celebrate": {
     "action": "Праздновать",
@@ -149,34 +121,6 @@
     "cost": 5,
     "message": "хочет потанцевать с тобой"
   },
-  "droll": {
-    "action": "Пускать слюни",
-    "api_name": "drool",
-    "everyone": true,
-    "everyoneVerb": "",
-    "isApi": true,
-    "memberVerb": "от пользователя",
-    "verbal": "пускает слюни",
-    "type": "action",
-    "isAcceptable": false,
-    "nsfw": false,
-    "aliases": ["слюни", "слюнявить"],
-    "cost": 5
-  },
-  "evillaugh": {
-    "action": "Злобно улыбаться",
-    "api_name": "evillaugh",
-    "everyone": true,
-    "everyoneVerb": "",
-    "isApi": true,
-    "memberVerb": "пользователю",
-    "verbal": "злобно улыбается",
-    "type": "action",
-    "isAcceptable": false,
-    "nsfw": false,
-    "aliases": ["злорадство", "зловещаяулыбка"],
-    "cost": 5
-  },
   "facepalm": {
     "action": "Разочароваться",
     "api_name": "facepalm",
@@ -232,20 +176,6 @@
     "nsfw": false,
     "aliases": ["щекотать", "тикл", "тикле"],
     "cost": 10
-  },
-  "headbang": {
-    "action": "Биться головой",
-    "api_name": "headbang",
-    "everyone": true,
-    "everyoneVerb": "",
-    "isApi": true,
-    "memberVerb": "об пользователя",
-    "verbal": "бьется головой",
-    "type": "action",
-    "isAcceptable": false,
-    "nsfw": false,
-    "aliases": ["головой", "бейхедом"],
-    "cost": 5
   },
   "hug": {
     "action": "Обнять",
@@ -317,34 +247,6 @@
     "nsfw": false,
     "aliases": ["люблю", "любовь"],
     "cost": 15
-  },
-  "mad": {
-    "action": "Обезуметь",
-    "api_name": "mad",
-    "everyone": true,
-    "everyoneVerb": "",
-    "isApi": true,
-    "memberVerb": "из-за пользователя",
-    "verbal": "обезумел",
-    "type": "emotion",
-    "isAcceptable": false,
-    "nsfw": false,
-    "aliases": ["безумие", "сердито"],
-    "cost": 10
-  },
-  "nervous": {
-    "action": "Нервничать",
-    "api_name": "nervous",
-    "everyone": true,
-    "everyoneVerb": "",
-    "isApi": true,
-    "memberVerb": "из-за пользователя",
-    "verbal": "нервничает",
-    "type": "emotion",
-    "isAcceptable": false,
-    "nsfw": false,
-    "aliases": ["нервотрепка", "волнение"],
-    "cost": 10
   },
   "pat": {
     "action": "Погладить",
@@ -528,20 +430,6 @@
     "nsfw": false,
     "cost": 5
   },
-  "fuck": {
-    "action": "трахнуть",
-    "api_name": "fuck",
-    "aliases": ["секс", "трахаться"],
-    "everyone": false,
-    "everyoneVerb": "",
-    "isApi": false,
-    "memberVerb": "пользователя",
-    "verbal": "трахает",
-    "type": "nsfw",
-    "nsfw": true,
-    "isAcceptable": true,
-    "message": "хочет трахнуть тебя"
-  },
   "poke": {
     "action": "тыкать",
     "api_name": "poke",
@@ -565,20 +453,6 @@
     "isApi": false,
     "memberVerb": "пользователя",
     "verbal": "кормит",
-    "type": "action",
-    "nsfw": false,
-    "isAcceptable": false,
-    "cost": 5
-  },
-  "snowball": {
-    "action": "кинуть снежок",
-    "api_name": "snowball",
-    "aliases": ["снежок"],
-    "everyone": false,
-    "everyoneVerb": "в весь сервер",
-    "isApi": false,
-    "memberVerb": "в пользователя",
-    "verbal": "кинул снежок",
     "type": "action",
     "nsfw": false,
     "isAcceptable": false,
