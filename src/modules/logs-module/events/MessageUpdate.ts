@@ -19,8 +19,6 @@ export class MessageUpdate extends BaseEvent {
       "messages"
     );
     if (!logChannel) return;
-    if (!logChannel) return;
-
     const oldContent = oldMessage.content.replaceAll("`", "");
     const newContent = newMessage.content.replaceAll("`", "");
 
