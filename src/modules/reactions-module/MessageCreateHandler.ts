@@ -70,7 +70,7 @@ export class MessageReactionHandler extends BaseEvent {
         embed
           .setThumbnail(msg.author.displayAvatarURL())
           .setDescription(
-            `Я тоже считаю, что боты живые, но может быть Вы выберете пользователя?`
+            `Боты не люди, поэтому не получится использовать эту реакцию на мне : ( Однако если ты выберешь пользователя, то всё обязательно получится!`
           );
       } else if (pingedUser.id === msg.author.id) {
         embed

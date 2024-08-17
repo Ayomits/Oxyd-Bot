@@ -32,6 +32,10 @@ export type RepsonseType = {
   components?: any[];
 };
 
+export function findReactionByKeyOrAliases(key: string, conf: ReactionConfig) {
+  return conf[key] ? conf[key] : findReactionByAliases(key, conf);
+}
+
 export function findReactionByAliases(alias: string, conf: ReactionConfig) {
   for (const key in conf) {
     const reaction = conf[key] as ReactionConfig;

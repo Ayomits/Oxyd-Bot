@@ -220,6 +220,19 @@
     "aliases": ["радость", "счастье", "хэппи"],
     "cost": 10
   },
+  "tickle": {
+    "action": "Щекотать",
+    "api_name": "tickle",
+    "everyone": false,
+    "isApi": true,
+    "memberVerb": "пользователя",
+    "verbal": "щекотает",
+    "type": "action",
+    "isAcceptable": false,
+    "nsfw": false,
+    "aliases": ["щекотать", "тикл", "тикле"],
+    "cost": 10
+  },
   "headbang": {
     "action": "Биться головой",
     "api_name": "headbang",
@@ -450,8 +463,7 @@
     "action": "Тискать",
     "api_name": "squeeze",
     "aliases": ["тискать"],
-    "everyone": true,
-    "everyoneVerb": "весь сервер",
+    "everyone": false,
     "isApi": false,
     "memberVerb": "пользователя",
     "verbal": "тискает",
