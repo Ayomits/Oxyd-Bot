@@ -42,7 +42,7 @@ export class GuildMemberAdd extends BaseEvent {
             },
             {
               name: `> Количество участников`,
-              value: `${member.guild.memberCount + 1}`,
+              value: `${member.guild.memberCount}`,
               inline: true,
             }
           )
