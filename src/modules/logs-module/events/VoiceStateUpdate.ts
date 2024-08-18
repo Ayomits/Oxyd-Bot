@@ -42,7 +42,7 @@ export class VoiceStateUpdate extends BaseEvent {
         );
       }
       // Moved
-      if (newState.channel && oldState.channel) {
+      if ((newState.channel && oldState.channel) && oldState.channel.id !== newState.channel.id) {
         embed
           .setTitle(`Переход в другой канал`)
           .setDescription(
