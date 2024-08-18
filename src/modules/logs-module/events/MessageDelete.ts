@@ -22,7 +22,7 @@ export class MessageDelete extends BaseEvent {
       })) as TextChannel;
       if (!logChannel) return;
       const embed = new EmbedBuilder()
-        .setTitle(`Редактирование сообщения`)
+        .setTitle(`Удалённое сообщения`)
         .setColor(SnowflakeColors.DEFAULT)
         .setFields(
           {

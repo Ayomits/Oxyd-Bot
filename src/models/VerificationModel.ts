@@ -1,4 +1,4 @@
-import { Document, Schema } from "mongoose";
+import { Document, model, Schema } from "mongoose";
 import { BaseModuleGuildDocument } from "./base/GuildDocument";
 import { Embed, Snowflake } from "discord.js";
 
@@ -30,3 +30,8 @@ export const VerificationModuleSchema = new Schema<VerificationModuleDocument>({
     default: [],
   },
 });
+
+export const VerificationModuleModel = model<VerificationModuleDocument>(
+  "guild_verification",
+  VerificationModuleSchema
+);
