@@ -30,7 +30,7 @@ export class VoiceStateUpdate extends BaseEvent {
           iconURL: member.displayAvatarURL(),
         });
       // connection
-      if (newState.channel) {
+      if (!oldState.channel) {
         embed
           .setTitle(`Пользователь зашёл в голосовой канал`)
           .setDescription(
@@ -40,9 +40,14 @@ export class VoiceStateUpdate extends BaseEvent {
         Logger.log(
           `User connect voice channel (userId: ${member.id}, guildId: ${newState.guild.id}, channelId: ${newState.channel.id})`
         );
+        return logChannel.send({ embeds: [embed] });
       }
       // Moved
-      if ((newState.channel && oldState.channel) && oldState.channel.id !== newState.channel.id) {
+      if (
+        newState.channel &&
+        oldState.channel &&
+        oldState.channel.id !== newState.channel.id
+      ) {
         embed
           .setTitle(`Переход в другой канал`)
           .setDescription(
@@ -52,9 +57,10 @@ export class VoiceStateUpdate extends BaseEvent {
         Logger.log(
           `User change voice channel (userId: ${member.id}, guildId: ${newState.guild.id}, oldChannelId: ${oldState.channel.id}, newChannelId: ${newState.channel.id})`
         );
+        return logChannel.send({ embeds: [embed] });
       }
       // Leave
-      if (oldState.channel && !newState.channel) {
+      if (!newState.channel) {
         embed
           .setTitle(`Пользователь покинул голосовой канал`)
           .setDescription(
@@ -64,9 +70,9 @@ export class VoiceStateUpdate extends BaseEvent {
         Logger.log(
           `User disconnect from voice channel (userId: ${member.id}, guildId: ${oldState.guild.id}, channelId: ${oldState.channel.id})`
         );
+        return logChannel.send({ embeds: [embed] });
       }
       try {
-        return logChannel.send({ embeds: [embed] });
       } catch (err) {
         Logger.error(err);
       }
