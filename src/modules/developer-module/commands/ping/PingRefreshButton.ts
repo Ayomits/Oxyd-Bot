@@ -4,7 +4,7 @@ import { pingResponse } from "./PingResponse";
 
 export class PingRefreshButton extends BaseComponent {
   constructor() {
-    super("pingRefresh");
+    super("pingRefresh", 600);
   }
   async execute(interaction: ButtonInteraction, args: string[]) {
     await interaction.deferUpdate();
