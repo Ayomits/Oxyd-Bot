@@ -14,10 +14,10 @@ export class GuildMemberUpdate extends BaseEvent {
 
   async execute(oldMember: GuildMember, newMember: GuildMember) {
     try {
-      const { enable, members } = await SettingsService.findOne(
-        newMember.guild.id
-      );
-      if (!enable) return;
+      const settings = await SettingsService.findOne(newMember.guild.id);
+      if (!settings) return;
+      const { members, enable } = settings;
+      if (!enable) return
       const logChannel = (await newMember.guild.channels.fetch(members, {
         cache: true,
       })) as TextChannel;
@@ -78,7 +78,7 @@ export class GuildMemberUpdate extends BaseEvent {
 
         return logChannel.send({ embeds: [embed] });
       } catch (error) {
-        console.error("Error executing GuildMemberUpdate event:", error);
+        Logger.error("Error executing GuildMemberUpdate event:", error);
       }
     } catch (err) {
       Logger.error(err);

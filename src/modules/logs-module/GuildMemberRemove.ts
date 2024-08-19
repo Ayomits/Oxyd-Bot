@@ -16,9 +16,9 @@ export class GuildMemberAdd extends BaseEvent {
 
   async execute(member: GuildMember) {
     try {
-      const {enable, joins} = await SettingsService.findOne(
-        member.guild.id,
-      );
+      const settings = await SettingsService.findOne(member.guild.id);
+      if (!settings) return;
+      const { joins, enable } = settings;
       if (!enable) return
       const logChannel = (await member.guild.channels.fetch(joins, {
         cache: true,

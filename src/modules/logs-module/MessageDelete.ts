@@ -15,8 +15,10 @@ export class MessageDelete extends BaseEvent {
   async execute(msg: Message) {
     try {
       if (msg.author.bot) return;
-      const { enable, messages } = await SettingsService.findOne(msg.guild.id);
-      if (!enable) return;
+      const settings = await SettingsService.findOne(msg.guild.id);
+      if (!settings) return;
+      const { messages, enable } = settings;
+      if (!enable) return
       const logChannel = (await msg.guild.channels.fetch(messages, {
         cache: true,
       })) as TextChannel;

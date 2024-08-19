@@ -16,10 +16,10 @@ export class MessageUpdate extends BaseEvent {
   async execute(oldMessage: Message, newMessage: Message) {
     try {
       if (oldMessage.author.bot) return;
-      const { enable, messages } = await SettingsService.findOne(
-        newMessage.guild.id
-      );
-      if (!enable) return;
+      const settings = await SettingsService.findOne(newMessage.guild.id);
+      if (!settings) return;
+      const { messages, enable } = settings;
+      if (!enable) return
       const logChannel = (await newMessage.guild.channels.fetch(messages, {
         cache: true,
       })) as TextChannel;

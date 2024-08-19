@@ -14,9 +14,9 @@ export class VoiceStateUpdate extends BaseEvent {
   async execute(oldState: VoiceState, newState: VoiceState) {
     try {
       const member = newState.member;
-      const { voice, enable } = await SettingsService.findOne(
-        newState.guild.id
-      );
+      const settings = await SettingsService.findOne(newState.guild.id);
+      if (!settings) return;
+      const { voice, enable } = settings;
       if (!enable) return;
       const logChannel = (await newState.guild.channels.fetch(voice, {
         cache: true,
