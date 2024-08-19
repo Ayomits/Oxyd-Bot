@@ -52,7 +52,7 @@ export async function reactionModuleResponse(
       }
     )
     .setColor(SnowflakeColors.DEFAULT)
-    .setThumbnail(interaction.guild.iconURL())
+    .setThumbnail(interaction.user.displayAvatarURL())
     .setTimestamp(new Date())
     .setFooter({
       text: interaction.user.globalName,

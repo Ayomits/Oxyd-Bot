@@ -1,6 +1,6 @@
 import BaseComponent from "@/abstractions/BaseComponent";
 import { ButtonInteraction } from "discord.js";
-import { BumpReminderResponse } from "./BumpReminderResponse";
+import { BumpReminderResponse } from "../BumpReminderResponse";
 import { SomethingWentWrong } from "@/errors/SomethingWentWrong";
 
 export class BumpReminderRefresh extends BaseComponent {

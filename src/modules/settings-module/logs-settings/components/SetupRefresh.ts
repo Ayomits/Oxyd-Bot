@@ -7,7 +7,7 @@ import {
   ChannelSelectMenuInteraction,
   AnySelectMenuInteraction,
 } from "discord.js";
-import { settingsResponse } from "./SetupResponse";
+import { settingsResponse } from "../SetupResponse";
 
 export class SettingsRefreshButton extends BaseComponent {
   constructor() {

@@ -1,21 +1,21 @@
 import BaseComponent from "@/abstractions/BaseComponent";
 import { SomethingWentWrong } from "@/errors/SomethingWentWrong";
 import { BumpReminderModuleModel } from "@/models/BumpReminderModel";
-import { RoleSelectMenuInteraction } from "discord.js";
+import { ChannelSelectMenuInteraction } from "discord.js";
 
-export class BumpReminderPingRoles extends BaseComponent {
+export class BumpReminderPingChannel extends BaseComponent {
   constructor() {
-    super("bumpreminderroles", 600);
+    super("bumpreminderchannel", 600);
   }
-  async execute(interaction: RoleSelectMenuInteraction) {
+  async execute(interaction: ChannelSelectMenuInteraction) {
     try {
-      await interaction.deferReply();
+      await interaction.deferReply({ephemeral: true});
       await BumpReminderModuleModel.updateOne(
         { guildId: interaction.guild.id },
-        { pingRoleIds: interaction.values }
+        { pingChannelId: interaction.values[0] }
       );
       return interaction.editReply({
-        content: `Успешно **установлены** роли для пинга`,
+        content: `Успешно **установлен** канал для пинга`,
       });
     } catch {
       return new SomethingWentWrong(interaction);

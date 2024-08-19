@@ -1,3 +1,4 @@
+import { SnowflakeColors } from "@/enums";
 import { SnowflakeMentionType } from "@/enums/SnowflakeMentionType";
 import { BumpReminderModuleModel } from "@/models/BumpReminderModel";
 import { isEnabled } from "@/utils/functions/isEnabled";
@@ -12,7 +13,6 @@ import {
   ChannelType,
   CommandInteraction,
   EmbedBuilder,
-  InteractionCollector,
   RoleSelectMenuBuilder,
 } from "discord.js";
 
@@ -28,6 +28,13 @@ export async function BumpReminderResponse(
     }));
   const embed = new EmbedBuilder()
     .setTitle(`Настройка модуля напоминаний о бампах`)
+    .setColor(SnowflakeColors.DEFAULT)
+    .setFooter({
+      text: interaction.user.globalName,
+      iconURL: interaction.user.displayAvatarURL(),
+    })
+    .setTimestamp(new Date())
+    .setThumbnail(interaction.user.displayAvatarURL())
     .setFields(
       {
         name: `> Состояние модуля`,
@@ -60,6 +67,8 @@ export async function BumpReminderResponse(
           interaction.guild.roles.cache.get(role)
         )
       )
+      .setMinValues(1)
+      .setMaxValues(25)
       .setCustomId(`bumpreminderroles_${interaction.user.id}`)
       .setPlaceholder(`Выберите пингуемые роли`)
   );

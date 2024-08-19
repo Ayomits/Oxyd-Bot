@@ -8,6 +8,8 @@ import {
   PermissionFlagsBits,
   SlashCommandBuilder,
 } from "discord.js";
+import { BumpReminderResponse } from "./BumpReminderResponse";
+import { SomethingWentWrong } from "@/errors/SomethingWentWrong";
 
 export class BumpReminderSettings extends BaseCommand {
   constructor() {
@@ -25,11 +27,10 @@ export class BumpReminderSettings extends BaseCommand {
   public async execute(interaction: CommandInteraction) {
     try {
       await interaction.deferReply({ ephemeral: true });
-
-      return interaction.editReply({});
+      return interaction.editReply(await BumpReminderResponse(interaction));
     } catch (err) {
-      interaction.editReply({ content: `Что-то пошло не так..` });
       Logger.error(err);
+      return new SomethingWentWrong(interaction);
     }
   }
 }

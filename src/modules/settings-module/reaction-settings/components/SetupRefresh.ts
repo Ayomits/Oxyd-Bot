@@ -1,6 +1,6 @@
 import BaseComponent from "@/abstractions/BaseComponent";
 import { ButtonInteraction } from "discord.js";
-import { reactionModuleResponse } from "./SetupResponse";
+import { reactionModuleResponse } from "../SetupResponse";
 
 export class RefreshButton extends BaseComponent {
   constructor() {

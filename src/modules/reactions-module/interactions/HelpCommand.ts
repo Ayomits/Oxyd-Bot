@@ -10,8 +10,8 @@ import {
   findReactionByKeyOrAliases,
   Reaction,
   ReactionConfig,
-} from "./ReactionTypes";
-import reactions from "./configs/react.json";
+} from "../ReactionTypes";
+import reactions from "../configs/react.json";
 
 export class ReactionHelpCommand extends BaseCommand {
   constructor() {
