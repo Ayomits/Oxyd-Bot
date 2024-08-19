@@ -1,6 +1,6 @@
 import BaseEvent from "@/abstractions/BaseEvent";
 import { EmbedBuilder, Events, TextChannel, VoiceState } from "discord.js";
-import SettingsService from "../interactions/SetupService";
+import SettingsService from "../settings-module/logs-settings/SetupService";
 import { SnowflakeColors } from "@/enums";
 import Logger from "@/utils/system/Logger";
 

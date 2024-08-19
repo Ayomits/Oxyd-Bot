@@ -1,32 +1,30 @@
 import BaseEvent from "@/abstractions/BaseEvent";
-import SettingsService from "../interactions/SetupService";
 import { EmbedBuilder, Events, GuildMember, TextChannel } from "discord.js";
 import { SnowflakeColors } from "@/enums";
 import { discordTimestampFormat } from "@/utils/functions/discordTimestamp";
 import { SnowflakeTimestamp } from "@/enums/SnowflkeTimestamp";
+import SettingsService from "../settings-module/logs-settings/SetupService";
 import Logger from "@/utils/system/Logger";
 
 export class GuildMemberAdd extends BaseEvent {
   constructor() {
     super({
-      name: Events.GuildMemberRemove,
+      name: Events.GuildMemberAdd,
       once: false,
     });
   }
 
   async execute(member: GuildMember) {
     try {
-      const {enable, joins} = await SettingsService.findOne(
-        member.guild.id,
-      );
-      if (!enable) return
+      const { enable, joins } = await SettingsService.findOne(member.guild.id);
+      if (!enable) return;
       const logChannel = (await member.guild.channels.fetch(joins, {
         cache: true,
       })) as TextChannel;
       if (!logChannel) return;
       try {
         const embed = new EmbedBuilder()
-          .setTitle(`Пользователь покинул сервер ${member.guild.name}`)
+          .setTitle(`Пользователь присоединился к серверу ${member.guild.name}`)
           .setColor(SnowflakeColors.DEFAULT)
           .setFields(
             {
@@ -35,9 +33,9 @@ export class GuildMemberAdd extends BaseEvent {
               inline: true,
             },
             {
-              name: `> Дата присоединения на сервер`,
+              name: `> Дата создания аккаунта`,
               value: `${discordTimestampFormat(
-                member.joinedTimestamp / 1000,
+                member.user.createdTimestamp / 1000,
                 SnowflakeTimestamp.LONG_DATE_WITH_DAY_OF_WEEK_AND_SHORT_TIME
               )}`,
               inline: true,

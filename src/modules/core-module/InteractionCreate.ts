@@ -51,7 +51,9 @@ export class InteractionCreate extends BaseEvent {
         interaction.isAnySelectMenu() ||
         interaction.isModalSubmit()
       ) {
-        const splitedCustomId = interaction.customId.split("_");
+        const splitedCustomId = interaction.customId.split(
+          /(?<=_\()[^)]*(?=\))|_/
+        );
         const component = interaction.client.buttons.get(splitedCustomId[0]);
         if (!component) return;
         if (component.ttl) {

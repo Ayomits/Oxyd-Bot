@@ -1,4 +1,5 @@
 import BaseComponent from "@/abstractions/BaseComponent";
+import { SomethingWentWrong } from "@/errors/SomethingWentWrong";
 import { LogModuleModel } from "@/models/LogsModel";
 import { ButtonInteraction } from "discord.js";
 
@@ -28,10 +29,7 @@ export class SetupToggleModule extends BaseComponent {
         }
       );
     } catch {
-      await interaction.editReply({
-        embeds: [],
-        content: "Произошло ошибка при попытке обновить настройки",
-      });
+      return new SomethingWentWrong(interaction);
     }
   }
 }
