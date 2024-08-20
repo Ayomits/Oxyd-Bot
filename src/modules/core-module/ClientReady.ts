@@ -4,7 +4,7 @@ import { SnowflakeType } from "@/enums";
 import { GuildDocument, GuildModel } from "@/models/GuildsModel";
 import configService from "@/utils/system/ConfigService";
 import Logger from "@/utils/system/Logger";
-import { ActivityType, Client, Events, REST, Routes } from "discord.js";
+import { ActivityType, Client, Events, REST, Routes, TextChannel } from "discord.js";
 import mongoose from "mongoose";
 
 export class ReadyEvent extends BaseEvent {
@@ -16,6 +16,7 @@ export class ReadyEvent extends BaseEvent {
   }
 
   async execute(client: Client) {
+
     return await Promise.all([
       this.connectToDb()
         .then(() => Logger.log(`Successfully connect to db`))

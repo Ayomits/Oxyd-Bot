@@ -1,16 +1,15 @@
 import { Snowflake } from "discord.js";
 import { Document, model, Schema, Types } from "mongoose";
+import { BaseModuleGuildDocument } from "./base/GuildDocument";
 
 export type MonitoringType = {
   last: Date | null;
   next: Date | null;
 };
 
-export interface BumpReminderModuleDocument extends Document {
-  guildId: Snowflake;
+export interface BumpReminderModuleDocument extends BaseModuleGuildDocument {
   pingRoleIds: Snowflake[];
   pingChannelId: Snowflake;
-  enable: boolean; // включить ли напоминания для сервера
   sdc: MonitoringType;
   discordMonitoring: MonitoringType;
   serverMonitoring: MonitoringType;
@@ -65,4 +64,7 @@ export const BumpReminderModuleSchema = new Schema<BumpReminderModuleDocument>({
   },
 });
 
-export const BumpReminderModuleModel = model<BumpReminderModuleDocument>(`guild_bumpreminder`, BumpReminderModuleSchema)
+export const BumpReminderModuleModel = model<BumpReminderModuleDocument>(
+  `guild_bumpreminder`,
+  BumpReminderModuleSchema
+);

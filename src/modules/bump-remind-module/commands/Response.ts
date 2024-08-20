@@ -10,7 +10,7 @@ import {
   Guild,
   GuildMember,
 } from "discord.js";
-import { MonitoringBots } from "./MonitoringBots";
+import { MonitoringBots } from "../MonitoringBots";
 import { discordTimestampFormat } from "@/utils/functions/discordTimestamp";
 import { SnowflakeTimestamp } from "@/enums/SnowflkeTimestamp";
 import { fetchSafe } from "@/utils/functions/fetchSafe";
