@@ -33,8 +33,8 @@ export class BumpReminderSchedule {
       this.setSchedule(msg.guild, MonitoringBots.DISCORD_MONITORING, timestamp);
     }
     if (msg.author.id === MonitoringBots.SDC_MONITORING) {
-      if (embed.description.includes("Время фиксации апа")) {
-        const timestamp = new Date().getTime() + 3600 * 4;
+      if (embed.description.includes("Успешный Up!")) {
+        const timestamp = new Date().getTime() + 3600 * 4 * 1000;
         await this.setNextAndLast(bumpSettings, "sdc", timestamp);
         this.setSchedule(msg.guild, MonitoringBots.SDC_MONITORING, timestamp);
       } else {
@@ -187,7 +187,7 @@ export class BumpReminderSchedule {
       },
     };
 
-     await BumpReminderModuleModel.findOneAndUpdate(
+     return await BumpReminderModuleModel.findOneAndUpdate(
       { _id: bumpSettings._id },
       updateData,
       { new: true }

@@ -15,7 +15,6 @@ import { discordTimestampFormat } from "@/utils/functions/discordTimestamp";
 import { SnowflakeTimestamp } from "@/enums/SnowflkeTimestamp";
 import { fetchSafe } from "@/utils/functions/fetchSafe";
 import { SnowflakeColors } from "@/enums";
-import { ModuleNotEnable } from "@/errors/ModuleNotEnable";
 
 export async function bumpReminderStatusResponse(
   interaction: ButtonInteraction | CommandInteraction
@@ -54,12 +53,12 @@ export async function bumpReminderStatusResponse(
 
   embed.setFields(
     {
-      name: `> SDC Monitoring (/bump)`,
+      name: `> SDC Monitoring (/up)`,
       value: `${hasMonitoringOrNot(sdc, bumpSettings.sdc?.next)}`,
       inline: true,
     },
     {
-      name: `> Server Monitoring (/up)`,
+      name: `> Server Monitoring (/bump)`,
       value: `${hasMonitoringOrNot(
         server_monitoring,
         bumpSettings?.serverMonitoring?.next
