@@ -39,7 +39,7 @@ export class BumpReminderSchedule {
     }
     if (msg.author.id === MonitoringBots.SDC_MONITORING) {
       if (embed.description.includes("Время фиксации апа")) {
-        const timestamp = new Date().getTime() + 3600 * 4 * 1000;
+        const timestamp = new Date().getTime() + 3600 * 4;
         await this.setNextAndLast(bumpSettings, "sdc", timestamp);
         this.setSchedule(
           msg.guild,
@@ -48,10 +48,11 @@ export class BumpReminderSchedule {
           "sdc"
         );
       } else {
-        const timestamp = embed.description
+        const stringTimestamp = embed.description
           .match(/<t:(\d+):([tTdDfFR]?)>/)[0]
           .replaceAll(/\D/g, "");
-        await this.setNext(bumpSettings, "sdc", Number(timestamp) * 1000);
+        const timestamp = new Date(Number(stringTimestamp) * 1000);
+        await this.setNext(bumpSettings, "sdc", timestamp);
         this.setSchedule(
           msg.guild,
           MonitoringBots.SDC_MONITORING,
@@ -64,8 +65,25 @@ export class BumpReminderSchedule {
       if (embed.description.includes("Server bumped by")) {
         const timestamp = new Date().getTime() + 3600 * 4 * 1000;
         await this.setNextAndLast(bumpSettings, "serverMonitoring", timestamp);
+        this.setSchedule(
+          msg.guild,
+          MonitoringBots.SERVER_MONITORING,
+          timestamp,
+          "serverMonitoring"
+        );
       } else {
         const timestamp = this.findHHMMSS(embed.description);
+        await this.setNextAndLast(
+          bumpSettings,
+          "serverMonitoring",
+          new Date().getTime() + timestamp
+        );
+        this.setSchedule(
+          msg.guild,
+          MonitoringBots.SERVER_MONITORING,
+          timestamp,
+          "serverMonitoring"
+        );
       }
     }
   }
@@ -154,7 +172,6 @@ export class BumpReminderSchedule {
       )}`,
     });
     this.setNext(bumpSettings, monitoringKey[monitoring], timestamp);
-    return this.setSchedule(guild, monitoring, timestamp, key);
   }
 
   public static async setNextAndLast(
@@ -181,7 +198,10 @@ export class BumpReminderSchedule {
     return await bumpSettings.updateOne({
       [key]: {
         last: bumpSettings[key].last,
-        next: nextTimestamp,
+        next:
+          typeof nextTimestamp === "number" || typeof nextTimestamp === "string"
+            ? new Date(nextTimestamp)
+            : nextTimestamp,
       },
     });
   }
