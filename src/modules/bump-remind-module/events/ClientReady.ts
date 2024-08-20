@@ -29,18 +29,16 @@ export class BumpClientReady extends BaseEvent {
       if (!guild) continue;
 
       await Promise.all([
-        this.checkTime(guild, MonitoringBots.SDC_MONITORING, sdc, "sdc"),
+        this.checkTime(guild, MonitoringBots.SDC_MONITORING, sdc),
         this.checkTime(
           guild,
           MonitoringBots.DISCORD_MONITORING,
           discordMonitoring,
-          "discordMonitoring"
         ),
         this.checkTime(
           guild,
           MonitoringBots.SERVER_MONITORING,
           serverMonitoring,
-          "serverMonitoring"
         ),
       ]);
     }
@@ -50,7 +48,6 @@ export class BumpClientReady extends BaseEvent {
     guild: Guild,
     monitoring: Monitoring,
     dbMonitoring: MonitoringType,
-    key: keyof BumpReminderModuleDocument
   ) {
     const now = Date.now();
     const GMTTime = moment(dbMonitoring.next).tz("Europe/Moscow");
@@ -59,7 +56,6 @@ export class BumpClientReady extends BaseEvent {
         guild,
         monitoring,
         GMTTime.toDate(),
-        key
       );
     }
   }

@@ -30,35 +30,20 @@ export class BumpReminderSchedule {
       } else {
         await this.setNextAndLast(bumpSettings, "discordMonitoring", timestamp);
       }
-      this.setSchedule(
-        msg.guild,
-        MonitoringBots.DISCORD_MONITORING,
-        timestamp,
-        "discordMonitoring"
-      );
+      this.setSchedule(msg.guild, MonitoringBots.DISCORD_MONITORING, timestamp);
     }
     if (msg.author.id === MonitoringBots.SDC_MONITORING) {
       if (embed.description.includes("Время фиксации апа")) {
         const timestamp = new Date().getTime() + 3600 * 4;
         await this.setNextAndLast(bumpSettings, "sdc", timestamp);
-        this.setSchedule(
-          msg.guild,
-          MonitoringBots.SDC_MONITORING,
-          timestamp,
-          "sdc"
-        );
+        this.setSchedule(msg.guild, MonitoringBots.SDC_MONITORING, timestamp);
       } else {
         const stringTimestamp = embed.description
           .match(/<t:(\d+):([tTdDfFR]?)>/)[0]
           .replaceAll(/\D/g, "");
         const timestamp = new Date(Number(stringTimestamp) * 1000);
         await this.setNext(bumpSettings, "sdc", timestamp);
-        this.setSchedule(
-          msg.guild,
-          MonitoringBots.SDC_MONITORING,
-          timestamp,
-          "sdc"
-        );
+        this.setSchedule(msg.guild, MonitoringBots.SDC_MONITORING, timestamp);
       }
     }
     if (msg.author.id === MonitoringBots.SERVER_MONITORING) {
@@ -68,8 +53,7 @@ export class BumpReminderSchedule {
         this.setSchedule(
           msg.guild,
           MonitoringBots.SERVER_MONITORING,
-          timestamp,
-          "serverMonitoring"
+          timestamp
         );
       } else {
         const timestamp = this.findHHMMSS(embed.description);
@@ -81,8 +65,7 @@ export class BumpReminderSchedule {
         this.setSchedule(
           msg.guild,
           MonitoringBots.SERVER_MONITORING,
-          timestamp,
-          "serverMonitoring"
+          timestamp
         );
       }
     }
@@ -91,13 +74,14 @@ export class BumpReminderSchedule {
   public static setSchedule(
     guild: Guild,
     monitoring: Monitoring,
-    timestamp: string | number | Date,
-    key: keyof BumpReminderModuleDocument
+    timestamp: string | number | Date
   ): void {
     const existed = this.cache.get(
       this.cacheKeyGenerator(guild.id, monitoring)
     );
-    if (existed) return;
+    if (existed) {
+      existed.cancel();
+    }
     const date =
       typeof timestamp === "number" || typeof timestamp === "string"
         ? new Date(timestamp)
@@ -105,7 +89,7 @@ export class BumpReminderSchedule {
 
     const job = scheduleJob(
       date,
-      async () => await this.scheduleFunction(guild, monitoring, key)
+      async () => await this.scheduleFunction(guild, monitoring)
     );
     this.cache.set(this.cacheKeyGenerator(guild.id, monitoring), job);
   }
@@ -123,7 +107,7 @@ export class BumpReminderSchedule {
     existed.cancel();
     const job = scheduleJob(
       timestamp,
-      async () => await this.scheduleFunction(guild, monitoring, key)
+      async () => await this.scheduleFunction(guild, monitoring)
     );
     this.cache.set(this.cacheKeyGenerator(guild.id, monitoring), job);
     console.log(this.cache, scheduledJobs);
@@ -146,11 +130,7 @@ export class BumpReminderSchedule {
     return `${guildId}_${monitoring}`;
   }
 
-  private static async scheduleFunction(
-    guild: Guild,
-    monitoring: Monitoring,
-    key: keyof BumpReminderModuleDocument
-  ) {
+  private static async scheduleFunction(guild: Guild, monitoring: Monitoring) {
     const bumpSettings = await BumpReminderModuleModel.findOne({
       guildId: guild.id,
     });
@@ -159,8 +139,6 @@ export class BumpReminderSchedule {
     ) as TextChannel;
     if (bumpSettings.pingRoleIds.length < 1) return;
     if (!pingChannel) return;
-    const timestamp = new Date().getTime() + 3600 * 1000 * 4;
-
     pingChannel.send({
       content: `${bumpSettings.pingRoleIds
         .filter((role) => guild.roles.cache.get(role))
@@ -171,7 +149,6 @@ export class BumpReminderSchedule {
         monitoring
       )}`,
     });
-    this.setNext(bumpSettings, monitoringKey[monitoring], timestamp);
   }
 
   public static async setNextAndLast(
@@ -179,31 +156,42 @@ export class BumpReminderSchedule {
     key: keyof BumpReminderModuleDocument,
     nextTimestamp: Date | number | string
   ) {
-    return await bumpSettings.updateOne({
-      [key]: {
-        last: new Date(),
-        next:
-          typeof nextTimestamp === "number" || typeof nextTimestamp === "string"
+    const updateData = {
+      $set: {
+        [`${key}.last`]: new Date(),
+        [`${key}.next`]:
+          typeof nextTimestamp === "string" || typeof nextTimestamp === "number"
             ? new Date(nextTimestamp)
             : nextTimestamp,
       },
-    });
+    };
+
+    return await BumpReminderModuleModel.findOneAndUpdate(
+      { _id: bumpSettings._id },
+      updateData,
+      { new: true } // Оп
+    );
   }
 
   public static async setNext(
     bumpSettings: BumpReminderModuleDocument,
     key: keyof BumpReminderModuleDocument,
-    nextTimestamp: Date | number
+    nextTimestamp: Date | number | string
   ) {
-    return await bumpSettings.updateOne({
-      [key]: {
-        last: bumpSettings[key].last,
-        next:
-          typeof nextTimestamp === "number" || typeof nextTimestamp === "string"
+    const updateData = {
+      $set: {
+        [`${key}.next`]:
+          typeof nextTimestamp === "string" || typeof nextTimestamp === "number"
             ? new Date(nextTimestamp)
             : nextTimestamp,
       },
-    });
+    };
+
+     await BumpReminderModuleModel.findOneAndUpdate(
+      { _id: bumpSettings._id },
+      updateData,
+      { new: true }
+    );
   }
 
   public static findHHMMSS(timeString: string) {
