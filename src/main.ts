@@ -29,6 +29,7 @@ const client = new Client({
     GatewayIntentBits.GuildModeration,
     GatewayIntentBits.GuildMembers,
     GatewayIntentBits.MessageContent,
+    GatewayIntentBits.GuildIntegrations,
   ],
   makeCache: Options.cacheWithLimits({
     ...Options.DefaultMakeCacheSettings,
@@ -40,7 +41,7 @@ const client = new Client({
     ThreadManager: 0,
     DMMessageManager: 0,
     GuildInviteManager: 0,
-    StageInstanceManager: 0
+    StageInstanceManager: 0,
   }),
 });
 

@@ -1,5 +1,6 @@
 import BaseEvent from "@/abstractions/BaseEvent";
 import { Events, Message } from "discord.js";
+import { BumpReminderSchedule } from "../BumpReminderFuncs";
 
 export class MessageCreate extends BaseEvent {
   constructor() {
@@ -10,6 +11,8 @@ export class MessageCreate extends BaseEvent {
   }
 
   public async execute(msg: Message) {
-    console.log(await msg.guild.commands.fetch(msg.interaction.id));
+    try{
+      await BumpReminderSchedule.handleMonitoringMessage(msg)
+    }catch{}
   }
 }

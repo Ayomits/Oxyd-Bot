@@ -16,7 +16,6 @@ export class ReadyEvent extends BaseEvent {
   }
 
   async execute(client: Client) {
-
     return await Promise.all([
       this.connectToDb()
         .then(() => Logger.log(`Successfully connect to db`))

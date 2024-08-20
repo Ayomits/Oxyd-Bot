@@ -1,11 +1,12 @@
 import { Job, scheduledJobs, scheduleJob } from "node-schedule";
-import { Monitoring, monitoringKey } from "../MonitoringBots";
+import { Monitoring, MonitoringBots, monitoringKey } from "./MonitoringBots";
 import {
   BumpReminderModuleDocument,
   BumpReminderModuleModel,
 } from "@/models/BumpReminderModel";
 import {
   Guild,
+  Message,
   roleMention,
   Snowflake,
   TextChannel,
@@ -14,6 +15,60 @@ import {
 
 export class BumpReminderSchedule {
   private static cache: Map<string, Job> = new Map<string, Job>();
+
+  public static async handleMonitoringMessage(msg: Message) {
+    const bumpSettings = await BumpReminderModuleModel.findOne({
+      guildId: msg.guild.id,
+    });
+    if (!bumpSettings) return;
+    if (!bumpSettings.enable) return;
+    const embed = msg.embeds[0];
+    if (msg.author.id === MonitoringBots.DISCORD_MONITORING) {
+      const timestamp = new Date(embed.timestamp).getTime();
+      if (embed.description.includes("You are so hot")) {
+        await this.setNext(bumpSettings, "discordMonitoring", timestamp);
+      } else {
+        await this.setNextAndLast(bumpSettings, "discordMonitoring", timestamp);
+      }
+      this.setSchedule(
+        msg.guild,
+        MonitoringBots.DISCORD_MONITORING,
+        timestamp,
+        "discordMonitoring"
+      );
+    }
+    if (msg.author.id === MonitoringBots.SDC_MONITORING) {
+      if (embed.description.includes("Время фиксации апа")) {
+        const timestamp = new Date().getTime() + 3600 * 4 * 1000;
+        await this.setNextAndLast(bumpSettings, "sdc", timestamp);
+        this.setSchedule(
+          msg.guild,
+          MonitoringBots.SDC_MONITORING,
+          timestamp,
+          "sdc"
+        );
+      } else {
+        const timestamp = embed.description
+          .match(/<t:(\d+):([tTdDfFR]?)>/)[0]
+          .replaceAll(/\D/g, "");
+        await this.setNext(bumpSettings, "sdc", Number(timestamp) * 1000);
+        this.setSchedule(
+          msg.guild,
+          MonitoringBots.SDC_MONITORING,
+          timestamp,
+          "sdc"
+        );
+      }
+    }
+    if (msg.author.id === MonitoringBots.SERVER_MONITORING) {
+      if (embed.description.includes("Server bumped by")) {
+        const timestamp = new Date().getTime() + 3600 * 4 * 1000;
+        await this.setNextAndLast(bumpSettings, "serverMonitoring", timestamp);
+      } else {
+        const timestamp = this.findHHMMSS(embed.description);
+      }
+    }
+  }
 
   public static setSchedule(
     guild: Guild,
@@ -29,6 +84,7 @@ export class BumpReminderSchedule {
       typeof timestamp === "number" || typeof timestamp === "string"
         ? new Date(timestamp)
         : timestamp;
+
     const job = scheduleJob(
       date,
       async () => await this.scheduleFunction(guild, monitoring, key)
@@ -51,7 +107,6 @@ export class BumpReminderSchedule {
       timestamp,
       async () => await this.scheduleFunction(guild, monitoring, key)
     );
-    console.log(`set cache`);
     this.cache.set(this.cacheKeyGenerator(guild.id, monitoring), job);
     console.log(this.cache, scheduledJobs);
   }
@@ -125,6 +180,7 @@ export class BumpReminderSchedule {
   ) {
     return await bumpSettings.updateOne({
       [key]: {
+        last: bumpSettings[key].last,
         next: nextTimestamp,
       },
     });
