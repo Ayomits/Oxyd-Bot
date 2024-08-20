@@ -15,13 +15,33 @@ import { discordTimestampFormat } from "@/utils/functions/discordTimestamp";
 import { SnowflakeTimestamp } from "@/enums/SnowflkeTimestamp";
 import { fetchSafe } from "@/utils/functions/fetchSafe";
 import { SnowflakeColors } from "@/enums";
+import { ModuleNotEnable } from "@/errors/ModuleNotEnable";
 
 export async function bumpReminderStatusResponse(
   interaction: ButtonInteraction | CommandInteraction
 ) {
-  const bumpSettings = await BumpReminderModuleModel.findOne({
-    guildId: interaction.guild.id,
-  });
+  const embed = new EmbedBuilder()
+    .setTitle(`Статус мониторингов ботов`)
+    .setThumbnail(interaction.user.displayAvatarURL())
+    .setTimestamp(new Date())
+    .setFooter({
+      text: interaction.user.globalName,
+      iconURL: interaction.user.displayAvatarURL(),
+    })
+    .setColor(SnowflakeColors.DEFAULT);
+  const bumpSettings =
+    (await BumpReminderModuleModel.findOne({
+      guildId: interaction.guild.id,
+    })) ||
+    (await BumpReminderModuleModel.create({ guildId: interaction.guild.id }));
+  if (!bumpSettings.enable)
+    return {
+      embeds: [
+        embed.setDescription(
+          `Модуль не включен. Используйте \`/bump-settings\` для включения`
+        ),
+      ],
+    };
   const sdc = await fetchSafe(MonitoringBots.SDC_MONITORING, interaction.guild);
   const dsmonitoring = await fetchSafe(
     MonitoringBots.DISCORD_MONITORING,
@@ -31,38 +51,30 @@ export async function bumpReminderStatusResponse(
     MonitoringBots.SERVER_MONITORING,
     interaction.guild
   );
-  const embed = new EmbedBuilder()
-    .setTitle(`Статус мониторингов ботов`)
-    .setThumbnail(interaction.user.displayAvatarURL())
-    .setTimestamp(new Date())
-    .setFooter({
-      text: interaction.user.globalName,
-      iconURL: interaction.user.displayAvatarURL(),
-    })
-    .setColor(SnowflakeColors.DEFAULT)
-    .setFields(
-      {
-        name: `> SDC Monitoring (/bump)`,
-        value: `${hasMonitoringOrNot(sdc, bumpSettings.sdc?.next)}`,
-        inline: true,
-      },
-      {
-        name: `> Server Monitoring (/up)`,
-        value: `${hasMonitoringOrNot(
-          server_monitoring,
-          bumpSettings?.serverMonitoring?.next
-        )}`,
-        inline: true,
-      },
-      {
-        name: `> Discord Monitoring (/like)`,
-        value: `${hasMonitoringOrNot(
-          dsmonitoring,
-          bumpSettings?.serverMonitoring?.next
-        )}`,
-        inline: true,
-      }
-    );
+
+  embed.setFields(
+    {
+      name: `> SDC Monitoring (/bump)`,
+      value: `${hasMonitoringOrNot(sdc, bumpSettings.sdc?.next)}`,
+      inline: true,
+    },
+    {
+      name: `> Server Monitoring (/up)`,
+      value: `${hasMonitoringOrNot(
+        server_monitoring,
+        bumpSettings?.serverMonitoring?.next
+      )}`,
+      inline: true,
+    },
+    {
+      name: `> Discord Monitoring (/like)`,
+      value: `${hasMonitoringOrNot(
+        dsmonitoring,
+        bumpSettings?.serverMonitoring?.next
+      )}`,
+      inline: true,
+    }
+  );
   const refreshButton = new ActionRowBuilder<ButtonBuilder>().addComponents(
     new ButtonBuilder()
       .setCustomId(`bumpreminderstaturefresh_${interaction.user.id}`)
