@@ -6,7 +6,7 @@ export class MessageUpdate extends BaseEvent {
   constructor() {
     super({
       name: Events.MessageUpdate,
-      once: true,
+      once: false,
     });
   }
   public async execute(_oldMessage: Message, newMessage: Message) {
