@@ -24,7 +24,6 @@
     "node-schedule": "^2.1.1"
   },
   "devDependencies": {
-    "@mizdra/typescript-plugin-asset": "^0.1.2",
     "@types/colors": "^1.2.1",
     "@types/moment": "^2.13.0",
     "@types/node": "^22.0.2",
@@ -32,7 +31,6 @@
     "ts-node": "^10.9.2",
     "tsc-alias": "^1.8.10",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.5.4",
-    "typescript-paths": "^1.5.1"
+    "typescript": "^5.5.4"
   }
 }

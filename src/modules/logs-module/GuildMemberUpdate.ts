@@ -47,6 +47,7 @@ export class GuildMemberUpdate extends BaseEvent {
               value: `\`\`\`${newNickname.replaceAll("`", "")}\`\`\``,
             }
           );
+          return logChannel.send({ embeds: [embed] });
         }
 
         if (
@@ -68,15 +69,15 @@ export class GuildMemberUpdate extends BaseEvent {
               }`,
             }
           );
+          return logChannel.send({ embeds: [embed] });
         }
 
         if (oldMember.displayAvatarURL() !== newMember.displayAvatarURL()) {
           embed
             .setTitle(`Изменение аватара`)
             .setThumbnail(newMember.displayAvatarURL());
+          return logChannel.send({ embeds: [embed] });
         }
-
-        return logChannel.send({ embeds: [embed] });
       } catch (error) {
         Logger.error("Error executing GuildMemberUpdate event:", error);
       }
