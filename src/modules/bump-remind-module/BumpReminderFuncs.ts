@@ -137,15 +137,16 @@ export class BumpReminderSchedule {
     const pingChannel = guild.channels.cache.get(
       bumpSettings.pingChannelId
     ) as TextChannel;
-    if (bumpSettings.pingRoleIds.length < 1) return;
     if (!pingChannel) return;
+    const pingRoles =
+      bumpSettings.pingRoleIds.length >= 1
+        ? bumpSettings.pingRoleIds
+            .filter((role) => guild.roles.cache.get(role))
+            .map((role) => roleMention(role))
+            .join(" ")
+        : "";
     pingChannel.send({
-      content: `${bumpSettings.pingRoleIds
-        .filter((role) => guild.roles.cache.get(role))
-        .map((role) => roleMention(role))
-        .join(
-          " "
-        )} команды мониторингов не ждут! В данный момент доступен: ${userMention(
+      content: `${pingRoles} в данный момент доступен: ${userMention(
         monitoring
       )}`,
     });
@@ -187,7 +188,7 @@ export class BumpReminderSchedule {
       },
     };
 
-     return await BumpReminderModuleModel.findOneAndUpdate(
+    return await BumpReminderModuleModel.findOneAndUpdate(
       { _id: bumpSettings._id },
       updateData,
       { new: true }
