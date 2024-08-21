@@ -14,7 +14,6 @@ export class BumpGuildMemberRemove extends BaseEvent {
 
   public async execute(member: GuildMember) {
     if (monitoringsArr.includes(member.id)) {
-      console.log(`includes `)
       BumpReminderSchedule.removeSchedule(member.guild, member.id);
     }
   }
