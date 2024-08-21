@@ -15,3 +15,5 @@ export const monitoringKey: {
 };
 
 export type Monitoring = string | MonitoringBots;
+
+export const monitoringsArr: string[] = [MonitoringBots.SDC_MONITORING, MonitoringBots.DISCORD_MONITORING, MonitoringBots.SERVER_MONITORING]

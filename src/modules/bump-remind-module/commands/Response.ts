@@ -69,7 +69,7 @@ export async function bumpReminderStatusResponse(
       name: `> Discord Monitoring (/like)`,
       value: `${hasMonitoringOrNot(
         dsmonitoring,
-        bumpSettings?.serverMonitoring?.next
+        bumpSettings?.discordMonitoring?.next
       )}`,
       inline: true,
     }

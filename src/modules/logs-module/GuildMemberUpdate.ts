@@ -17,7 +17,7 @@ export class GuildMemberUpdate extends BaseEvent {
       const settings = await SettingsService.findOne(newMember.guild.id);
       if (!settings) return;
       const { members, enable } = settings;
-      if (!enable) return
+      if (!enable) return;
       const logChannel = (await newMember.guild.channels.fetch(members, {
         cache: true,
       })) as TextChannel;
@@ -80,9 +80,7 @@ export class GuildMemberUpdate extends BaseEvent {
       } catch (error) {
         Logger.error("Error executing GuildMemberUpdate event:", error);
       }
-    } catch (err) {
-      Logger.error(err);
-    }
+    } catch {}
   }
 
   private filterRoles(firstState: GuildMember, secondState: GuildMember) {
