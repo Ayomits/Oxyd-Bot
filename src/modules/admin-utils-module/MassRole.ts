@@ -100,7 +100,6 @@ export class MassRole extends BaseCommand {
       collector.once("collect", async (msg) => {
         isSended = true;
         const membersSnowflakes = SnowflakeParser.user(msg.content);
-        console.log(membersSnowflakes);
         const validMembers = (await msg.guild.members.fetch()).filter(
           (member) => membersSnowflakes.includes(member.id)
         );
