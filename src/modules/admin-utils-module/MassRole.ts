@@ -52,7 +52,7 @@ export class MassRole extends BaseCommand {
             .addChoices(
               {
                 name: `Выдать`,
-                value: `give`,
+                value: `add`,
               },
               {
                 name: `Забрать`,
