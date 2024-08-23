@@ -29,6 +29,7 @@ export class InRole extends BaseCommand {
             .setDescription(`Укажите нужную роль`)
             .setRequired(true)
         )
+        .setDMPermission(false)
         .addNumberOption((option) =>
           option
             .setName(`page_size`)
