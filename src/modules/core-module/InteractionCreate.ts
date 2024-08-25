@@ -1,4 +1,5 @@
 import BaseEvent from "@/abstractions/BaseEvent";
+import { SnowflakeType } from "@/enums";
 import Logger from "@/utils/system/Logger";
 import {
   ButtonInteraction,
@@ -28,12 +29,17 @@ export class InteractionCreate extends BaseEvent {
         );
         if (!command) return;
         if (
+          command.options.type === SnowflakeType.Developer &&
+          !global.developers.includes(interaction.user.id)
+        )
+          return;
+        if (
           !command.options.allowDms &&
           interaction.channel.id === interaction.user.id
         ) {
           return;
         }
-        await command!.execute(interaction);
+        command!.execute(interaction);
         Logger.log(`${interaction.commandName} successfully launched`);
       }
       if (interaction.isAutocomplete()) {

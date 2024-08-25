@@ -1,5 +1,10 @@
 import { Job, scheduledJobs, scheduleJob } from "node-schedule";
-import { Monitoring, MonitoringBots, monitoringKey } from "./MonitoringBots";
+import {
+  Monitoring,
+  MonitoringBots,
+  monitoringDescriptions,
+  monitoringKey,
+} from "./MonitoringBots";
 import {
   BumpReminderModuleDocument,
   BumpReminderModuleModel,
@@ -25,7 +30,11 @@ export class BumpReminderSchedule {
     const embed = msg.embeds[0];
     if (msg.author.id === MonitoringBots.DISCORD_MONITORING) {
       const timestamp = new Date(embed.timestamp).getTime();
-      if (embed.description.includes("You are so hot")) {
+      if (
+        monitoringDescriptions[MonitoringBots.DISCORD_MONITORING].bad.some(
+          (desc) => embed.description.includes(desc)
+        )
+      ) {
         await this.setNext(bumpSettings, "discordMonitoring", timestamp);
       } else {
         await this.setNextAndLast(bumpSettings, "discordMonitoring", timestamp);
@@ -33,7 +42,11 @@ export class BumpReminderSchedule {
       this.setSchedule(msg.guild, MonitoringBots.DISCORD_MONITORING, timestamp);
     }
     if (msg.author.id === MonitoringBots.SDC_MONITORING) {
-      if (embed.description.includes("Успешный Up!")) {
+      if (
+        monitoringDescriptions[MonitoringBots.SDC_MONITORING].success.some(
+          (desc) => embed.description.includes(desc)
+        )
+      ) {
         const timestamp = new Date().getTime() + 3600 * 4 * 1000;
         await this.setNextAndLast(bumpSettings, "sdc", timestamp);
         this.setSchedule(msg.guild, MonitoringBots.SDC_MONITORING, timestamp);
@@ -47,7 +60,11 @@ export class BumpReminderSchedule {
       }
     }
     if (msg.author.id === MonitoringBots.SERVER_MONITORING) {
-      if (embed.description.includes("Server bumped by")) {
+      if (
+        monitoringDescriptions[MonitoringBots.SERVER_MONITORING].success.some(
+          (desc) => embed.description.includes(desc)
+        )
+      ) {
         const timestamp = new Date().getTime() + 3600 * 4 * 1000;
         await this.setNextAndLast(bumpSettings, "serverMonitoring", timestamp);
         this.setSchedule(
