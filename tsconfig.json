@@ -23,7 +23,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "@utils/*": ["./src/utils/*"],
-      "@prisma": ["./src/db/prisma.ts"]
+
     },
     "plugins": [
       {
