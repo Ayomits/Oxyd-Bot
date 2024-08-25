@@ -6,6 +6,7 @@ export interface VerificationModuleDocument extends BaseModuleGuildDocument {
   roles: Snowflake[];
   channel: Snowflake;
   embeds: Embed[];
+  unverifyRole: Snowflake;
 }
 
 export const VerificationModuleSchema = new Schema<VerificationModuleDocument>({
@@ -16,6 +17,10 @@ export const VerificationModuleSchema = new Schema<VerificationModuleDocument>({
   enable: {
     type: Boolean,
     default: false,
+  },
+  unverifyRole: {
+    type: String,
+    default: null,
   },
   roles: {
     type: [],

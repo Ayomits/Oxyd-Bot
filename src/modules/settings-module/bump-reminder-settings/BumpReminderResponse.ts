@@ -38,7 +38,7 @@ export async function BumpReminderResponse(
     .setFields(
       {
         name: `> Состояние модуля`,
-        value: `${isEnabled(bumpSettings.enable)}`,
+        value: `\`\`\`${isEnabled(bumpSettings.enable)}\`\`\``,
         inline: true,
       },
       {
@@ -82,11 +82,11 @@ export async function BumpReminderResponse(
   const toggleModule = new ButtonBuilder()
     .setCustomId(`bumpremindertoggler`)
     .setLabel(`Включить/Выключить`)
-    .setStyle(ButtonStyle.Secondary);
+    .setStyle(ButtonStyle.Success);
   const refreshButton = new ButtonBuilder()
     .setCustomId("bumprefreshbutton")
     .setLabel(`Обновить`)
-    .setStyle(ButtonStyle.Secondary);
+    .setStyle(ButtonStyle.Primary);
   const buttonRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
     toggleModule,
     refreshButton
