@@ -8,12 +8,15 @@ import {
   TextInputStyle,
 } from "discord.js";
 
-export class VerificationEmbed extends BaseSelectMenuValue {
+export class VerificationEmbedManageValue extends BaseSelectMenuValue {
   constructor() {
-    super("verificationEmbedManage");
+    super("embed");
   }
 
-  async execute(interaction: StringSelectMenuInteraction, _args: string[]) {
+  public async execute(
+    interaction: StringSelectMenuInteraction,
+    _args: string[]
+  ) {
     try {
       const modal = new ModalBuilder()
         .setCustomId(`manageEmbedModal`)
@@ -25,7 +28,7 @@ export class VerificationEmbed extends BaseSelectMenuValue {
               .setLabel(`Вставьте ссылку с дискохука`)
               .setPlaceholder(`https://share.discohook.app/go/8u8sy13p`)
               .setStyle(TextInputStyle.Short)
-              .setRequired(false)
+              .setRequired(true)
           )
         );
       return await interaction.showModal(modal);

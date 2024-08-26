@@ -74,7 +74,8 @@ export class InteractionCreate extends BaseEvent {
           const valueCallback = interaction.client.values.get(value[0]);
           if (valueCallback) {
             try {
-              valueCallback.execute.call(this, interaction, value.slice(1));
+              Logger.log(valueCallback);
+              valueCallback.execute(interaction, value.slice(1));
               Logger.log(
                 `value ${value[0]} launched for select menu ${splitedCustomId[0]}`
               );

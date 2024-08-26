@@ -18,9 +18,11 @@ import {
 export async function VerificationResponse(
   interaction: ButtonInteraction | CommandInteraction
 ) {
-  const verificationSettings = await VerificationModuleModel.findOne({
-    guildId: interaction.guild.id,
-  });
+  const verificationSettings =
+    (await VerificationModuleModel.findOne({
+      guildId: interaction.guild.id,
+    })) ||
+    (await VerificationModuleModel.create({ guildId: interaction.guild.id }));
   const embed = new EmbedBuilder()
     .setTitle(`Настройка модуля верификации`)
     .setFooter({
@@ -72,13 +74,13 @@ export async function VerificationResponse(
           },
           {
             label: `Управление ролями верификации`,
-            value: `verificationRoleManage`,
+            value: `roles`,
             emoji: "💫",
             description: `Эта опция позволит управлять отображением ролей верификации`,
           },
           {
             label: `Управление эмбедом верификации`,
-            value: `verificationEmbedManage`,
+            value: `embed`,
             emoji: "🎨",
             description: `Подготовьте вебхук в дискохуке и просто скиньте, бот сделает всё сам`,
           }

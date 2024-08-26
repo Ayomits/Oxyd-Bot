@@ -5,7 +5,7 @@ import { Embed, Snowflake } from "discord.js";
 export interface VerificationModuleDocument extends BaseModuleGuildDocument {
   roles: Snowflake[];
   channel: Snowflake;
-  embeds: Embed[];
+  messages: any[];
   unverifyRole: Snowflake;
   giveUnverify: boolean;
 }
@@ -31,7 +31,7 @@ export const VerificationModuleSchema = new Schema<VerificationModuleDocument>({
     type: String,
     default: null,
   },
-  embeds: {
+  messages: {
     type: [],
     default: [],
   },
