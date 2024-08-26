@@ -10,7 +10,7 @@ export class RolesValue extends BaseSelectMenuValue {
 
   async execute(interaction: StringSelectMenuInteraction) {
     try {
-      await interaction.deferReply({ ephemeral: true });
+      await interaction.deferUpdate();
       return interaction.editReply(
         await verificationRolesResponse(interaction)
       );

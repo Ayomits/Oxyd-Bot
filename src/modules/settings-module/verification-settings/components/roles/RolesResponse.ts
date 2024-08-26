@@ -35,26 +35,37 @@ export async function verificationRolesResponse(
   for (let i = 0; i < verificationRoles.length; i++) {
     const verificationRole = verificationRoles[i];
     const { roleId, displayName, style } = verificationRole;
-    selectMenu.addOptions(
-      new StringSelectMenuOptionBuilder()
-        .setValue(`update_${roleId}`)
-        .setLabel(displayName)
-    );
+    selectMenu
+      .setPlaceholder(`Выберите нужную опцию`)
+      .addOptions(
+        new StringSelectMenuOptionBuilder()
+          .setValue(`update_${roleId}`)
+          .setLabel(displayName)
+      );
     description += `**${i + 1})** ${roleMention(
       roleId
-    )}\Отображаемое название: ${displayName}\nСтиль: ${style}`;
+    )}\n**Отображаемое название:**   ${displayName}\n**Стиль:** ${style}`;
   }
   const selectMenuRow =
     new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(selectMenu);
   const buttonRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
     new ButtonBuilder()
-      .setCustomId(`verificationrolesgoback`)
-      .setLabel(`Назад`)
-      .setStyle(ButtonStyle.Danger),
-    new ButtonBuilder()
       .setCustomId(`verificationrolesrefresh`)
       .setLabel(`Обновить`)
-      .setStyle(ButtonStyle.Primary)
+      .setStyle(ButtonStyle.Primary),
+    new ButtonBuilder()
+      .setCustomId(`verificationrolesgoback`)
+      .setLabel(`Назад`)
+      .setStyle(ButtonStyle.Danger)
   );
-  return { embeds: [embed], components: [selectMenuRow, buttonRow] };
+  return {
+    embeds: [
+      embed.setDescription(
+        description.length >= 1
+          ? description
+          : "В данный момент **нет** верификационных ролей"
+      ),
+    ],
+    components: [selectMenuRow, buttonRow],
+  };
 }

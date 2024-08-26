@@ -69,7 +69,7 @@ export class InteractionCreate extends BaseEvent {
           const now = Math.floor(new Date().getTime() / 1000);
           if (now > msgCreated + component.ttl) return;
         }
-        if (interaction.isAnySelectMenu()) {
+        if (interaction.isStringSelectMenu()) {
           const value = interaction.values[0].split(splitterRegex);
           const valueCallback = interaction.client.values.get(value[0]);
           if (valueCallback) {

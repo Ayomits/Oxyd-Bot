@@ -6,6 +6,7 @@ export interface VerificationRoleDocument extends BaseGuildDocument {
   roleId: Snowflake;
   displayName: string;
   style: ButtonStyle;
+  emoji: string;
 }
 
 export const VerificationRoleSchema = new Schema<VerificationRoleDocument>({
@@ -19,11 +20,17 @@ export const VerificationRoleSchema = new Schema<VerificationRoleDocument>({
   },
   displayName: {
     type: String,
-    required: true,
+    required: false,
+    default: null,
   },
   style: {
     type: Number,
     default: ButtonStyle.Secondary,
+  },
+  emoji: {
+    type: String,
+    required: false,
+    default: null,
   },
 });
 
