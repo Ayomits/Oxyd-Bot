@@ -23,7 +23,7 @@ export class VerificationSettings extends BaseCommand {
 
   public async execute(interaction: CommandInteraction) {
     try {
-      await interaction.deferReply();
+      await interaction.deferReply({ ephemeral: true });
       return interaction.editReply(await VerificationResponse(interaction));
     } catch {
       return new SomethingWentWrong(interaction);

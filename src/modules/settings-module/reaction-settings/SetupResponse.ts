@@ -3,6 +3,7 @@ import {
   ReactionModuleDocument,
   ReactionModuleModel,
 } from "@/models/ReactionsModel";
+import { buttonStyle } from "@/utils/functions/buttonStyle";
 import { isEnabled } from "@/utils/functions/isEnabled";
 import { snowflakeArraysFilter } from "@/utils/functions/snowflakeArraysFilter";
 import {
@@ -64,13 +65,13 @@ export async function reactionModuleResponse(
         `toggleReactionModule_${interaction.user.id}_${interaction.guild.id}`
       )
       .setLabel(`Включить/Выключить`)
-      .setStyle(ButtonStyle.Secondary),
+      .setStyle(buttonStyle(reactionSettings.enable)),
     new ButtonBuilder()
       .setCustomId(
         `reactionRefresh_${interaction.user.id}_${interaction.guild.id}`
       )
       .setLabel(`Обновить`)
-      .setStyle(ButtonStyle.Secondary)
+      .setStyle(ButtonStyle.Primary)
   );
   return {
     embeds: [embed],

@@ -1,6 +1,7 @@
 import { SnowflakeColors, SnowflakeLanguage } from "@/enums";
 import { SnowflakeMentionType } from "@/enums/SnowflakeMentionType";
 import { LogModuleModel } from "@/models/LogsModel";
+import { buttonStyle } from "@/utils/functions/buttonStyle";
 import { isEnabled } from "@/utils/functions/isEnabled";
 import { mentionOrNot } from "@/utils/functions/mentions";
 import {
@@ -89,11 +90,11 @@ export async function settingsResponse(
     new ButtonBuilder()
       .setCustomId(`logsToggleModule`)
       .setLabel(`Включить/Выключить`)
-      .setStyle(ButtonStyle.Secondary),
+      .setStyle(buttonStyle(settings.enable)),
     new ButtonBuilder()
       .setCustomId(`logsrefresh`)
       .setLabel("Обновить")
-      .setStyle(ButtonStyle.Secondary)
+      .setStyle(ButtonStyle.Primary)
   );
   const select = new StringSelectMenuBuilder()
     .setCustomId(`logSelect`)

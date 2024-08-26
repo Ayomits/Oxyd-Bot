@@ -13,7 +13,7 @@ export const ReactionModuleSchema = new Schema<ReactionModuleDocument>({
   },
   enable: {
     type: Boolean,
-    default: true,
+    default: false,
   },
   nsfwReactions: {
     type: [],

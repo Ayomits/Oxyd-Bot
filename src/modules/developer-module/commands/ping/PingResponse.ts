@@ -19,7 +19,7 @@ export function pingResponse(
   );
   const refreshButton = new ButtonBuilder()
     .setEmoji("🔃")
-    .setStyle(ButtonStyle.Secondary)
+    .setStyle(ButtonStyle.Primary)
     .setCustomId(`pingRefresh_${interaction.user.id}`);
   const embed = new EmbedBuilder()
     .setColor(SnowflakeColors.DEFAULT)
@@ -36,12 +36,13 @@ export function pingResponse(
         inline: true,
       }
     );
-  Logger.log(`Ws: ${positiveNumber(wsPing)} ms, Msg: ${positiveNumber(msgPing)} ms`);
+  Logger.log(
+    `Ws: ${positiveNumber(wsPing)} ms, Msg: ${positiveNumber(msgPing)} ms`
+  );
   return {
     embeds: [embed],
     components: [
       new ActionRowBuilder<ButtonBuilder>().addComponents(refreshButton),
     ],
   };
-
 }

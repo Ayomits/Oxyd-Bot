@@ -7,6 +7,7 @@ export interface VerificationModuleDocument extends BaseModuleGuildDocument {
   channel: Snowflake;
   embeds: Embed[];
   unverifyRole: Snowflake;
+  giveUnverify: boolean;
 }
 
 export const VerificationModuleSchema = new Schema<VerificationModuleDocument>({

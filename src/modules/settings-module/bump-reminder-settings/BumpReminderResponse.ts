@@ -1,6 +1,7 @@
 import { SnowflakeColors } from "@/enums";
 import { SnowflakeMentionType } from "@/enums/SnowflakeMentionType";
 import { BumpReminderModuleModel } from "@/models/BumpReminderModel";
+import { buttonStyle } from "@/utils/functions/buttonStyle";
 import { isEnabled } from "@/utils/functions/isEnabled";
 import { mentionOrNot } from "@/utils/functions/mentions";
 import { snowflakeArraysFilter } from "@/utils/functions/snowflakeArraysFilter";
@@ -82,7 +83,7 @@ export async function BumpReminderResponse(
   const toggleModule = new ButtonBuilder()
     .setCustomId(`bumpremindertoggler`)
     .setLabel(`Включить/Выключить`)
-    .setStyle(ButtonStyle.Success);
+    .setStyle(buttonStyle(bumpSettings.enable));
   const refreshButton = new ButtonBuilder()
     .setCustomId("bumprefreshbutton")
     .setLabel(`Обновить`)

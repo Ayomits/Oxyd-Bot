@@ -78,7 +78,7 @@ export async function bumpReminderStatusResponse(
     new ButtonBuilder()
       .setCustomId(`bumpreminderstaturefresh_${interaction.user.id}`)
       .setLabel(`Обновить`)
-      .setStyle(ButtonStyle.Secondary)
+      .setStyle(ButtonStyle.Primary)
   );
   return { embeds: [embed], components: [refreshButton] };
 }
@@ -87,8 +87,8 @@ function hasMonitoringOrNot(
   member: GuildMember | null,
   timestamp: Date | null
 ) {
-  if (!member) return bold("Мониторинг не подключен");
-  if (!timestamp) return bold("Не использована ни одна команда мониторинга");
+  if (!member) return bold("```Мониторинг не подключен```");
+  if (!timestamp) return bold("```Не использована ни одна команда мониторинга```");
   return discordTimestampFormat(
     timestamp.getTime() / 1000,
     SnowflakeTimestamp.RELATIVE
