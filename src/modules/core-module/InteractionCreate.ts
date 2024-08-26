@@ -39,15 +39,17 @@ export class InteractionCreate extends BaseEvent {
         ) {
           return;
         }
-        command!.execute(interaction);
-        Logger.log(`${interaction.commandName} successfully launched`);
+        if (command) {
+          command?.execute(interaction);
+          Logger.log(`${interaction.commandName} successfully launched`);
+        }
       }
       if (interaction.isAutocomplete()) {
         const command = interaction.client.commands.get(
           interaction.commandName
         );
         if (!command) return;
-        await command?.autoComplete(interaction);
+        command?.autoComplete(interaction);
         Logger.success(
           `${interaction.commandName} autocomplete successfully launched`
         );
@@ -57,12 +59,10 @@ export class InteractionCreate extends BaseEvent {
         interaction.isAnySelectMenu() ||
         interaction.isModalSubmit()
       ) {
-        const splitedCustomId = interaction.customId.split(
-          /(?<=_\()[^)]*(?=\))|_/
-        );
+        const splitterRegex = /(?<=_\()[^)]*(?=\))|_/;
+        const splitedCustomId = interaction.customId.split(splitterRegex);
         const component = interaction.client.buttons.get(splitedCustomId[0]);
-        if (!component) return;
-        if (component.ttl) {
+        if (component?.ttl) {
           const msgCreated = Math.floor(
             interaction.message.createdTimestamp / 1000
           );
@@ -70,13 +70,13 @@ export class InteractionCreate extends BaseEvent {
           if (now > msgCreated + component.ttl) return;
         }
         if (interaction.isAnySelectMenu()) {
-          const value = interaction.values[0].split("_");
+          const value = interaction.values[0].split(splitterRegex);
           const valueCallback = interaction.client.values.get(value[0]);
           if (valueCallback) {
             try {
-              valueCallback.execute(interaction, value.slice(1));
+              valueCallback.execute.call(this, interaction, value.slice(1));
               Logger.log(
-                `value ${value} launched for select menu ${splitedCustomId[0]}`
+                `value ${value[0]} launched for select menu ${splitedCustomId[0]}`
               );
               return;
             } catch (err) {
@@ -84,8 +84,12 @@ export class InteractionCreate extends BaseEvent {
             }
           }
         }
+        if (!component) return;
         try {
-          component!.execute(interaction, splitedCustomId.slice(1));
+          component!.execute.apply(this, [
+            interaction,
+            splitedCustomId.slice(1),
+          ]);
           Logger.log(
             `${interaction.customId} ${this.componentCalc(
               interaction

@@ -1,7 +1,7 @@
 import BaseComponent from "@/abstractions/BaseComponent";
 import { SomethingWentWrong } from "@/errors/SomethingWentWrong";
 import { ButtonInteraction } from "discord.js";
-import { VerificationResponse } from "../Response";
+import { VerificationResponse } from "../../Response";
 
 export class VerificationSettingsRefresh extends BaseComponent {
   constructor() {

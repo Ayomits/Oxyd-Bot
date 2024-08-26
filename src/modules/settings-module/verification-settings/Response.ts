@@ -49,24 +49,24 @@ export async function VerificationResponse(
           verificationSettings.unverifyRole,
           SnowflakeMentionType.ROLE
         )}`,
-        inline: true,
+        inline: false,
       }
     );
   const selectMenu =
     new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
       new StringSelectMenuBuilder()
-        .setCustomId(`verificationSettings_${interaction.user.id}`)
+        .setCustomId(`verificationSettingsSelect_${interaction.user.id}`)
         .setPlaceholder(`Выберите настройку`)
         .addOptions(
           {
             label: `Канал для верификации`,
-            value: `channel`,
+            value: `setter_channel`,
             emoji: "✅",
             description: `Место куда будет опубликован эмбед и кнопки`,
           },
           {
             label: `Роль неверифицированного участника`,
-            value: `unverifyRole`,
+            value: `setter_unverifyRole`,
             emoji: "🎭",
             description: `Если поставить, тогда при заходе на сервер будет выдана эта роль`,
           },
@@ -90,10 +90,13 @@ export async function VerificationResponse(
       .setLabel("Включить/Выключить")
       .setStyle(buttonStyle(verificationSettings.enable)),
     new ButtonBuilder()
+      .setLabel(`Опубликовать`)
+      .setStyle(ButtonStyle.Secondary)
+      .setCustomId("publishVerificationSettings"),
+    new ButtonBuilder()
       .setCustomId("refreshVerificationSettings")
       .setLabel("Обновить")
-      .setStyle(ButtonStyle.Primary),
-    new ButtonBuilder().setCustomId("publishVerificationSettings")
+      .setStyle(ButtonStyle.Primary)
   );
   return { embeds: [embed], components: [selectMenu, buttonRow] };
 }

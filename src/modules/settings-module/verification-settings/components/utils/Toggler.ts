@@ -13,6 +13,7 @@ export class VerificationModuleToggler extends BaseComponent {
       const existed = await VerificationModuleModel.findOne({
         guildId: interaction.guild.id,
       });
+      await interaction.deferReply({ ephemeral: true });
       interaction.editReply({
         content: `Модуль верификации **успешно** ${isEnabled(
           !existed.enable
