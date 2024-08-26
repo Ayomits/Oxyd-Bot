@@ -27,21 +27,22 @@ export async function verificationRolesResponse(
   let description = "";
   const selectMenu = new StringSelectMenuBuilder()
     .setCustomId(`verificationRolesSelect`)
+    .setPlaceholder(`Выберите нужную опцию`)
     .addOptions(
       new StringSelectMenuOptionBuilder()
         .setLabel(`Создать новую роль`)
+        .setEmoji("➕")
         .setValue(`createnewrole`)
     );
   for (let i = 0; i < verificationRoles.length; i++) {
     const verificationRole = verificationRoles[i];
     const { roleId, displayName, style } = verificationRole;
-    selectMenu
-      .setPlaceholder(`Выберите нужную опцию`)
-      .addOptions(
-        new StringSelectMenuOptionBuilder()
-          .setValue(`update_${roleId}`)
-          .setLabel(displayName)
-      );
+    selectMenu.addOptions(
+      new StringSelectMenuOptionBuilder()
+        .setValue(`update_${roleId}`)
+        .setLabel(displayName)
+        .setEmoji("✏")
+    );
     description += `**${i + 1})** ${roleMention(
       roleId
     )}\n**Отображаемое название:**   ${displayName}\n**Стиль:** ${style}`;
@@ -53,6 +54,10 @@ export async function verificationRolesResponse(
       .setCustomId(`verificationrolesrefresh`)
       .setLabel(`Обновить`)
       .setStyle(ButtonStyle.Primary),
+    new ButtonBuilder()
+      .setCustomId(`verificationrolesdelete`)
+      .setLabel(`Удалить`)
+      .setStyle(ButtonStyle.Danger),
     new ButtonBuilder()
       .setCustomId(`verificationrolesgoback`)
       .setLabel(`Назад`)
