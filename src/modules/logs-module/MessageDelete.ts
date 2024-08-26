@@ -18,7 +18,7 @@ export class MessageDelete extends BaseEvent {
       const settings = await SettingsService.findOne(msg.guild.id);
       if (!settings) return;
       const { messages, enable } = settings;
-      if (!enable) return
+      if (!enable) return;
       const logChannel = (await msg.guild.channels.fetch(messages, {
         cache: true,
       })) as TextChannel;
@@ -44,7 +44,9 @@ export class MessageDelete extends BaseEvent {
           },
           {
             name: `> Содержимое:`,
-            value: `${msg.content.length >= 1 ? msg.content : "None"}`,
+            value: `\`\`\`${
+              msg.content.length >= 1 ? msg.content.replaceAll("`", "") : "None"
+            }\`\`\``,
             inline: false,
           }
         )

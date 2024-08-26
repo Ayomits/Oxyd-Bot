@@ -12,12 +12,7 @@ export default abstract class BaseSelectMenuValue {
     this.value = value;
   }
   public async execute(
-    _interaction:
-      | StringSelectMenuInteraction
-      | RoleSelectMenuInteraction
-      | ChannelSelectMenuInteraction
-      | UserSelectMenuInteraction
-      | AnySelectMenuInteraction,
+    _interaction: StringSelectMenuInteraction,
     _args: string[]
   ): Promise<any> {}
 }

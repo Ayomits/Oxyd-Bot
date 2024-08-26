@@ -23,10 +23,6 @@ export const VerificationModuleSchema = new Schema<VerificationModuleDocument>({
     type: String,
     default: null,
   },
-  roles: {
-    type: [],
-    default: [],
-  },
   channel: {
     type: String,
     default: null,
