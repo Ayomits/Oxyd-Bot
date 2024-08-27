@@ -11,10 +11,10 @@ export class MessageDeleteBulk extends BaseEvent {
   }
 
   async execute(messages: Message[]) {
-    const promises = []
-    for (const message of messages) {
+    const promises = [];
+    messages.map((message) =>
       promises.push(new MessageDelete().execute(message))
-    }
-    return await Promise.all(promises)
+    );
+    return await Promise.all(promises);
   }
 }
