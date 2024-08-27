@@ -1,5 +1,5 @@
 import BaseEvent from "@/abstractions/BaseEvent";
-import SettingsService from "../settings-module/logs-settings/SetupService";
+import SettingsService from "../settings/SetupService";
 import { EmbedBuilder, Events, GuildMember, TextChannel } from "discord.js";
 import { SnowflakeColors } from "@/enums";
 import { discordTimestampFormat } from "@/utils/functions/discordTimestamp";

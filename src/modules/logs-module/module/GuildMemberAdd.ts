@@ -3,7 +3,7 @@ import { EmbedBuilder, Events, GuildMember, TextChannel } from "discord.js";
 import { SnowflakeColors } from "@/enums";
 import { discordTimestampFormat } from "@/utils/functions/discordTimestamp";
 import { SnowflakeTimestamp } from "@/enums/SnowflkeTimestamp";
-import SettingsService from "../settings-module/logs-settings/SetupService";
+import SettingsService from "../settings/SetupService";
 import Logger from "@/utils/system/Logger";
 
 export class GuildMemberAdd extends BaseEvent {

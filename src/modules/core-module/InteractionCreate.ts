@@ -74,7 +74,6 @@ export class InteractionCreate extends BaseEvent {
           const valueCallback = interaction.client.values.get(value[0]);
           if (valueCallback) {
             try {
-              Logger.log(valueCallback);
               valueCallback.execute(interaction, value.slice(1));
               Logger.log(
                 `value ${value[0]} launched for select menu ${splitedCustomId[0]}`
@@ -87,10 +86,7 @@ export class InteractionCreate extends BaseEvent {
         }
         if (!component) return;
         try {
-          component!.execute.apply(this, [
-            interaction,
-            splitedCustomId.slice(1),
-          ]);
+          component!.execute(interaction, splitedCustomId.slice(1));
           Logger.log(
             `${interaction.customId} ${this.componentCalc(
               interaction

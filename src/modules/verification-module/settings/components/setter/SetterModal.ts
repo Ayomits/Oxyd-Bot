@@ -25,7 +25,7 @@ export class VerificationSettingsSetterModal extends BaseComponent {
       const snowflake = interaction.fields.getField("snowflake")
         ?.value as Snowflake | null;
       const snowflakeEntity =
-        field === "channel"
+        field === "channel" || field === "logChannel"
           ? (interaction.guild.channels.cache.get(snowflake) as GuildChannel)
           : (interaction.guild.roles.cache.get(snowflake) as Role);
       const newVerification = await VerificationModuleModel.findOneAndUpdate(
