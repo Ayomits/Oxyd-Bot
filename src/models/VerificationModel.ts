@@ -8,7 +8,7 @@ export interface VerificationModuleDocument extends BaseModuleGuildDocument {
   messages: any[];
   unverifyRole: Snowflake;
   giveUnverify: boolean;
-  logChannel: Snowflake
+  logChannel: Snowflake;
 }
 
 export const VerificationModuleSchema = new Schema<VerificationModuleDocument>({
@@ -35,6 +35,10 @@ export const VerificationModuleSchema = new Schema<VerificationModuleDocument>({
   logChannel: {
     type: String,
     default: null,
+  },
+  giveUnverify: {
+    type: Boolean,
+    default: false,
   },
 });
 

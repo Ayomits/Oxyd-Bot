@@ -65,6 +65,14 @@ export class VerificationRolesPublish extends BaseComponent {
         content: `У Вас **нет** эмбеда верификации. Создайте и установите его с помощью https://discohook.org`,
       });
 
+    const unverifyRole = interaction.guild.roles.cache.get(
+      verificationSettings.unverifyRole
+    );
+    if (!unverifyRole)
+      return interaction.editReply({
+        content: `У вас **не настроена** роль неверифицированного участника`,
+      });
+
     let row;
     if (validVerificationRoles.length > 5) {
       const selectMenu = new StringSelectMenuBuilder()

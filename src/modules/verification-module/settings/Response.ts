@@ -34,8 +34,13 @@ export async function VerificationResponse(
     .setFields(
       {
         name: `> Состояние модуля`,
-        value: `**${isEnabled(verificationSettings.enable)}**`,
+        value: `\`\`\`${isEnabled(verificationSettings.enable)}\`\`\``,
         inline: true,
+      },
+      {
+        name: "> Выдача роли неверифицированного участника при заходе",
+        value: `\`\`\`${isEnabled(verificationSettings.giveUnverify)}\`\`\``,
+        inline: false,
       },
       {
         name: `> Канал верификации`,
@@ -46,13 +51,22 @@ export async function VerificationResponse(
         inline: true,
       },
       {
+        name: `> Канал для логов верификации`,
+        value: `${mentionOrNot(
+          verificationSettings.logChannel,
+          SnowflakeMentionType.CHANNEL
+        )}`,
+        inline: true,
+      },
+      {
         name: `> Роль неверифицированного участника`,
         value: `${mentionOrNot(
           verificationSettings.unverifyRole,
           SnowflakeMentionType.ROLE
         )}`,
-        inline: false,
-      }
+        inline: true,
+      },
+      
     );
   const selectMenu =
     new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
@@ -76,7 +90,7 @@ export async function VerificationResponse(
             label: `Роль неверифицированного участника`,
             value: `setter_unverifyRole`,
             emoji: "🎭",
-            description: `Если поставить, тогда при заходе на сервер будет выдана эта роль`,
+            description: `Роль, которую нужно забирать при верификации и выдавать при заходе на сервер`,
           },
           {
             label: `Управление ролями верификации`,
@@ -94,9 +108,13 @@ export async function VerificationResponse(
     );
   const buttonRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
     new ButtonBuilder()
-      .setCustomId("toggleVerificationModule")
+      .setCustomId("toggleVerificationModule_enable")
       .setLabel("Включить/Выключить")
       .setStyle(buttonStyle(verificationSettings.enable)),
+    new ButtonBuilder()
+      .setCustomId("toggleVerificationModule_giveUnverify")
+      .setLabel("Выдача роли unverify при заходе")
+      .setStyle(buttonStyle(verificationSettings.giveUnverify)),
     new ButtonBuilder()
       .setLabel(`Опубликовать`)
       .setStyle(ButtonStyle.Secondary)

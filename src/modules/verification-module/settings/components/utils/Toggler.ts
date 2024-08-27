@@ -8,19 +8,20 @@ export class VerificationModuleToggler extends BaseComponent {
   constructor() {
     super("toggleVerificationModule", 600);
   }
-  async execute(interaction: ButtonInteraction) {
+  async execute(interaction: ButtonInteraction, args: string[]) {
     try {
+      const field = args[0];
       const existed = await VerificationModuleModel.findOne({
         guildId: interaction.guild.id,
       });
       await interaction.deferReply({ ephemeral: true });
       interaction.editReply({
-        content: `Модуль верификации **успешно** ${isEnabled(
-          !existed.enable
-        ).toLowerCase()}`,
+        content: `Опция была переключена в режим **${isEnabled(
+          !existed[field]
+        ).toLowerCase()}**`,
       });
       await existed.updateOne({
-        enable: !existed.enable,
+        [field]: !existed[field],
       });
     } catch {
       return new SomethingWentWrong(interaction);
