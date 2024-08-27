@@ -45,7 +45,7 @@ export async function verificationRolesResponse(
     );
     description += `**${i + 1})** ${roleMention(
       roleId
-    )}\n**Отображаемое название:**   ${displayName}\n**Стиль:** ${style}`;
+    )}\n**Отображаемое название:**   ${displayName}\n**Стиль:** ${style}\n\n`;
   }
   const selectMenuRow =
     new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(selectMenu);
