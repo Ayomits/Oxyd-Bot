@@ -28,6 +28,6 @@ export const ReactionModuleSchema = new Schema<ReactionModuleDocument>({
 });
 
 export const ReactionModuleModel = model<ReactionModuleDocument>(
-  "reaction_module",
+  "guild_reaction_module",
   ReactionModuleSchema
 );
