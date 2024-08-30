@@ -196,7 +196,7 @@
     "api_name": "kiss",
     "everyone": false,
     "everyoneVerb": "весь сервер",
-    "isApi": true,
+    "isApi": false,
     "memberVerb": "пользователя",
     "verbal": "поцеловал(-а)",
     "type": "love",

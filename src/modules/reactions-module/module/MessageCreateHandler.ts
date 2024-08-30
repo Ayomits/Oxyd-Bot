@@ -69,9 +69,7 @@ export class MessageReactionHandler extends BaseEvent {
       if (pingedUser.bot) {
         embed
           .setThumbnail(msg.author.displayAvatarURL())
-          .setDescription(
-            `Я не хочу!!! Я бот, а не человек!!!`
-          );
+          .setDescription(`Я не хочу!!! Я бот, а не человек!!!`);
       } else if (pingedUser.id === msg.author.id) {
         embed
           .setThumbnail(msg.author.displayAvatarURL())
@@ -100,9 +98,11 @@ export class MessageReactionHandler extends BaseEvent {
       } else {
         embed
           .setDescription(
-            `Пользователь ${userMention(msg.author.id)} ${
-              reactionConfig.verbal
-            } ${reactionConfig.memberVerb}  ${userMention(pingedUser.id)}`
+            `Пользователь ${userMention(
+              msg.author.id
+            )} ${reactionConfig.verbal.toLowerCase()} ${
+              reactionConfig.memberVerb
+            }  ${userMention(pingedUser.id)}`
           )
           .setTimestamp(new Date())
           .setImage(url);
@@ -111,9 +111,11 @@ export class MessageReactionHandler extends BaseEvent {
       if (!reactionConfig.everyone) return;
       embed
         .setDescription(
-          `Пользователь ${userMention(msg.author.id)} ${
-            reactionConfig.verbal
-          } ${reactionConfig.everyoneVerb} `
+          `Пользователь ${userMention(
+            msg.author.id
+          )} ${reactionConfig.verbal.toLowerCase()} ${
+            reactionConfig.everyoneVerb
+          } `
         )
         .setTimestamp(new Date())
         .setImage(url);
@@ -127,7 +129,10 @@ export class MessageReactionHandler extends BaseEvent {
       });
       let isClicked = false;
       collector.once("collect", async (inter) => {
-        if (inter.user.id === pingedUser.id) {
+        if (
+          inter.user.id === pingedUser.id ||
+          global.developers.includes(inter.user.id)
+        ) {
           await inter.deferUpdate();
           if (inter.customId === "reaction_accept") {
             isClicked = true;
@@ -135,11 +140,11 @@ export class MessageReactionHandler extends BaseEvent {
               embeds: [
                 embed
                   .setDescription(
-                    `Пользователь ${userMention(msg.author.id)} ${
-                      reactionConfig.verbal
-                    } ${reactionConfig.memberVerb} ${userMention(
-                      pingedUser.id
-                    )}`
+                    `Пользователь ${userMention(
+                      msg.author.id
+                    )} ${reactionConfig.verbal.toLowerCase()} ${
+                      reactionConfig.memberVerb
+                    } ${userMention(pingedUser.id)}`
                   )
                   .setTimestamp(new Date())
                   .setThumbnail(null)

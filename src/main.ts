@@ -47,7 +47,7 @@ const client = new Client({
 
 global.rootDir = path.resolve(__dirname);
 global.testGuilds = ["1268160506623950868"];
-global.developers = ["1129162686194790572"];
+global.developers = ["1129162686194790572", "1043515070153494538", "1140333208467152916"];
 
 client.commands = new Collection<string, BaseCommand>();
 client.subCommands = new Collection<string, BaseSubCommand>();
