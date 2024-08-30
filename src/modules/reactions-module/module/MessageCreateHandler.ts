@@ -126,45 +126,43 @@ export class MessageReactionHandler extends BaseEvent {
       const collector = reply.createMessageComponentCollector({
         componentType: ComponentType.Button,
         time: 15_000,
+        filter: (inter) =>
+          inter.user.id === pingedUser.id ||
+          global.developers.includes(inter.user.id),
       });
       let isClicked = false;
       collector.once("collect", async (inter) => {
-        if (
-          inter.user.id === pingedUser.id ||
-          global.developers.includes(inter.user.id)
-        ) {
-          await inter.deferUpdate();
-          if (inter.customId === "reaction_accept") {
-            isClicked = true;
-            inter.editReply({
-              embeds: [
-                embed
-                  .setDescription(
-                    `Пользователь ${userMention(
-                      msg.author.id
-                    )} ${reactionConfig.verbal.toLowerCase()} ${
-                      reactionConfig.memberVerb
-                    } ${userMention(pingedUser.id)}`
-                  )
-                  .setTimestamp(new Date())
-                  .setThumbnail(null)
-                  .setImage(url),
-              ],
-              components: [],
-            });
-          } else if (inter.customId === "reaction_decline") {
-            isClicked = true;
-            inter.editReply({
-              embeds: [
-                embed.setDescription(
+        await inter.deferUpdate();
+        if (inter.customId === "reaction_accept") {
+          isClicked = true;
+          inter.editReply({
+            embeds: [
+              embed
+                .setDescription(
                   `Пользователь ${userMention(
-                    pingedUser.id
-                  )} отклонил Вашу реакцию `
-                ),
-              ],
-              components: [],
-            });
-          }
+                    msg.author.id
+                  )} ${reactionConfig.verbal.toLowerCase()} ${
+                    reactionConfig.memberVerb
+                  } ${userMention(pingedUser.id)}`
+                )
+                .setTimestamp(new Date())
+                .setThumbnail(null)
+                .setImage(url),
+            ],
+            components: [],
+          });
+        } else if (inter.customId === "reaction_decline") {
+          isClicked = true;
+          inter.editReply({
+            embeds: [
+              embed.setDescription(
+                `Пользователь ${userMention(
+                  pingedUser.id
+                )} отклонил Вашу реакцию `
+              ),
+            ],
+            components: [],
+          });
         }
       });
       collector.once("end", () => {
