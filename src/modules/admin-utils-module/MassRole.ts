@@ -4,6 +4,7 @@ import SnowflakeParser from "@/utils/parsers/snowflakeParser";
 import {
   CommandInteraction,
   EmbedBuilder,
+  GuildMember,
   Message,
   PermissionFlagsBits,
   Role,
@@ -121,31 +122,39 @@ export class MassRole extends BaseCommand {
     intent: MassRoleIntentType
   ) {
     let giveCount = 0;
-    return await Promise.all([
-      members.map((member) => {
-        giveCount += 1;
-        intent === "add" ? member.roles.add(role) : member.roles.remove(role);
-      }),
-    ])
-      .then(() => {
-        repl.edit({
-          embeds: [
-            embed.setDescription(
-              `Процесс выдачи роли ${role} завершён. Количество ${
-                intent === "add" ? "выданных" : "забранных"
-              } ролей: **${giveCount}**`
-            ),
-          ],
-        });
-      })
-      .catch((err) => {
-        repl.edit({
-          embeds: [
-            embed.setDescription(
-              `Произошла ошибка в момент выдачи ролей...\n${err}`
-            ),
-          ],
-        });
+    const batchSize = 10; 
+    const delay = 500; 
+
+    const memberArray = Array.from(members.values());
+    for (let i = 0; i < memberArray.length; i += batchSize) {
+      const batch = memberArray.slice(i, i + batchSize);
+
+      await Promise.all(
+        batch.map(async (member: GuildMember) => {
+          giveCount += 1;
+          return intent === "add"
+            ? member.roles.add(role).catch(console.error)
+            : member.roles.remove(role).catch(console.error);
+        })
+      );
+
+      await this.sleep(delay); // Задержка между батчами
+    }
+
+    try {
+      repl.edit({
+        embeds: [
+          embed.setDescription(
+            `Процесс ${
+              intent === "add" ? "выдачи" : "забора"
+            } роли ${role} завершён. Количество: **${giveCount}**`
+          ),
+        ],
       });
+    } catch {}
+  }
+
+  private sleep(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 }

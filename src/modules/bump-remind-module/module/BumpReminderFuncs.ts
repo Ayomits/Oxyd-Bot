@@ -1,21 +1,19 @@
-import { Job, scheduledJobs, scheduleJob } from "node-schedule";
-import {
-  Monitoring,
-  MonitoringBots,
-  monitoringDescriptions,
-} from "./MonitoringBots";
+import { Job, scheduleJob } from "node-schedule";
+import { MonitoringBotsObjectType, MonitoringBotsObjs } from "./MonitoringBots";
 import {
   BumpReminderModuleDocument,
   BumpReminderModuleModel,
 } from "@/models/BumpReminderModel";
 import {
+  EmbedBuilder,
   Guild,
   Message,
   roleMention,
   Snowflake,
   TextChannel,
-  userMention,
 } from "discord.js";
+import { SnowflakeColors } from "@/enums";
+import { calculateTimeDifference } from "@/utils/functions/calculateTimeDifference";
 
 export class BumpReminderSchedule {
   private static cache = new Map<string, Job>();
@@ -27,67 +25,63 @@ export class BumpReminderSchedule {
     if (!bumpSettings || !bumpSettings.enable) return;
 
     const { author, embeds, guild } = msg;
-    const embed = embeds[0];
-    const timestamp = new Date(embed.timestamp).getTime();
+    const msgEmbed = embeds[0];
 
-    const botHandlers = {
-      [MonitoringBots.DISCORD_MONITORING]: async () => {
-        if (this.isBad(embed.description, MonitoringBots.DISCORD_MONITORING)) {
-          await this.setNext(bumpSettings, "discordMonitoring", timestamp);
-        } else {
-          await this.setNextAndLast(bumpSettings, "discordMonitoring", timestamp);
-        }
-      },
-      [MonitoringBots.SDC_MONITORING]: async () => {
-        if (this.isSuccess(embed.description, MonitoringBots.SDC_MONITORING)) {
-          const nextTimestamp = Date.now() + 4 * 3600 * 1000;
-          await this.setNextAndLast(bumpSettings, "sdc", nextTimestamp);
-        } else {
-          const match = embed.description.match(/<t:(\d+):/);
-          const nextTimestamp = match ? Number(match[1]) * 1000 : timestamp;
-          await this.setNext(bumpSettings, "sdc", nextTimestamp);
-        }
-      },
-      [MonitoringBots.SERVER_MONITORING]: async () => {
-        const nextTimestamp = this.isSuccess(embed.description, MonitoringBots.SERVER_MONITORING)
-          ? Date.now() + 4 * 3600 * 1000
-          : Date.now() + this.findHHMMSS(embed.description);
-        await this.setNextAndLast(bumpSettings, "serverMonitoring", nextTimestamp);
-      },
-    };
+    const monitoring = MonitoringBotsObjs[author.id];
+    const timestamp = monitoring.timestampFetcher(msg);
 
-    if (botHandlers[author.id]) {
-      await botHandlers[author.id]();
-      this.setSchedule(guild, author.id as Monitoring, timestamp);
+    if (this.isSuccess(msgEmbed.description, monitoring)) {
+      const pingTime = bumpSettings[monitoring.dbKey].next as Date;
+      const difference = calculateTimeDifference(pingTime, new Date());
+
+      const embed = new EmbedBuilder()
+        .setTitle(`Система бамп напоминаний`)
+        .setDescription(
+          `${msg.interaction.user}, спасибо за продвижение нашего сервера на мониторинге ${msg.author} (\`${monitoring.command}\`)!\n` +
+            `С момента последнего бампа прошло: ${difference}.`
+        )
+        .setColor(SnowflakeColors.DEFAULT)
+        .setThumbnail(msg.interaction.user.displayAvatarURL())
+        .setTimestamp(new Date())
+        .setFooter({
+          text: msg.interaction.user.globalName,
+          iconURL: msg.interaction.user.displayAvatarURL(),
+        });
+      return await Promise.all([
+        msg.channel.send({ embeds: [embed] }),
+        this.setNext(bumpSettings, monitoring.dbKey, timestamp),
+        this.setSchedule(guild, monitoring, timestamp),
+      ]);
+    } else {
+      await Promise.all([
+        this.setNext(bumpSettings, monitoring.dbKey, timestamp),
+        this.setSchedule(guild, monitoring, timestamp),
+      ]);
     }
   }
 
   public static setSchedule(
     guild: Guild,
-    monitoring: Monitoring,
+    monitoring: any,
     timestamp: string | number | Date
   ): void {
-    this.cancelExistingJob(guild.id, monitoring);
+    this.cancelExistingJob(guild.id, monitoring?.id || monitoring);
     const date = new Date(timestamp);
-    const job = scheduleJob(date, async () => await this.scheduleFunction(guild, monitoring));
+    const job = scheduleJob(
+      date,
+      async () => await this.scheduleFunction(guild, monitoring)
+    );
     this.cache.set(this.cacheKey(guild.id, monitoring), job);
   }
 
-  public static updateSchedule(
-    guild: Guild,
-    monitoring: Monitoring,
-    timestamp: string | number | Date
-  ): void {
-    this.cancelExistingJob(guild.id, monitoring);
-    this.setSchedule(guild, monitoring, timestamp);
+  public static removeSchedule(guild: Guild, monitoring: any): boolean {
+    return !!this.cancelExistingJob(guild.id, monitoring?.id || monitoring);
   }
 
-  public static removeSchedule(guild: Guild, monitoring: Monitoring): boolean {
-    const job = this.cancelExistingJob(guild.id, monitoring);
-    return !!job;
-  }
-
-  private static cancelExistingJob(guildId: Snowflake, monitoring: Monitoring): Job | undefined {
+  private static cancelExistingJob(
+    guildId: Snowflake,
+    monitoring: MonitoringBotsObjectType
+  ): Job | undefined {
     const key = this.cacheKey(guildId, monitoring);
     const job = this.cache.get(key);
     job?.cancel();
@@ -95,35 +89,34 @@ export class BumpReminderSchedule {
     return job;
   }
 
-  private static cacheKey(guildId: Snowflake, monitoring: Monitoring): string {
-    return `${guildId}_${monitoring}`;
+  private static cacheKey(
+    guildId: Snowflake,
+    monitoring: MonitoringBotsObjectType
+  ): string {
+    return `${guildId}_${monitoring.id}`;
   }
 
-  private static async scheduleFunction(guild: Guild, monitoring: Monitoring) {
-    const bumpSettings = await BumpReminderModuleModel.findOne({ guildId: guild.id });
-    const pingChannel = guild.channels.cache.get(bumpSettings.pingChannelId) as TextChannel;
+  private static async scheduleFunction(
+    guild: Guild,
+    monitoring: MonitoringBotsObjectType
+  ) {
+    const bumpSettings = await BumpReminderModuleModel.findOne({
+      guildId: guild.id,
+    });
+    if (!bumpSettings) return;
+
+    const pingChannel = guild.channels.cache.get(
+      bumpSettings.pingChannelId
+    ) as TextChannel;
     if (!pingChannel) return;
 
     const pingRoles = bumpSettings.pingRoleIds
-      .filter(role => guild.roles.cache.has(role))
+      .filter((role) => guild.roles.cache.has(role))
       .map(roleMention)
       .join(" ");
 
     pingChannel.send({
-      content: `${pingRoles} Monitoring available: ${userMention(monitoring)}`,
-    });
-  }
-
-  private static async setNextAndLast(
-    bumpSettings: BumpReminderModuleDocument,
-    key: keyof BumpReminderModuleDocument,
-    nextTimestamp: Date | number | string
-  ) {
-    await BumpReminderModuleModel.findByIdAndUpdate(bumpSettings._id, {
-      $set: {
-        [`${key}.last`]: new Date(),
-        [`${key}.next`]: new Date(nextTimestamp),
-      },
+      content: `${pingRoles} пора продвигать сервер \`${monitoring.command}\``,
     });
   }
 
@@ -139,16 +132,10 @@ export class BumpReminderSchedule {
     });
   }
 
-  private static isSuccess(description: string, bot: MonitoringBots): boolean {
-    return monitoringDescriptions[bot].success.some(desc => description.includes(desc));
-  }
-
-  private static isBad(description: string, bot: MonitoringBots): boolean {
-    return monitoringDescriptions[bot].bad.some(desc => description.includes(desc));
-  }
-
-  private static findHHMMSS(timeString: string): number {
-    const [hours, minutes, seconds] = timeString.match(/\d{2}/g).map(Number);
-    return (hours * 3600 + minutes * 60 + seconds) * 1000;
+  private static isSuccess(
+    description: string,
+    bot: MonitoringBotsObjectType
+  ): boolean {
+    return bot.success.some((desc) => description.includes(desc));
   }
 }

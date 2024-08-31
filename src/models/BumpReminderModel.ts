@@ -33,30 +33,18 @@ export const BumpReminderModuleSchema = new Schema<BumpReminderModuleDocument>({
     default: false,
   },
   sdc: {
-    last: {
-      type: Date,
-      default: null,
-    },
     next: {
       type: Date,
       default: null,
     },
   },
   discordMonitoring: {
-    last: {
-      type: Date,
-      default: null,
-    },
     next: {
       type: Date,
       default: null,
     },
   },
   serverMonitoring: {
-    last: {
-      type: Date,
-      default: null,
-    },
     next: {
       type: Date,
       default: null,

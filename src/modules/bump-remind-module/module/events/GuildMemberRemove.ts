@@ -1,6 +1,6 @@
 import BaseEvent from "@/abstractions/BaseEvent";
 import { Events, GuildMember } from "discord.js";
-import { MonitoringBots, monitoringsArr } from "../MonitoringBots";
+import { MonitoringBots, MonitoringBotsObjs } from "../MonitoringBots";
 import { isEnum } from "class-validator";
 import { BumpReminderSchedule } from "../BumpReminderFuncs";
 
@@ -13,8 +13,8 @@ export class BumpGuildMemberRemove extends BaseEvent {
   }
 
   public async execute(member: GuildMember) {
-    if (monitoringsArr.includes(member.id)) {
-      BumpReminderSchedule.removeSchedule(member.guild, member.id);
+    if (MonitoringBotsObjs[member.id]) {
+      BumpReminderSchedule.removeSchedule(member.guild, member?.id as string);
     }
   }
 }
