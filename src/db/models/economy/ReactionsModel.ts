@@ -1,5 +1,5 @@
 import { Document, model, Schema } from "mongoose";
-import { BaseModuleGuildDocument } from "./base/GuildDocument";
+import { BaseModuleGuildDocument } from "../../base/GuildDocument";
 
 export interface ReactionModuleDocument extends BaseModuleGuildDocument {
   nsfwReactions: string[];

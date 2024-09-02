@@ -1,5 +1,5 @@
 import BaseComponent from "@/abstractions/BaseComponent";
-import { VerificationModuleModel } from "@/models/VerificationModel";
+import { VerificationModuleModel } from "@/db/models/verification/VerificationModel";
 import {
   ButtonInteraction,
   GuildMember,

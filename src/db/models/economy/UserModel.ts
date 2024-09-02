@@ -1,5 +1,5 @@
 import { Document, model, Schema } from "mongoose";
-import { UserDocument } from "./base/UserDocument";
+import { UserDocument } from "../../base/UserDocument";
 
 // Defining the interface for the EconomyUserDocument
 export interface EconomyUserDocument extends UserDocument {
@@ -7,14 +7,6 @@ export interface EconomyUserDocument extends UserDocument {
   xp: number;
   lvl: number;
   status: string;
-  marry?: {
-    partnerId: string;
-    createdAt: Date;
-    loveroom?: {
-      name: string;
-      voiceActivity: number;
-    };
-  } | null;
 }
 
 // Defining the Mongoose schema for EconomyUserDocument
@@ -42,34 +34,6 @@ export const EconomyUserSchema = new Schema<EconomyUserDocument>({
   status: {
     type: String,
     default: "Не указано",
-  },
-  marry: {
-    type: {
-      partnerId: {
-        type: String,
-        required: true,
-      },
-      createdAt: {
-        type: Date,
-        required: true,
-        default: Date.now,
-      },
-      loveroom: {
-        type: {
-          name: {
-            type: String,
-            required: true,
-          },
-          voiceActivity: {
-            type: Number,
-            required: true,
-            default: 0,
-          },
-        },
-        required: false,
-      },
-    },
-    default: null,
   },
 });
 

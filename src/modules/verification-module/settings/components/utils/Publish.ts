@@ -1,7 +1,7 @@
 import BaseComponent from "@/abstractions/BaseComponent";
 import { SomethingWentWrong } from "@/errors/SomethingWentWrong";
-import { VerificationModuleModel } from "@/models/VerificationModel";
-import { VerificationRoleModel } from "@/models/VerificationRoleModel";
+import { VerificationModuleModel } from "@/db/models/verification/VerificationModel";
+import { VerificationRoleModel } from "@/db/models/verification/VerificationRoleModel";
 import {
   ActionRowBuilder,
   ButtonBuilder,

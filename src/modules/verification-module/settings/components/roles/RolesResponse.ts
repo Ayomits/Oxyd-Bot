@@ -1,6 +1,6 @@
 import { SnowflakeColors } from "@/enums";
 import { SomethingWentWrong } from "@/errors/SomethingWentWrong";
-import { VerificationRoleModel } from "@/models/VerificationRoleModel";
+import { VerificationRoleModel } from "@/db/models/verification/VerificationRoleModel";
 import {
   ActionRowBuilder,
   ButtonBuilder,

@@ -1,6 +1,6 @@
 import BaseComponent from "@/abstractions/BaseComponent";
 import { SomethingWentWrong } from "@/errors/SomethingWentWrong";
-import { BumpReminderModuleModel } from "@/models/BumpReminderModel";
+import { BumpReminderModuleModel } from "@/db/models/bump-reminder/BumpReminderModel";
 import { RoleSelectMenuInteraction } from "discord.js";
 
 export class BumpReminderPingRoles extends BaseComponent {

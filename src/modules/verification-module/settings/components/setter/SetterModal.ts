@@ -4,7 +4,7 @@ import { SomethingWentWrong } from "@/errors/SomethingWentWrong";
 import {
   VerificationModuleDocument,
   VerificationModuleModel,
-} from "@/models/VerificationModel";
+} from "@/db/models/verification/VerificationModel";
 import {
   ChannelType,
   GuildChannel,

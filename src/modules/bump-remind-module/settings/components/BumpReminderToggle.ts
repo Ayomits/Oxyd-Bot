@@ -1,6 +1,6 @@
 import BaseComponent from "@/abstractions/BaseComponent";
 import { SomethingWentWrong } from "@/errors/SomethingWentWrong";
-import { BumpReminderModuleModel } from "@/models/BumpReminderModel";
+import { BumpReminderModuleModel } from "@/db/models/bump-reminder/BumpReminderModel";
 import { isEnabled } from "@/utils/functions/isEnabled";
 import { bold, ButtonInteraction } from "discord.js";
 

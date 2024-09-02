@@ -1,5 +1,5 @@
 import BaseComponent from "@/abstractions/BaseComponent";
-import { VerificationRoleModel } from "@/models/VerificationRoleModel";
+import { VerificationRoleModel } from "@/db/models/verification/VerificationRoleModel";
 import {
   ActionRowBuilder,
   ButtonInteraction,

@@ -1,4 +1,4 @@
-import { BumpReminderModuleModel } from "@/models/BumpReminderModel";
+import { BumpReminderModuleModel } from "@/db/models/bump-reminder/BumpReminderModel";
 import {
   ActionRowBuilder,
   bold,

@@ -1,5 +1,5 @@
 import { ButtonStyle, Snowflake } from "discord.js";
-import { BaseGuildDocument } from "./base/GuildDocument";
+import { BaseGuildDocument } from "../../base/GuildDocument";
 import { model, Schema } from "mongoose";
 
 export interface VerificationRoleDocument extends BaseGuildDocument {

@@ -1,6 +1,6 @@
 import { SnowflakeColors } from "@/enums";
 import { SnowflakeMentionType } from "@/enums/SnowflakeMentionType";
-import { BumpReminderModuleModel } from "@/models/BumpReminderModel";
+import { BumpReminderModuleModel } from "@/db/models/bump-reminder/BumpReminderModel";
 import { buttonStyle } from "@/utils/functions/buttonStyle";
 import { isEnabled } from "@/utils/functions/isEnabled";
 import { mentionOrNot } from "@/utils/functions/mentions";

@@ -1,6 +1,6 @@
 import BaseComponent from "@/abstractions/BaseComponent";
 import { SomethingWentWrong } from "@/errors/SomethingWentWrong";
-import { VerificationModuleModel } from "@/models/VerificationModel";
+import { VerificationModuleModel } from "@/db/models/verification/VerificationModel";
 import { isEnabled } from "@/utils/functions/isEnabled";
 import { ButtonInteraction } from "discord.js";
 

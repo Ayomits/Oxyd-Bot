@@ -1,4 +1,4 @@
-import { BumpReminderModuleDocument } from "@/models/BumpReminderModel";
+import { BumpReminderModuleModel } from "@/db/models/bump-reminder/BumpReminderModel";
 import { Message } from "discord.js";
 import { BumpReminderSchedule } from "./BumpReminderFuncs";
 import { findHHMMSS } from "@/utils/functions/findHHMM";

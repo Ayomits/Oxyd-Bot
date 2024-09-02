@@ -1,6 +1,6 @@
 import BaseSelectMenuValue from "@/abstractions/BaseSelectMenuValue";
 import { SnowflakeVerificationRolesLimit } from "@/enums/SnowflakeVerificationRolesLimit";
-import { VerificationRoleModel } from "@/models/VerificationRoleModel";
+import { VerificationRoleModel } from "@/db/models/verification/VerificationRoleModel";
 import {
   StringSelectMenuInteraction,
   RoleSelectMenuInteraction,

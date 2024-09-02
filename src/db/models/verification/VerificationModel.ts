@@ -1,5 +1,5 @@
 import { Document, model, Schema } from "mongoose";
-import { BaseModuleGuildDocument } from "./base/GuildDocument";
+import { BaseModuleGuildDocument } from "../../base/GuildDocument";
 import { Embed, Snowflake } from "discord.js";
 
 export interface VerificationModuleDocument extends BaseModuleGuildDocument {

@@ -1,9 +1,6 @@
 import { Job, scheduledJobs, scheduleJob } from "node-schedule";
 import { MonitoringBotsObjectType, MonitoringBotsObjs } from "./MonitoringBots";
-import {
-  BumpReminderModuleDocument,
-  BumpReminderModuleModel,
-} from "@/models/BumpReminderModel";
+import { BumpReminderModuleModel, BumpReminderModuleDocument } from "@/db/models/bump-reminder/BumpReminderModel";
 import {
   EmbedBuilder,
   Guild,

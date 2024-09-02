@@ -1,6 +1,6 @@
 import { SnowflakeColors } from "@/enums";
 import { SnowflakeMentionType } from "@/enums/SnowflakeMentionType";
-import { VerificationModuleModel } from "@/models/VerificationModel";
+import { VerificationModuleModel } from "@/db/models/verification/VerificationModel";
 import { buttonStyle } from "@/utils/functions/buttonStyle";
 import { isEnabled } from "@/utils/functions/isEnabled";
 import { mentionOrNot } from "@/utils/functions/mentions";

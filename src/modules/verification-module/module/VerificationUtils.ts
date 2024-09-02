@@ -2,7 +2,7 @@ import { SnowflakeColors } from "@/enums";
 import {
   VerificationModuleDocument,
   VerificationModuleModel,
-} from "@/models/VerificationModel";
+} from "@/db/models/verification/VerificationModel";
 import {
   ButtonInteraction,
   EmbedBuilder,

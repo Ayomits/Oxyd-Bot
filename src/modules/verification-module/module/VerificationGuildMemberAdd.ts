@@ -1,5 +1,5 @@
 import BaseEvent from "@/abstractions/BaseEvent";
-import { VerificationModuleModel } from "@/models/VerificationModel";
+import { VerificationModuleModel } from "@/db/models/verification/VerificationModel";
 import { Events, GuildMember } from "discord.js";
 
 export class VerificationGuildMemberAdd extends BaseEvent {

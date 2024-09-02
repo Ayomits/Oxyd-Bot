@@ -1,6 +1,6 @@
 import BaseComponent from "@/abstractions/BaseComponent";
 import { SomethingWentWrong } from "@/errors/SomethingWentWrong";
-import { BumpReminderModuleModel } from "@/models/BumpReminderModel";
+import { BumpReminderModuleModel } from "@/db/models/bump-reminder/BumpReminderModel";
 import { ChannelSelectMenuInteraction } from "discord.js";
 
 export class BumpReminderPingChannel extends BaseComponent {
