@@ -1,6 +1,9 @@
 import { Job, scheduledJobs, scheduleJob } from "node-schedule";
 import { MonitoringBotsObjectType, MonitoringBotsObjs } from "./MonitoringBots";
-import { BumpReminderModuleModel, BumpReminderModuleDocument } from "@/db/models/bump-reminder/BumpReminderModel";
+import {
+  BumpReminderModuleModel,
+  BumpReminderModuleDocument,
+} from "@/db/models/bump-reminder/BumpReminderModel";
 import {
   EmbedBuilder,
   Guild,
@@ -46,12 +49,12 @@ export class BumpReminderSchedule {
         });
       return await Promise.all([
         msg.channel.send({ embeds: [embed] }),
-        this.setNext(bumpSettings, monitoring.dbKey, timestamp),
+        this.setNext(bumpSettings, monitoring.dbKey as any, timestamp),
         this.setSchedule(guild, monitoring, timestamp),
       ]);
     } else {
       await Promise.all([
-        this.setNext(bumpSettings, monitoring.dbKey, timestamp),
+        this.setNext(bumpSettings, monitoring.dbKey as any, timestamp),
         this.setSchedule(guild, monitoring, timestamp),
       ]);
     }
@@ -100,9 +103,9 @@ export class BumpReminderSchedule {
     const bumpSettings = await BumpReminderModuleModel.findOne({
       guildId: guild.id,
     });
-  
+
     if (!bumpSettings) return;
-    if (!bumpSettings.enable) return
+    if (!bumpSettings.enable) return;
 
     const pingChannel = guild.channels.cache.get(
       bumpSettings.pingChannelId

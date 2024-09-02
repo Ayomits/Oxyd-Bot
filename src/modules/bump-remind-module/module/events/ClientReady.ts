@@ -3,7 +3,7 @@ import {
   BumpReminderModuleDocument,
   BumpReminderModuleModel,
   MonitoringType,
-} from "@/models/BumpReminderModel";
+} from "@/db/models/bump-reminder/BumpReminderModel";
 import { Client, Events, Guild } from "discord.js";
 import moment from "moment-timezone";
 import { BumpReminderSchedule } from "../BumpReminderFuncs";

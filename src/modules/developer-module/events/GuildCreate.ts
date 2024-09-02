@@ -1,5 +1,5 @@
 import BaseEvent from "@/abstractions/BaseEvent";
-import { GuildModel } from "@/models/GuildsModel";
+import { GuildModel } from "@/db/models/guilds/GuildsModel";
 import { Events, Guild } from "discord.js";
 
 export class GuildCreate extends BaseEvent {

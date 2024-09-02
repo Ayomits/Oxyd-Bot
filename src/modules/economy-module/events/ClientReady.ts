@@ -1,12 +1,8 @@
-import BaseCommand from "@/abstractions/BaseCommand";
 import BaseEvent from "@/abstractions/BaseEvent";
-import { SnowflakeType } from "@/enums";
-import { GuildDocument, GuildModel } from "@/models/GuildsModel";
-import { EconomyUserModel } from "@/models/UserModel";
-import configService from "@/utils/system/ConfigService";
-import Logger from "@/utils/system/Logger";
+
+import { EconomyUserModel } from "@/db/models/economy/UserModel";
+
 import { Client, Events, REST, Routes } from "discord.js";
-import mongoose from "mongoose";
 
 export class ReadyEvent extends BaseEvent {
   constructor() {

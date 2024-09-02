@@ -1,4 +1,4 @@
-import { LogModuleModel } from "@/models/LogsModel";
+import { LogModuleModel } from "@/db/models/logging/LogsModel";
 import { Guild, TextChannel } from "discord.js";
 
 export default class SettingsService {

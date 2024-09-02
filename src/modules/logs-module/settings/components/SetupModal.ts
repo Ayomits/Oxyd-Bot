@@ -2,7 +2,8 @@ import BaseComponent from "@/abstractions/BaseComponent";
 import { ChannelType, ModalSubmitInteraction, Snowflake } from "discord.js";
 import { ChannelDoesNotExists } from "@/errors/ChannelDoesNotExists";
 import { ChannelTypeError } from "@/errors/ChannelTypeError";
-import { LogModuleModel } from "@/models/LogsModel";
+import { LogModuleModel } from "@/db/models/logging/LogsModel";
+
 
 export class SettingsModal extends BaseComponent {
   constructor() {

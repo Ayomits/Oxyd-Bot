@@ -1,7 +1,8 @@
 import BaseComponent from "@/abstractions/BaseComponent";
 import { ButtonInteraction } from "discord.js";
 import { reactionModuleResponse } from "../SetupResponse";
-import { ReactionModuleModel } from "@/models/ReactionsModel";
+import { ReactionModuleModel } from "@/db/models/economy/ReactionsModel";
+
 
 export class SetupToggleModule extends BaseComponent {
   constructor() {

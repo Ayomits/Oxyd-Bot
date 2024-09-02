@@ -1,6 +1,6 @@
 import BaseComponent from "@/abstractions/BaseComponent";
+import { LogModuleModel } from "@/db/models/logging/LogsModel";
 import { SomethingWentWrong } from "@/errors/SomethingWentWrong";
-import { LogModuleModel } from "@/models/LogsModel";
 import { ButtonInteraction } from "discord.js";
 
 export class SetupToggleModule extends BaseComponent {

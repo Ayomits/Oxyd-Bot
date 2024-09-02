@@ -3,7 +3,7 @@ import { SnowflakeColors, SnowflakeType } from "@/enums";
 import {
   ReactionModuleDocument,
   ReactionModuleModel,
-} from "@/models/ReactionsModel";
+} from "@/db/models/economy/ReactionsModel";
 import {
   CommandInteraction,
   PermissionFlagsBits,

@@ -1,11 +1,6 @@
 import BaseComponent from "@/abstractions/BaseComponent";
 import {
-  ButtonInteraction,
-  ModalSubmitInteraction,
-  StringSelectMenuInteraction,
-  RoleSelectMenuInteraction,
-  ChannelSelectMenuInteraction,
-  AnySelectMenuInteraction,
+  ButtonInteraction
 } from "discord.js";
 import { settingsResponse } from "../SetupResponse";
 

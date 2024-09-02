@@ -2,7 +2,7 @@ import { SnowflakeColors } from "@/enums";
 import {
   ReactionModuleDocument,
   ReactionModuleModel,
-} from "@/models/ReactionsModel";
+} from "@/db/models/economy/ReactionsModel";
 import { buttonStyle } from "@/utils/functions/buttonStyle";
 import { isEnabled } from "@/utils/functions/isEnabled";
 import { snowflakeArraysFilter } from "@/utils/functions/snowflakeArraysFilter";

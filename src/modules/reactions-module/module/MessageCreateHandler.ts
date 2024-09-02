@@ -1,5 +1,5 @@
 import BaseEvent from "@/abstractions/BaseEvent";
-import { GuildModel } from "@/models/GuildsModel";
+import { GuildModel } from "@/db/models/guilds/GuildsModel";
 import {
   ActionRowBuilder,
   ButtonBuilder,
@@ -17,7 +17,7 @@ import { findReactionByAliases, ReactionConfig } from "./ReactionTypes";
 import axios from "axios";
 import { SnowflakeColors } from "@/enums";
 import { randomValue } from "@/utils/functions/random";
-import { ReactionModuleModel } from "@/models/ReactionsModel";
+import { ReactionModuleModel } from "@/db/models/economy/ReactionsModel";
 
 const API_URL = "https://api.otakugifs.xyz/gif?reaction=";
 

@@ -1,5 +1,3 @@
-import { CommandInteraction, EmbedBuilder, User } from "discord.js";
-
 export type ReactionConfig = {
   action: string;
   api_name: string;

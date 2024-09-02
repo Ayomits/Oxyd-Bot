@@ -1,6 +1,6 @@
+import { LogModuleModel } from "@/db/models/logging/LogsModel";
 import { SnowflakeColors, SnowflakeLanguage } from "@/enums";
 import { SnowflakeMentionType } from "@/enums/SnowflakeMentionType";
-import { LogModuleModel } from "@/models/LogsModel";
 import { buttonStyle } from "@/utils/functions/buttonStyle";
 import { isEnabled } from "@/utils/functions/isEnabled";
 import { mentionOrNot } from "@/utils/functions/mentions";
