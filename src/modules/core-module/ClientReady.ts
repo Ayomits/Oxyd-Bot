@@ -34,13 +34,9 @@ export class ReadyEvent extends BaseEvent {
 
   private async setStatus(client: Client) {
     const status = async () => {
-      let totalMemberCount = 0;
-      for (const guild of client.guilds.cache) {
-        totalMemberCount += (await guild[1].fetch()).memberCount;
-      }
       return client.user.setActivity({
-        type: ActivityType.Playing,
-        name: ` Участников: ${totalMemberCount}. Серверов: ${client.guilds.cache.size}`,
+        type: ActivityType.Watching,
+        name: `за сервером Oxyd`,
       });
     };
     await status();

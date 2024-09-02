@@ -1,4 +1,4 @@
-import { Job, scheduleJob } from "node-schedule";
+import { Job, scheduledJobs, scheduleJob } from "node-schedule";
 import { MonitoringBotsObjectType, MonitoringBotsObjs } from "./MonitoringBots";
 import {
   BumpReminderModuleDocument,
@@ -37,8 +37,8 @@ export class BumpReminderSchedule {
       const embed = new EmbedBuilder()
         .setTitle(`Система бамп напоминаний`)
         .setDescription(
-          `${msg.interaction.user}, спасибо за продвижение нашего сервера на мониторинге ${msg.author} (\`${monitoring.command}\`)!\n` +
-            `С момента последнего бампа прошло: ${difference}.`
+          `${msg.interaction.user}, спасибо за продвижение нашего сервера на мониторинге ${msg.author} (\`${monitoring.command}\`)!\n\n` +
+            `С момента последнего напоминания прошло: ${difference}.`
         )
         .setColor(SnowflakeColors.DEFAULT)
         .setThumbnail(msg.interaction.user.displayAvatarURL())
@@ -103,7 +103,9 @@ export class BumpReminderSchedule {
     const bumpSettings = await BumpReminderModuleModel.findOne({
       guildId: guild.id,
     });
+  
     if (!bumpSettings) return;
+    if (!bumpSettings.enable) return
 
     const pingChannel = guild.channels.cache.get(
       bumpSettings.pingChannelId
@@ -132,7 +134,7 @@ export class BumpReminderSchedule {
     });
   }
 
-  private static isSuccess(
+  static isSuccess(
     description: string,
     bot: MonitoringBotsObjectType
   ): boolean {

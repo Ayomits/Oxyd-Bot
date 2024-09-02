@@ -1,5 +1,7 @@
 import { BumpReminderModuleDocument } from "@/models/BumpReminderModel";
 import { Message } from "discord.js";
+import { BumpReminderSchedule } from "./BumpReminderFuncs";
+import { findHHMMSS } from "@/utils/functions/findHHMM";
 
 export enum MonitoringBots {
   SDC_MONITORING = "464272403766444044",
@@ -9,7 +11,7 @@ export enum MonitoringBots {
 export type Monitoring = string | MonitoringBots;
 
 export type MonitoringBotsObjectType = {
-  id: string
+  id: string;
   bad: string[];
   success: string[];
   command: string;
@@ -28,7 +30,8 @@ export const MonitoringBotsObjs: MonitoringBotsObjsType = {
     success: ["Вы успешно лайкнули сервер", "You successfully"],
     command: "/like",
     timestampFetcher: (msg: Message) => {
-      return "";
+      const timestamp = new Date(msg.embeds[0].timestamp).getTime();
+      return timestamp;
     },
     dbKey: "discordMonitoring",
   },
@@ -38,7 +41,13 @@ export const MonitoringBotsObjs: MonitoringBotsObjsType = {
     success: ["Успешный Up!"],
     command: "/up",
     timestampFetcher: (msg: Message) => {
-      return "";
+      const thisMonitoring = MonitoringBotsObjs[MonitoringBots.SDC_MONITORING]
+      const isSuccess = BumpReminderSchedule.isSuccess(msg.embeds[0].description, thisMonitoring)
+      const timestamp = new Date().getTime() + 4 * 1000 * 3600;
+      const match = msg.embeds[0].description.match(/<t:(\d+):/);
+      const nextTimestamp = match && !isSuccess ? Number(match[1]) * 1000 : timestamp;
+      console.log(nextTimestamp);
+      return new Date(nextTimestamp);
     },
     dbKey: "sdc",
   },
@@ -48,7 +57,8 @@ export const MonitoringBotsObjs: MonitoringBotsObjsType = {
     success: ["Server bumped by"],
     command: "/bump",
     timestampFetcher: (msg: Message) => {
-      return "";
+      const timestamp = findHHMMSS(msg.embeds[0].description);
+      return timestamp ? timestamp : new Date().getTime() + 4 * 1000 * 3600;
     },
     dbKey: "serverMonitoring",
   },
