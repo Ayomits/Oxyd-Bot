@@ -177,6 +177,28 @@
     "aliases": ["щекотать", "тикл", "тикле"],
     "cost": 10
   },
+  "scared": {
+    "action": "Испуг",
+    "api_name": "scared",
+    "everyone": true,
+    "isApi": true,
+    "everyoneVerb": "",
+    "memberVerb": "пользователя",
+    "verbal": "испугался",
+    "type": "emotion",
+    "isAcceptable": false,
+    "nsfw": false,
+    "aliases": [
+      "пугаться",
+      "скаред",
+      "испуг",
+      "боюсь",
+      "страшна",
+      "страшно",
+      "fear",
+      "страх"
+    ]
+  },
   "hug": {
     "action": "Обнять",
     "api_name": "hug",
@@ -248,6 +270,46 @@
     "aliases": ["люблю", "любовь"],
     "cost": 15
   },
+  "massage": {
+    "action": "Сделать массаж",
+    "api_name": "massage",
+    "everyone": false,
+    "isApi": false,
+    "verbal": "сделал массаж",
+    "memberVerb": "пользователю",
+    "isAcceptable": true,
+    "nsfw": false,
+    "aliases": ["массаж", "масаж", "масаге"],
+    "message": "хочет сделать тебе массаж",
+    "cost": 15
+  },
+  "underpants": {
+    "action": "Показать трусики",
+    "api_name": "underpants",
+    "everyone": true,
+    "isApi": false,
+    "verbal": "показал трусики",
+    "everyoneVerb": "всему серверу",
+    "memberVerb": "пользователю",
+    "type": "action",
+    "isAcceptable": false,
+    "nsfw": false,
+    "aliases": ["трусики", "трусы"],
+    "cost": 15
+  },
+  "admire": {
+    "action": "Любоваться",
+    "api_name": "admire",
+    "everyone": true,
+    "isApi": false,
+    "verbal": "любуется прекрасным",
+    "everyoneVerb": "",
+    "memberVerb": "пользователем",
+    "aliases": ["адмир", "любоваться", "любоваца", "любоватся"],
+    "isAcceptable": false,
+    "nsfw": false,
+    "cost": 15
+  },
   "pat": {
     "action": "Погладить",
     "api_name": "pat",
@@ -256,7 +318,7 @@
     "isApi": true,
     "memberVerb": "пользователя",
     "verbal": "погладил(-а)",
-    "type": "love",
+    "type": "action",
     "isAcceptable": false,
     "nsfw": false,
     "aliases": ["гладить", "поглаживание", "погладить"],
@@ -265,7 +327,7 @@
   "sad": {
     "action": "Грустить",
     "api_name": "sad",
-    "aliases": ["грусть", "грустно", "тильт"],
+    "aliases": ["грусть", "грустить", "грустно", "тильт"],
     "everyone": true,
     "everyoneVerb": "",
     "isApi": true,
@@ -291,7 +353,7 @@
     "cost": 10
   },
   "sleep": {
-    "action": "Поспать",
+    "action": "Спать",
     "api_name": "sleep",
     "aliases": ["сон", "уснуть", "спать"],
     "message": "хочет спать с тобой",
@@ -308,7 +370,7 @@
   "smile": {
     "action": "Улыбаться",
     "api_name": "smile",
-    "aliases": ["улыбка", "улыбнуться"],
+    "aliases": ["улыбка", "улыбнуться", "смайл"],
     "everyone": true,
     "everyoneVerb": "всему серверу",
     "isApi": true,
@@ -322,7 +384,7 @@
   "smoke": {
     "action": "Курить",
     "api_name": "smoke",
-    "aliases": ["курение", "курить", "смоке"],
+    "aliases": ["курить", "смоке"],
     "everyone": true,
     "everyoneVerb": "",
     "isApi": false,
@@ -364,7 +426,7 @@
   "squeeze": {
     "action": "Тискать",
     "api_name": "squeeze",
-    "aliases": ["тискать"],
+    "aliases": ["тискать", "санечкадавн"],
     "everyone": false,
     "isApi": false,
     "memberVerb": "пользователя",
@@ -377,7 +439,7 @@
   "cheek": {
     "action": "Поцеловать в щечку",
     "api_name": "cheek",
-    "aliases": ["поцелуй", "поцеловать"],
+    "aliases": ["щечка", "чик"],
     "everyone": false,
     "everyoneVerb": "",
     "isApi": false,
@@ -387,7 +449,7 @@
     "isAcceptable": true,
     "nsfw": false,
     "cost": 15,
-    "message":"хочет поцеловать тебя в щечку"
+    "message": "хочет поцеловать тебя в щечку"
   },
   "bonk": {
     "action": "Ударить по голове",
@@ -432,7 +494,7 @@
     "cost": 5
   },
   "poke": {
-    "action": "тыкать",
+    "action": "Тыкать",
     "api_name": "poke",
     "aliases": ["тык", "тыкнуть"],
     "everyone": true,
@@ -446,7 +508,7 @@
     "cost": 5
   },
   "feed": {
-    "action": "кормить",
+    "action": "Кормить",
     "api_name": "feed",
     "aliases": ["кормить", "есть", "eat"],
     "everyone": true,

@@ -89,7 +89,7 @@ export class ReactionHelpCommand extends BaseCommand {
       };
 
       Object.values(reactions).forEach((reaction) => {
-        categories[reaction.type].push(reaction as any);
+        categories[(reaction as any).type].push(reaction as any);
       });
 
       Object.keys(categories).forEach((category) => {
