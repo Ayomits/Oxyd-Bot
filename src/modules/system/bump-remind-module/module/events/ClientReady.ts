@@ -51,6 +51,8 @@ export class BumpClientReady extends BaseEvent {
   ) {
     const now = Date.now();
     const GMTTime = moment(dbMonitoring.next).tz("Europe/Moscow");
+    const hasMonitoring = guild.members.cache.get(monitoring)
+    if (!hasMonitoring) return
     if (GMTTime.isAfter(now)) {
       BumpReminderSchedule.setSchedule(
         guild,

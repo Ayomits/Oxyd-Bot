@@ -88,8 +88,8 @@ export class ReactionHelpCommand extends BaseCommand {
         emotion: [],
       };
 
-      Object.values(reactions).forEach((reaction) => {
-        categories[(reaction as any).type].push(reaction as any);
+      Object.values(reactions).forEach((reaction: ReactionConfig) => {
+        categories[reaction.type].push(reaction as any);
       });
 
       Object.keys(categories).forEach((category) => {

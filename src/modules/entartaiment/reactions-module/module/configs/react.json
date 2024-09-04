@@ -281,7 +281,8 @@
     "nsfw": false,
     "aliases": ["массаж", "масаж", "масаге"],
     "message": "хочет сделать тебе массаж",
-    "cost": 15
+    "cost": 15,
+    "type": "love"
   },
   "underpants": {
     "action": "Показать трусики",
@@ -308,7 +309,8 @@
     "aliases": ["адмир", "любоваться", "любоваца", "любоватся"],
     "isAcceptable": false,
     "nsfw": false,
-    "cost": 15
+    "cost": 15,
+    "type": "action"
   },
   "pat": {
     "action": "Погладить",
