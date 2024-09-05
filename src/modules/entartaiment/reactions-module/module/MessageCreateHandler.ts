@@ -40,7 +40,7 @@ export class MessageReactionHandler extends BaseEvent {
     if (!reactionModule.enable) return;
     if (!msg.content.startsWith(guild.prefix)) return;
     const content = msg.content.split(" ");
-    const reactionCommand = content[0].slice(1);
+    const reactionCommand = content[0].slice(1).toLowerCase();
     const reactionKey = reactions[reactionCommand]
       ? reactionCommand
       : findReactionByAliases(reactionCommand, reactions as any);

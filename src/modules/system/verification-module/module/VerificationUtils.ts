@@ -13,6 +13,7 @@ import {
   StringSelectMenuInteraction,
   TextChannel,
 } from "discord.js";
+import { VerificationRoleModel } from "@/db/models/verification/VerificationRoleModel";
 
 export async function verifyUser(
   interaction: ButtonInteraction | StringSelectMenuInteraction,
@@ -28,9 +29,16 @@ export async function verifyUser(
   const verificationSettings = await VerificationModuleModel.findOne({
     guildId: guild.id,
   });
+  const verificationRoles = (
+    await VerificationRoleModel.find({ guildId: interaction.guild.id })
+  )
+    .filter((role) => interaction.guild.roles.cache.get(role.roleId))
+    .map((role) => role.roleId);
   const unverifyRole = guild.roles.cache.get(
     verificationSettings!.unverifyRole
   );
+  if (member.roles.cache.some((role) => verificationRoles.includes(role.id)))
+    return interaction.editReply({ content: `Вы **уже** верифицированы` });
   await Promise.all([
     interaction.editReply({
       content: `Поздравляю! Вы взяли роль ${roleMention(roleId)}`,
