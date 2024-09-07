@@ -3,6 +3,8 @@ import { SomethingWentWrong } from "@/errors/SomethingWentWrong";
 import { BumpReminderModuleModel } from "@/db/models/bump-reminder/BumpReminderModel";
 import { isEnabled } from "@/utils/functions/isEnabled";
 import { bold, ButtonInteraction } from "discord.js";
+import { BumpReminderSchedule } from "../../module/BumpReminderFuncs";
+import { MonitoringBots } from "../../module/MonitoringBots";
 
 export class BumpReminderToggler extends BaseComponent {
   constructor() {
@@ -22,6 +24,11 @@ export class BumpReminderToggler extends BaseComponent {
         },
         { new: true }
       );
+      try {
+        if (!bumpReminder.enable === false) {
+          BumpReminderSchedule.removeAll(interaction.guild);
+        }
+      } catch {}
       return interaction.editReply({
         content: `Успешно ${bold(
           isEnabled(newBumpReminder.enable).toLowerCase()

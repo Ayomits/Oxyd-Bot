@@ -1,5 +1,9 @@
 import { Job, scheduledJobs, scheduleJob } from "node-schedule";
-import { MonitoringBotsObjectType, MonitoringBotsObjs } from "./MonitoringBots";
+import {
+  MonitoringBots,
+  MonitoringBotsObjectType,
+  MonitoringBotsObjs,
+} from "./MonitoringBots";
 import {
   BumpReminderModuleModel,
   BumpReminderModuleDocument,
@@ -58,6 +62,12 @@ export class BumpReminderSchedule {
         this.setSchedule(guild, monitoring, timestamp),
       ]);
     }
+  }
+
+  public static removeAll(guild: Guild) {
+    this.removeSchedule(guild, MonitoringBots.DISCORD_MONITORING);
+    this.removeSchedule(guild, MonitoringBots.SDC_MONITORING);
+    this.removeSchedule(guild, MonitoringBots.SERVER_MONITORING);
   }
 
   public static setSchedule(
