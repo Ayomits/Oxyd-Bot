@@ -9,6 +9,7 @@ import {
   Events,
   Message,
   TextChannel,
+  User,
   userMention,
 } from "discord.js";
 import reactions from "./configs/react.json";
@@ -18,7 +19,12 @@ import axios from "axios";
 import { SnowflakeColors } from "@/enums";
 import { randomValue } from "@/utils/functions/random";
 import { ReactionModuleModel } from "@/db/models/economy/ReactionsModel";
-import { MarryModel } from "@/db/models/economy/MaryModel";
+import { MarryDocument, MarryModel } from "@/db/models/economy/MaryModel";
+import {
+  marryFormula,
+  MarryLimits,
+  ReactionsXp,
+} from "../../marry-module/module/configs";
 
 const API_URL = "https://api.otakugifs.xyz/gif?reaction=";
 
@@ -66,7 +72,8 @@ export class MessageReactionHandler extends BaseEvent {
       .setFooter({
         iconURL: msg.author.displayAvatarURL(),
         text: msg.author.username,
-      });
+      })
+      .setTimestamp(new Date());
 
     const pingedUser = msg.mentions.users.first();
     if (pingedUser) {
@@ -80,17 +87,19 @@ export class MessageReactionHandler extends BaseEvent {
       const isMarried = marriage && marriage.type >= 1;
 
       if (pingedUser.bot) {
-        embed.setDescription(`Я не хочу!!! Я бот, а не человек!!!`);
+        embed.setDescription(`Я не хочу! Я бот, а не человек!`);
       } else if (pingedUser.id === msg.author.id) {
         embed.setDescription(
           `Мне кажется, что вам стоит найти кого-то другого!`
         );
       } else if (reactionConfig.isAcceptable && !isMarried) {
-        embed.setDescription(
-          `Эй, ${userMention(pingedUser.id)}, пользователь ${userMention(
-            msg.author.id
-          )} ${reactionConfig.message}. Что скажешь?`
-        );
+        embed
+          .setThumbnail(msg.author.displayAvatarURL())
+          .setDescription(
+            `Эй, ${userMention(pingedUser.id)}, пользователь ${userMention(
+              msg.author.id
+            )} ${reactionConfig.message}. Что скажешь?`
+          );
         const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
           new ButtonBuilder()
             .setCustomId(`reaction_accept`)
@@ -107,7 +116,8 @@ export class MessageReactionHandler extends BaseEvent {
           row,
           pingedUser,
           reactionConfig,
-          url
+          url,
+          marriage
         );
       } else {
         embed
@@ -120,6 +130,7 @@ export class MessageReactionHandler extends BaseEvent {
           )
           .setImage(url);
         await msg.reply({ embeds: [embed] });
+        await this.xpAdder(reactionConfig, marriage);
       }
     } else if (reactionConfig.everyone) {
       embed
@@ -139,9 +150,10 @@ export class MessageReactionHandler extends BaseEvent {
     msg: Message,
     embed: EmbedBuilder,
     row: ActionRowBuilder<ButtonBuilder>,
-    pingedUser,
+    pingedUser: User,
     reactionConfig: ReactionConfig,
-    url: string
+    url: string,
+    marriage?: MarryDocument
   ) {
     const reply = await msg.reply({ embeds: [embed], components: [row] });
 
@@ -157,9 +169,15 @@ export class MessageReactionHandler extends BaseEvent {
       await inter.deferUpdate();
       const accepted = inter.customId === "reaction_accept";
       isClicked = true;
+      console.log(marriage, accepted);
+      if (accepted && marriage) {
+        console.log(`here`);
+        await this.xpAdder(reactionConfig, marriage);
+      }
       reply.edit({
         embeds: [
           embed
+            .setThumbnail(accepted ? null : msg.author.displayAvatarURL())
             .setDescription(
               accepted
                 ? `Пользователь ${userMention(
@@ -190,5 +208,25 @@ export class MessageReactionHandler extends BaseEvent {
         components: [],
       });
     });
+  }
+  private async xpAdder(reactionConfig: ReactionConfig, marriage: any) {
+    if (marriage && reactionConfig.type === "love") {
+      const xp = ReactionsXp[reactionConfig.api_name];
+      const query: any = {
+        $inc: {
+          xp: xp,
+        },
+      };
+      const formula = marryFormula(marriage.lvl);
+      if (marriage.xp + xp >= formula && marriage.lvl < MarryLimits.LVL_LIMIT) {
+        query.$inc = {
+          lvl: 1,
+        };
+        query.$set = {
+          xp: 0,
+        };
+      }
+      await marriage.updateOne(query);
+    }
   }
 }

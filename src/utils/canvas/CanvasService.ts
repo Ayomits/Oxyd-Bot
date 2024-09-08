@@ -11,6 +11,8 @@ import {
   FontsType,
 } from "./CanvasTypes";
 import Logger from "../system/Logger";
+// Types remain unchanged
+// ...
 
 export class CanvasService {
   private imageCache: Map<string, any>;
@@ -18,21 +20,20 @@ export class CanvasService {
   constructor() {
     this.imageCache = new Map();
   }
-
+  
   async generate(options: CanvasOptionsType) {
+
     const canvas = createCanvas(options.width, options.height);
     const ctx = canvas.getContext("2d");
     const ctx2 = canvas.getContext("2d");
     const ctx3 = canvas.getContext("2d");
     ctx.textAlign = "center";
     this.registerFonts(options.requiredFonts);
-
     await Promise.all([
       this.setupContext(ctx, options),
       await this.loadAndDrawBackground(ctx2, options.background),
       await this.processElements(ctx3, options.elements),
     ]);
-    Logger.success(`Image successfully generated`);
     return canvas.toBuffer("image/png");
   }
   private registerFonts(requiredFonts: FontsType[]) {
@@ -44,6 +45,7 @@ export class CanvasService {
           `Failed to register font: ${font.fontName} from ${font.path}`,
           error
         );
+        throw error;
       }
     });
   }
@@ -122,7 +124,10 @@ export class CanvasService {
         );
       }
     } catch (error) {
-      Logger.error(`Failed to load avatar image from ${data.image.url}`, error);
+      Logger.error(
+        `Failed to load avatar image from ${data.image.url}`,
+        error
+      );
       throw error;
     }
   }
@@ -133,7 +138,7 @@ export class CanvasService {
   ) {
     if (!data.text) return;
 
-    ctx.save();
+    ctx.save(); // Save the context state before applying text-specific settings
 
     if (data.text.font) {
       ctx.font = data.text.font;
@@ -165,18 +170,20 @@ export class CanvasService {
     data: CanvasOptionsMetaDataType
   ) {
     if (!data.progressBar) return;
-
-    const { width, height, radius, color } = data.progressBar!;
-    const { x, y } = data;
-    ctx.beginPath();
-    ctx.moveTo(x + radius, y);
-    ctx.arcTo(x + width, y, x + width, y + height, radius);
-    ctx.arcTo(x + width, y + height, x, y + height, radius);
-    ctx.arcTo(x, y + height, x, y, radius);
-    ctx.arcTo(x, y, x + width, y, radius);
-    ctx.closePath();
-    ctx.fillStyle = color;
-    ctx.fill();
+    ctx.fillStyle = data.progressBar.color;
+    ctx.fillRect(
+      data.x,
+      data.y,
+      data.progressBar.width,
+      data.progressBar.height
+    );
+    ctx.arcTo(
+      data.x,
+      data.y + data.progressBar.height - 50,
+      50,
+      Math.PI * 2,
+      Math.PI
+    );
   }
 
   private roundImage(

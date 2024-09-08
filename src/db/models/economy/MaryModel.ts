@@ -38,7 +38,7 @@ export const MarrySchema = new Schema<MarryDocument>({
   type: {
     type: Number,
     enum: [MarryType.LOVE, MarryType.MARRIAGE, MarryType.FRIENDS],
-    default: MarryType.LOVE,
+    default: MarryType.FRIENDS,
   },
   lvl: {
     type: Number,

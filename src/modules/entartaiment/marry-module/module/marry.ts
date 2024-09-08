@@ -81,6 +81,7 @@ export class MarryCommand extends BaseCommand {
         .setStyle(ButtonStyle.Danger)
     );
     const repl = await interaction.reply({
+      content: userMention(user.id),
       components: [buttons],
       embeds: [embed],
     });

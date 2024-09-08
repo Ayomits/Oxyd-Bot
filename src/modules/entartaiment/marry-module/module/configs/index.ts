@@ -1,12 +1,12 @@
 export const ReactionsXp = {
-  love: 10,
-  kiss: 10,
-  airKiss: 5,
+  love: 5,
+  kiss: 5,
+  airKiss: 3,
   hug: 5,
-  lick: 5,
-  massage: 4,
+  lick: 3,
+  massage: 3,
   cheek: 4,
-  handhold: 5,
+  handhold: 4,
 };
 
 export enum MarryLimits {
@@ -26,5 +26,5 @@ export enum MarryRequiredLvls {
 }
 
 export const marryFormula = (lvl: number) => {
-  return lvl * 100;
+  return lvl * 150;
 };
