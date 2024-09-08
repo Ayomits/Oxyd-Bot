@@ -26,6 +26,7 @@ export class BumpClientReady extends BaseEvent {
     for (const bumpSetting of bumpSettings) {
       const { sdc, discordMonitoring, serverMonitoring } = bumpSetting;
       const guild = client.guilds.cache.get(bumpSetting.guildId);
+      if (!bumpSetting.enable) continue;
       if (!guild) continue;
 
       await Promise.all([
@@ -33,12 +34,12 @@ export class BumpClientReady extends BaseEvent {
         this.checkTime(
           guild,
           MonitoringBots.DISCORD_MONITORING,
-          discordMonitoring,
+          discordMonitoring
         ),
         this.checkTime(
           guild,
           MonitoringBots.SERVER_MONITORING,
-          serverMonitoring,
+          serverMonitoring
         ),
       ]);
     }
@@ -47,18 +48,14 @@ export class BumpClientReady extends BaseEvent {
   private checkTime(
     guild: Guild,
     monitoring: Monitoring,
-    dbMonitoring: MonitoringType,
+    dbMonitoring: MonitoringType
   ) {
     const now = Date.now();
     const GMTTime = moment(dbMonitoring.next).tz("Europe/Moscow");
-    const hasMonitoring = guild.members.cache.get(monitoring)
-    if (!hasMonitoring) return
+    const hasMonitoring = guild.members.cache.get(monitoring);
+    if (!hasMonitoring) return;
     if (GMTTime.isAfter(now)) {
-      BumpReminderSchedule.setSchedule(
-        guild,
-        monitoring,
-        GMTTime.toDate(),
-      );
+      BumpReminderSchedule.setSchedule(guild, monitoring, GMTTime.toDate());
     }
   }
 }

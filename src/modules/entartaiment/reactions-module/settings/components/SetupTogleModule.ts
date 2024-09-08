@@ -3,7 +3,6 @@ import { ButtonInteraction } from "discord.js";
 import { reactionModuleResponse } from "../SetupResponse";
 import { ReactionModuleModel } from "@/db/models/economy/ReactionsModel";
 
-
 export class SetupToggleModule extends BaseComponent {
   constructor() {
     super("toggleReactionModule", 600);
@@ -27,7 +26,9 @@ export class SetupToggleModule extends BaseComponent {
           guildId: interaction.guild.id,
         },
         {
-          enable: !enable,
+          $set: {
+            enable: enable ? !enable : true,
+          },
         }
       );
     } catch {

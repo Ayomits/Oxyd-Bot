@@ -25,8 +25,10 @@ export class SetupToggleModule extends BaseComponent {
           guildId: interaction.guild.id,
         },
         {
-          enable: !enable,
-        }
+          $set: {
+            enable: enable ? !enable : true,
+          },
+        },
       );
     } catch {
       return new SomethingWentWrong(interaction);

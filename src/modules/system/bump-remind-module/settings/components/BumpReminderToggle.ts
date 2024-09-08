@@ -17,10 +17,13 @@ export class BumpReminderToggler extends BaseComponent {
       const bumpReminder = await BumpReminderModuleModel.findOne({
         guildId: interaction.guild.id,
       });
+      const { enable } = bumpReminder;
       const newBumpReminder = await BumpReminderModuleModel.findOneAndUpdate(
         bumpReminder._id,
         {
-          enable: !bumpReminder.enable,
+          $set: {
+            enable: enable ? !enable : true,
+          },
         },
         { new: true }
       );

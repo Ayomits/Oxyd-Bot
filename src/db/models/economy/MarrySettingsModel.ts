@@ -1,12 +1,10 @@
 import { BaseModuleGuildDocument } from "@/db/base/GuildDocument";
 import { Snowflake } from "discord.js";
-import { Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 
 export interface MarrySettingsDocument extends BaseModuleGuildDocument {
   loveroomCategory: Snowflake;
   marryRole: Snowflake;
-  loveroomAccess: number;
-  maxLvl: number;
 }
 
 export const MarrySettingsSchema = new Schema<MarrySettingsDocument>({
@@ -16,10 +14,19 @@ export const MarrySettingsSchema = new Schema<MarrySettingsDocument>({
   },
   marryRole: {
     type: String,
-    required: true,
+    default: null,
   },
-  loveroomAccess: {
-    type: Number,
-    default: 5,
+  loveroomCategory: {
+    type: String,
+    default: null,
+  },
+  enable: {
+    type: Boolean,
+    default: false,
   },
 });
+
+export const MarrySettingsModel = model<MarrySettingsDocument>(
+  "guild_marry_settings",
+  MarrySettingsSchema
+);

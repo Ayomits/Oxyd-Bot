@@ -21,7 +21,9 @@ export class VerificationModuleToggler extends BaseComponent {
         ).toLowerCase()}**`,
       });
       await existed.updateOne({
-        [field]: !existed[field],
+        $set: {
+          [field]: existed[field] ? !existed[field] : true,
+        },
       });
     } catch {
       return new SomethingWentWrong(interaction);
