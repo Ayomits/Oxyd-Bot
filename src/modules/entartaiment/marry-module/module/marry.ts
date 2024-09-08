@@ -31,7 +31,11 @@ export class MarryCommand extends BaseCommand {
 
   async execute(interaction: CommandInteraction) {
     const user = interaction.options.get("user").user;
-    if (user.bot && !global.developers.includes(interaction.user.id)) return;
+    if (user.bot && !global.developers.includes(interaction.user.id))
+      return interaction.reply({
+        content: `Невозможно вступить в брак с ботом`,
+        ephemeral: true,
+      });
     const existedMarry = await MarryModel.findOne({
       guildId: interaction.guild.id,
       $or: [
@@ -55,7 +59,7 @@ export class MarryCommand extends BaseCommand {
         ephemeral: true,
       });
     const embed = new EmbedBuilder()
-      .setTitle(`Заключение отношений`)
+      .setTitle(`Вступление в отношения`)
       .setColor(SnowflakeColors.DEFAULT)
       .setTimestamp(new Date())
       .setThumbnail(interaction.user.displayAvatarURL())

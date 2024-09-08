@@ -6,22 +6,23 @@ export const ReactionsXp = {
   lick: 5,
   massage: 4,
   cheek: 4,
+  handhold: 5,
 };
 
 export enum MarryLimits {
   LVL_LIMIT = 10,
 }
 
-export enum MarryRequiredLvls {
-  FRIEND = 1,
-  LOVE = 4,
-  MARRY = 9
-}
-
 export enum MarryType {
   FRIENDS = 0,
   LOVE = 1,
   MARRIAGE = 2,
+}
+
+export enum MarryRequiredLvls {
+  FRIEND = 1,
+  LOVE = 4,
+  MARRY = 9,
 }
 
 export const marryFormula = (lvl: number) => {
