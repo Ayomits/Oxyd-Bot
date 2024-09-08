@@ -1,23 +1,11 @@
 import { model, Schema } from "mongoose";
 import { BaseGuildDocument } from "../../base/GuildDocument";
+import { MarryType } from "@/modules/entartaiment/marry-module/module/configs";
 
 export interface LoveRoomDocument {
   name: string;
   activity: number;
   createdAt: Date;
-}
-
-export enum MarryType {
-  LOVE = 1,
-  MARRIAGE = 2,
-}
-
-export enum MarryLimits {
-  LVL_LIMIT = 10,
-}
-
-export const xpFormula = (lvl: number) => {
-  return lvl * 100; // Пример формулы XP: 100 XP на уровень
 }
 
 export interface MarryDocument extends BaseGuildDocument {
@@ -49,7 +37,7 @@ export const MarrySchema = new Schema<MarryDocument>({
   },
   type: {
     type: Number,
-    enum: [MarryType.LOVE, MarryType.MARRIAGE],
+    enum: [MarryType.LOVE, MarryType.MARRIAGE, MarryType.FRIENDS],
     default: MarryType.LOVE,
   },
   lvl: {
