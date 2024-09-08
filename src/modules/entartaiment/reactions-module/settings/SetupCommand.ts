@@ -1,9 +1,5 @@
 import BaseCommand from "@/abstractions/BaseCommand";
-import { SnowflakeColors, SnowflakeType } from "@/enums";
-import {
-  ReactionModuleDocument,
-  ReactionModuleModel,
-} from "@/db/models/economy/ReactionsModel";
+import { SnowflakeType } from "@/enums";
 import {
   CommandInteraction,
   PermissionFlagsBits,

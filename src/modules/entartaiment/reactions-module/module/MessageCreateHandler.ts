@@ -18,6 +18,7 @@ import axios from "axios";
 import { SnowflakeColors } from "@/enums";
 import { randomValue } from "@/utils/functions/random";
 import { ReactionModuleModel } from "@/db/models/economy/ReactionsModel";
+import { MarryModel } from "@/db/models/economy/MaryModel";
 
 const API_URL = "https://api.otakugifs.xyz/gif?reaction=";
 
@@ -30,60 +31,66 @@ export class MessageReactionHandler extends BaseEvent {
   }
 
   public async execute(msg: Message) {
-    const guild = await GuildModel.findOne({
-      guildId: msg.guild.id,
-    });
+    const guild = await GuildModel.findOne({ guildId: msg.guild.id });
     const reactionModule = await ReactionModuleModel.findOne({
       guildId: msg.guild.id,
     });
-    if (!reactionModule) return;
-    if (!reactionModule.enable) return;
-    if (!msg.content.startsWith(guild.prefix)) return;
-    const content = msg.content.split(" ");
-    const reactionCommand = content[0].slice(1).toLowerCase();
-    const reactionKey = reactions[reactionCommand]
-      ? reactionCommand
-      : findReactionByAliases(reactionCommand, reactions as any);
-    const reactionConfig = reactions[reactionKey] as ReactionConfig;
-    if (!reactionConfig) return;
-    if (
-      reactionConfig.nsfw &&
-      !(msg.channel as TextChannel)?.nsfw &&
-      !reactionModule.nsfwReactions.includes(msg.channel.id)
-    )
+
+    if (!reactionModule?.enable || !msg.content.startsWith(guild.prefix))
       return;
-    if (!reactionModule.commonReactions.includes(msg.channel.id)) return;
+
+    const [command, ...args] = msg.content
+      .slice(guild.prefix.length)
+      .split(" ");
+    const reactionKey = reactions[command]
+      ? command
+      : findReactionByAliases(command, reactions as any);
+    const reactionConfig = reactions[reactionKey] as ReactionConfig;
+
+    if (!reactionConfig) return;
+
+    const channel = msg.channel as TextChannel;
+    const isNSFW =
+      reactionConfig.nsfw &&
+      !channel.nsfw &&
+      !reactionModule.nsfwReactions.includes(channel.id);
+    if (isNSFW || !reactionModule.commonReactions.includes(channel.id)) return;
+
     const url = reactionConfig.isApi
-      ? (await axios.get(API_URL + reactionKey))?.data?.url
+      ? (await axios.get(`${API_URL}${reactionKey}`)).data.url
       : randomValue(reactionsLinks[reactionKey]);
+
     const embed = new EmbedBuilder()
       .setTitle(`Реакция - ${reactionConfig.action.toLowerCase()}`)
       .setColor(SnowflakeColors.DEFAULT)
       .setFooter({
         iconURL: msg.author.displayAvatarURL(),
-        text: msg.author.globalName,
+        text: msg.author.username,
       });
-    const pingedUser = msg.mentions?.users?.first();
-    const res: any = {};
+
+    const pingedUser = msg.mentions.users.first();
     if (pingedUser) {
+      const marriage = await MarryModel.findOne({
+        guildId: msg.guild.id,
+        $or: [
+          { partner1Id: msg.author.id, partner2Id: pingedUser.id },
+          { partner1Id: pingedUser.id, partner2Id: msg.author.id },
+        ],
+      });
+      const isMarried = marriage && marriage.type >= 1;
+
       if (pingedUser.bot) {
-        embed
-          .setThumbnail(msg.author.displayAvatarURL())
-          .setDescription(`Я не хочу!!! Я бот, а не человек!!!`);
+        embed.setDescription(`Я не хочу!!! Я бот, а не человек!!!`);
       } else if (pingedUser.id === msg.author.id) {
-        embed
-          .setThumbnail(msg.author.displayAvatarURL())
-          .setDescription(
-            `Я понимаю, что Вам одиноко, но быть может Вы выберете другого пользователя?`
-          );
-      } else if (reactionConfig.isAcceptable) {
-        embed
-          .setThumbnail(msg.author.displayAvatarURL())
-          .setDescription(
-            `Эй, ${userMention(pingedUser.id)},  пользователь ${userMention(
-              msg.author.id
-            )} ${reactionConfig.message}.\n Что скажешь?`
-          );
+        embed.setDescription(
+          `Мне кажется, что вам стоит найти кого-то другого!`
+        );
+      } else if (reactionConfig.isAcceptable && !isMarried) {
+        embed.setDescription(
+          `Эй, ${userMention(pingedUser.id)}, пользователь ${userMention(
+            msg.author.id
+          )} ${reactionConfig.message}. Что скажешь?`
+        );
         const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
           new ButtonBuilder()
             .setCustomId(`reaction_accept`)
@@ -94,7 +101,14 @@ export class MessageReactionHandler extends BaseEvent {
             .setStyle(ButtonStyle.Secondary)
             .setEmoji("❌")
         );
-        res.components = [row];
+        await this.handleReactionCollector(
+          msg,
+          embed,
+          row,
+          pingedUser,
+          reactionConfig,
+          url
+        );
       } else {
         embed
           .setDescription(
@@ -102,83 +116,79 @@ export class MessageReactionHandler extends BaseEvent {
               msg.author.id
             )} ${reactionConfig.verbal.toLowerCase()} ${
               reactionConfig.memberVerb
-            }  ${userMention(pingedUser.id)}`
+            } ${userMention(pingedUser.id)}`
           )
-          .setTimestamp(new Date())
           .setImage(url);
+        await msg.reply({ embeds: [embed] });
       }
-    } else {
-      if (!reactionConfig.everyone) return;
+    } else if (reactionConfig.everyone) {
       embed
         .setDescription(
           `Пользователь ${userMention(
             msg.author.id
           )} ${reactionConfig.verbal.toLowerCase()} ${
             reactionConfig.everyoneVerb
-          } `
+          }`
         )
-        .setTimestamp(new Date())
         .setImage(url);
+      await msg.reply({ embeds: [embed] });
     }
-    res.embeds = [embed];
-    const reply = await msg.reply(res);
-    if (res.components) {
-      const collector = reply.createMessageComponentCollector({
-        componentType: ComponentType.Button,
-        time: 15_000,
-        filter: (inter) =>
-          inter.user.id === pingedUser.id ||
-          global.developers.includes(inter.user.id),
-      });
-      let isClicked = false;
-      collector.once("collect", async (inter) => {
-        await inter.deferUpdate();
-        if (inter.customId === "reaction_accept") {
-          isClicked = true;
-          inter.editReply({
-            embeds: [
-              embed
-                .setDescription(
-                  `Пользователь ${userMention(
+  }
+
+  private async handleReactionCollector(
+    msg: Message,
+    embed: EmbedBuilder,
+    row: ActionRowBuilder<ButtonBuilder>,
+    pingedUser,
+    reactionConfig: ReactionConfig,
+    url: string
+  ) {
+    const reply = await msg.reply({ embeds: [embed], components: [row] });
+
+    const collector = reply.createMessageComponentCollector({
+      componentType: ComponentType.Button,
+      time: 15000,
+      filter: (inter) =>
+        inter.user.id === pingedUser.id ||
+        global.developers.includes(inter.user.id),
+    });
+    let isClicked = false;
+    collector.once("collect", async (inter) => {
+      await inter.deferUpdate();
+      const accepted = inter.customId === "reaction_accept";
+      isClicked = true;
+      reply.edit({
+        embeds: [
+          embed
+            .setDescription(
+              accepted
+                ? `Пользователь ${userMention(
                     msg.author.id
                   )} ${reactionConfig.verbal.toLowerCase()} ${
                     reactionConfig.memberVerb
                   } ${userMention(pingedUser.id)}`
-                )
-                .setTimestamp(new Date())
-                .setThumbnail(null)
-                .setImage(url),
-            ],
-            components: [],
-          });
-        } else if (inter.customId === "reaction_decline") {
-          isClicked = true;
-          inter.editReply({
-            embeds: [
-              embed.setDescription(
-                `Пользователь ${userMention(
-                  pingedUser.id
-                )} отклонил Вашу реакцию `
-              ),
-            ],
-            components: [],
-          });
-        }
+                : `Пользователь ${userMention(
+                    pingedUser.id
+                  )} отклонил Вашу реакцию`
+            )
+            .setImage(accepted ? url : null),
+        ],
+        components: [],
       });
-      collector.once("end", () => {
-        if (!isClicked) {
-          reply.edit({
-            embeds: [
-              embed.setDescription(
-                `Пользователь ${userMention(
-                  pingedUser.id
-                )} проигнорировал или не увидел Вашей реакции`
-              ),
-            ],
-            components: [],
-          });
-        }
+    });
+
+    collector.once("end", () => {
+      if (isClicked) return;
+      reply.edit({
+        embeds: [
+          embed.setDescription(
+            `Пользователь ${userMention(
+              pingedUser.id
+            )} проигнорировал Вашу реакцию`
+          ),
+        ],
+        components: [],
       });
-    }
+    });
   }
 }
