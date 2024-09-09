@@ -7,6 +7,7 @@ import {
   SlashCommandBuilder,
 } from "discord.js";
 import { MarrySettingsResponse } from "./Response";
+import Logger from "@/utils/system/Logger";
 
 export class MarrySettingsCommand extends BaseCommand {
   constructor() {
@@ -23,9 +24,10 @@ export class MarrySettingsCommand extends BaseCommand {
   public async execute(interaction: CommandInteraction) {
     try {
       await interaction.deferReply({ ephemeral: true });
-      const res = (await MarrySettingsResponse(interaction))
+      const res = await MarrySettingsResponse(interaction);
       interaction.editReply(res);
-    } catch {
+    } catch (err) {
+      Logger.error(err);
       return new SomethingWentWrong(interaction);
     }
   }

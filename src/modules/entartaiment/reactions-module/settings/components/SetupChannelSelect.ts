@@ -1,12 +1,7 @@
 import BaseComponent from "@/abstractions/BaseComponent";
 import { ReactionModuleModel } from "@/db/models/economy/ReactionsModel";
 import {
-  ButtonInteraction,
-  ModalSubmitInteraction,
-  StringSelectMenuInteraction,
-  RoleSelectMenuInteraction,
   ChannelSelectMenuInteraction,
-  AnySelectMenuInteraction,
 } from "discord.js";
 
 export class ReactionsChannelsSetup extends BaseComponent {

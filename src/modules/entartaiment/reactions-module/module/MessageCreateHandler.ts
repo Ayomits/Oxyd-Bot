@@ -211,6 +211,7 @@ export class MessageReactionHandler extends BaseEvent {
   }
   private async xpAdder(reactionConfig: ReactionConfig, marriage: any) {
     if (marriage && reactionConfig.type === "love") {
+      if (marriage.lvl === MarryLimits.LVL_LIMIT) return
       const xp = ReactionsXp[reactionConfig.api_name];
       const query: any = {
         $inc: {

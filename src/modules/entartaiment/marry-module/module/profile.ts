@@ -11,6 +11,7 @@ import { getFontPath, getImagePath } from "@/utils/canvas/getPath";
 import { CanvasServiceInstance } from "@/utils";
 import { formatNumber } from "@/utils/functions/formatNumber";
 import { calculateTimeDifference } from "@/utils/functions/calculateTimeDifference";
+import { MarrySettingsModel } from "@/db/models/economy/MarrySettingsModel";
 
 export class MarryProfile extends BaseCommand {
   constructor() {
@@ -28,6 +29,14 @@ export class MarryProfile extends BaseCommand {
     });
   }
   public async execute(interaction: CommandInteraction) {
+    const marrySettings = await MarrySettingsModel.findOne({
+      guildId: interaction.guild.id,
+    });
+    if (!marrySettings.enable)
+      return interaction.reply({
+        content: `Модуль браков не включен на сервере`,
+        ephemeral: true,
+      });
     const user = interaction.options.get("user")?.user || interaction.user;
     const existed = await MarryModel.findOne({
       guildId: interaction.guild.id,
@@ -107,14 +116,14 @@ export class MarryProfile extends BaseCommand {
             x: 180,
             y: 420,
             text: {
-              value: partner1Id.user.globalName.slice(0, 15),
+              value: partner1Id.user.username.slice(0, 10),
             },
           },
           text_username2: {
             x: 760,
             y: 420,
             text: {
-              value: partner2Id.user.globalName.slice(0, 15),
+              value: partner2Id.user.username.slice(0, 10),
             },
           },
           text_lvl: {
@@ -126,7 +135,7 @@ export class MarryProfile extends BaseCommand {
             },
           },
           text_xp: {
-            x: 461,
+            x: 481,
             y: 420,
             text: {
               value: `${formatNumber(existed.xp)}/${formatNumber(

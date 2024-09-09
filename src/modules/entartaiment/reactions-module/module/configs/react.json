@@ -284,20 +284,7 @@
     "cost": 15,
     "type": "love"
   },
-  "underpants": {
-    "action": "Показать трусики",
-    "api_name": "underpants",
-    "everyone": true,
-    "isApi": false,
-    "verbal": "показал трусики",
-    "everyoneVerb": "всему серверу",
-    "memberVerb": "пользователю",
-    "type": "action",
-    "isAcceptable": false,
-    "nsfw": false,
-    "aliases": ["трусики", "трусы"],
-    "cost": 15
-  },
+ 
   "admire": {
     "action": "Любоваться",
     "api_name": "admire",

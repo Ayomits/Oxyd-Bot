@@ -1,4 +1,5 @@
 import BaseCommand from "@/abstractions/BaseCommand";
+import { MarrySettingsModel } from "@/db/models/economy/MarrySettingsModel";
 import { MarryModel } from "@/db/models/economy/MaryModel";
 import { SnowflakeColors, SnowflakeType } from "@/enums";
 import {
@@ -8,6 +9,7 @@ import {
   CommandInteraction,
   ComponentType,
   EmbedBuilder,
+  GuildMember,
   SlashCommandBuilder,
   userMention,
 } from "discord.js";
@@ -82,6 +84,22 @@ export class DivorceCommand extends BaseCommand {
             ),
           ],
         });
+        const marrySettings = await MarrySettingsModel.findOne({
+          guildId: inter.guild.id,
+        });
+        if (marrySettings.marryRole) {
+          const role = inter.guild.roles.cache.get(marrySettings.marryRole);
+          await Promise.all([
+            (inter.member as GuildMember).roles.remove(role),
+            inter.guild.members.cache
+              .get(
+                existed.partner1Id === inter.user.id
+                  ? existed.partner2Id
+                  : existed.partner1Id
+              )
+              .roles.remove(role),
+          ]);
+        }
       } else {
         inter.editReply({
           embeds: [embed.setDescription(`Операция отменена`)],

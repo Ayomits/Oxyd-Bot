@@ -28,7 +28,7 @@ export async function MarrySettingsResponse(
   const embed = new EmbedBuilder()
     .setTitle(`Настройка модуля браков`)
     .setColor(SnowflakeColors.DEFAULT)
-    .setThumbnail(interaction.member.avatar)
+    .setThumbnail(interaction.user.displayAvatarURL())
     .setFields(
       {
         name: `> Состояние модуля`,

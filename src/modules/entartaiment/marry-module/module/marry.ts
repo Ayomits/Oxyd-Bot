@@ -1,4 +1,5 @@
 import BaseCommand from "@/abstractions/BaseCommand";
+import { MarrySettingsModel } from "@/db/models/economy/MarrySettingsModel";
 import { MarryModel } from "@/db/models/economy/MaryModel";
 import { SnowflakeColors, SnowflakeType } from "@/enums";
 import {
@@ -8,6 +9,7 @@ import {
   CommandInteraction,
   ComponentType,
   EmbedBuilder,
+  GuildMember,
   SlashCommandBuilder,
   userMention,
 } from "discord.js";
@@ -30,6 +32,14 @@ export class MarryCommand extends BaseCommand {
   }
 
   async execute(interaction: CommandInteraction) {
+    const marrySettings = await MarrySettingsModel.findOne({
+      guildId: interaction.guild.id,
+    });
+    if (!marrySettings.enable)
+      return interaction.reply({
+        content: `Модуль браков отключен на сервере`,
+        ephemeral: true,
+      });
     const user = interaction.options.get("user").user;
     if (user.bot && !global.developers.includes(interaction.user.id))
       return interaction.reply({
@@ -106,6 +116,15 @@ export class MarryCommand extends BaseCommand {
           ],
           components: [],
         });
+        if (marrySettings.marryRole) {
+          const role = inter.guild.roles.cache.get(marrySettings.marryRole);
+          if (role) {
+            await Promise.all([
+              (inter.member as GuildMember).roles.add(role),
+              (interaction.member as GuildMember).roles.add(role),
+            ]);
+          }
+        }
         await MarryModel.create({
           guildId: inter.guild.id,
           partner1Id: interaction.user.id,

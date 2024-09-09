@@ -26,5 +26,5 @@ export enum MarryRequiredLvls {
 }
 
 export const marryFormula = (lvl: number) => {
-  return lvl * 150;
+  return lvl * 100;
 };
