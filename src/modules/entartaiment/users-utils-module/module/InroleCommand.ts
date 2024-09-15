@@ -65,7 +65,7 @@ export class InRole extends BaseCommand {
       const disabledPreviousCondition = pageNumber <= 1;
 
       firstRole.setDisabled(pageNumber === 1);
-      lastRole.setDisabled(pageNumber === totalPages);
+      lastRole.setDisabled(lastPage === 0);
       next.setDisabled(disabledNextCondition);
       previous.setDisabled(disabledPreviousCondition);
     };
@@ -81,6 +81,7 @@ export class InRole extends BaseCommand {
       .setCustomId(
         `lastRole_${interaction.user.id}_${interaction.guild.id}_${interaction.id}`
       )
+      .setDisabled(lastPage === 0)
       .setStyle(ButtonStyle.Secondary)
       .setEmoji("⏭");
 
@@ -107,7 +108,9 @@ export class InRole extends BaseCommand {
       const end = start + pageSize;
       const description = this.setDescription(arr.slice(start, end), start);
       embed.setDescription(description);
-      embed.setFooter({ text: `Страница: ${pageNumber}/${lastPage}` });
+      embed.setFooter({
+        text: `Страница: ${lastPage === 0 ? 0 : pageNumber}/${lastPage}`,
+      });
     };
 
     updateEmbed();
@@ -148,6 +151,7 @@ export class InRole extends BaseCommand {
   }
 
   private setDescription(members: string[], start: number) {
+    if (members.length <= 0) return `Нет пользователей с указанной ролью`;
     let start_ = start;
     return members
       .map((member) => {

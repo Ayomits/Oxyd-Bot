@@ -6,8 +6,8 @@ export interface ScheduleMessageDocument extends BaseGuildDocument {
   data: any;
   channelId: Snowflake;
   date: Date;
-  createdAt: Date
-  displayName: string
+  createdAt: Date;
+  displayName: string;
 }
 
 export const ScheduleMessageSchema = new Schema<ScheduleMessageDocument>({
@@ -24,6 +24,7 @@ export const ScheduleMessageSchema = new Schema<ScheduleMessageDocument>({
     required: true,
   },
   data: {
+    type: Object,
     required: true,
   },
   createdAt: {
@@ -33,8 +34,8 @@ export const ScheduleMessageSchema = new Schema<ScheduleMessageDocument>({
   displayName: {
     type: String,
     default: null,
-    maxLength: 50
-  }
+    maxLength: 50,
+  },
 });
 
 export const ScheduleMessageModel = model<ScheduleMessageDocument>(
