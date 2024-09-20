@@ -1,11 +1,26 @@
 export async function discohookParser(url: string) {
-  const response = await fetch(url);
-  const endUrl = response.url;
-  const base = endUrl.replace("https://discohook.org/?data=", "");
-  const decoded = Buffer.from(base, "base64").toString("utf-8");
+  try {
+    const response = await fetch(url);
+    const endUrl = response.url;
 
-  const json = JSON.parse(decoded);
-  return json;
+    let base;
+
+    if (endUrl.includes("https://discohook.org/?data=")) {
+      base = endUrl.replace("https://discohook.org/?data=", "");
+    } else if (endUrl.includes("https://share.discohook.app/go/")) {
+      const jsonResponse = await response.json();
+      base = jsonResponse.data;
+    }
+
+    if (base) {
+      const decoded = Buffer.from(base, "base64").toString("utf-8");
+      const json = JSON.parse(decoded);
+      return json;
+    }
+    return null;
+  } catch {
+    return null;
+  }
 }
 
 export async function dischookDeParses(data: any): Promise<string> {

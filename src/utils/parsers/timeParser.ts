@@ -1,5 +1,5 @@
 export function timeParser(format: Date | string): string | Date | null {
-  const absoluteDateRegex = /(\d{2})\.(\d{2})\.(\d{2}) (\d{2}):(\d{2})/;
+  const absoluteDateRegex = /(\d{2})\.(\d{2})\.(\d{4}) (\d{2}):(\d{2})/;
 
   const relativeTimeRegex = /(\d+)([yMdhms])/;
 
@@ -11,7 +11,7 @@ export function timeParser(format: Date | string): string | Date | null {
       if (match) {
         const day = parseInt(match[1], 10);
         const month = parseInt(match[2], 10) - 1;
-        const year = 2000 + parseInt(match[3], 10);
+        const year = parseInt(match[3], 10);
         const hours = parseInt(match[4], 10);
         const minutes = parseInt(match[5], 10);
 
@@ -37,41 +37,34 @@ export function timeParser(format: Date | string): string | Date | null {
     }
 
     if (relativeTimeRegex.test(format)) {
-      const match = format.match(relativeTimeRegex);
-      if (match) {
-        const value = parseInt(match[1], 10);
-        const unit = match[2];
-        const now = new Date();
-
-        switch (unit) {
-          case "y":
-            now.setFullYear(now.getFullYear() + value);
-            break;
-          case "M":
-            now.setMonth(now.getMonth() + value);
-            break;
-          case "d":
-            now.setDate(now.getDate() + value);
-            break;
-          case "h":
-            now.setHours(now.getHours() + value);
-            break;
-          case "m":
-            now.setMinutes(now.getMinutes() + value);
-            break;
-          case "s":
-            now.setSeconds(now.getSeconds() + value);
-            break;
+      let tempNumber = "";
+      let totalCount = 0
+      const times = {
+        Y: 31_536_000_000,
+        M: 2_419_200_000,
+        w: 604_800_000,
+        d: 86_400_000,
+        h: 3_600_000,
+        m: 60_000,
+        s: 1_000,
+      };
+      for (const char of format) {
+        if (times[char]) {
+          totalCount += Number(tempNumber) * times[char]
+        }else {
+          tempNumber = char
         }
-        return now;
       }
+      const now = new Date()
+      now.setTime(now.getTime() + totalCount)
+      return 
     }
 
     return null;
   } else if (format instanceof Date) {
     const day = String(format.getDate()).padStart(2, "0");
     const month = String(format.getMonth() + 1).padStart(2, "0");
-    const year = String(format.getFullYear()).slice(-2);
+    const year = String(format.getFullYear()).slice(-4);
     const hours = String(format.getHours()).padStart(2, "0");
     const minutes = String(format.getMinutes()).padStart(2, "0");
 
