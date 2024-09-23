@@ -1,6 +1,6 @@
 import { model, Schema } from "mongoose";
 import { BaseGuildDocument } from "../../base/GuildDocument";
-import { MarryType } from "@/modules/entartaiment/marry-module/module/configs";
+import { MarryType } from "@/modules/marry-module/module/configs";
 
 export interface LoveRoomDocument {
   name: string;
