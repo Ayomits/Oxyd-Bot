@@ -1,5 +1,7 @@
 import BaseSelectMenuValue from "@/abstractions/BaseSelectMenuValue";
+import { VerificationModuleModel } from "@/db/models/verification/VerificationModel";
 import { SomethingWentWrong } from "@/errors/SomethingWentWrong";
+import { dischookDeParses } from "@/utils/parsers/discohookParser";
 import { ModalBuilder } from "@discordjs/builders";
 import {
   ActionRowBuilder,
@@ -17,6 +19,9 @@ export class VerificationEmbedManageValue extends BaseSelectMenuValue {
     interaction: StringSelectMenuInteraction,
     _args: string[]
   ) {
+    const existed = await VerificationModuleModel.findOne({
+      guildId: interaction.guild.id,
+    });
     try {
       const modal = new ModalBuilder()
         .setCustomId(`manageEmbedModal`)
@@ -26,7 +31,7 @@ export class VerificationEmbedManageValue extends BaseSelectMenuValue {
             new TextInputBuilder()
               .setCustomId(`url`)
               .setLabel(`Вставьте ссылку с дискохука`)
-              .setPlaceholder(`https://share.discohook.app/go/8u8sy13p`)
+              .setPlaceholder(existed.messages.length >= 1 ? await dischookDeParses(existed.messages) : "https://share.discohook.org/go/")
               .setStyle(TextInputStyle.Short)
               .setRequired(true)
           )

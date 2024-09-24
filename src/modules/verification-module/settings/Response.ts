@@ -65,8 +65,7 @@ export async function VerificationResponse(
           SnowflakeMentionType.ROLE
         )}`,
         inline: true,
-      },
-      
+      }
     );
   const selectMenu =
     new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
@@ -103,6 +102,12 @@ export async function VerificationResponse(
             value: `embed`,
             emoji: "🎨",
             description: `Подготовьте вебхук в дискохуке и просто скиньте, бот сделает всё сам`,
+          },
+          {
+            label: `Управление приветствием новичков`,
+            value: `helloverification`,
+            emoji: "👋",
+            description: `Подготовьте вебхук в дискохуке и канал для приветствий!`,
           }
         )
     );
@@ -114,7 +119,9 @@ export async function VerificationResponse(
     new ButtonBuilder()
       .setCustomId("toggleVerificationModule_giveUnverify")
       .setLabel("Выдача роли unverify при заходе")
-      .setStyle(buttonStyle(verificationSettings.giveUnverify)),
+      .setStyle(buttonStyle(verificationSettings.giveUnverify))
+  );
+  const secondRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
     new ButtonBuilder()
       .setLabel(`Опубликовать`)
       .setStyle(ButtonStyle.Secondary)
@@ -124,5 +131,5 @@ export async function VerificationResponse(
       .setLabel("Обновить")
       .setStyle(ButtonStyle.Primary)
   );
-  return { embeds: [embed], components: [selectMenu, buttonRow] };
+  return { embeds: [embed], components: [selectMenu, buttonRow, secondRow] };
 }
