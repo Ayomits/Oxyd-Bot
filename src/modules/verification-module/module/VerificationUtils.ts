@@ -12,8 +12,13 @@ import {
   Snowflake,
   StringSelectMenuInteraction,
   TextChannel,
+  userMention,
 } from "discord.js";
 import { VerificationRoleModel } from "@/db/models/verification/VerificationRoleModel";
+import { VerificationHelloModel } from "@/db/models/verification/VerificationHelloModel";
+
+let cacheArr = [];
+let timeout: NodeJS.Timeout | null;
 
 export async function verifyUser(
   interaction: ButtonInteraction | StringSelectMenuInteraction,
@@ -39,6 +44,15 @@ export async function verifyUser(
   );
   if (member.roles.cache.some((role) => verificationRoles.includes(role.id)))
     return interaction.editReply({ content: `Вы **уже** верифицированы` });
+
+  cacheArr.push(interaction.user.id);
+
+  if (timeout) clearTimeout(timeout);
+
+  timeout = setTimeout(() => {
+    verificationGreatings(interaction)
+  }, 5000);
+
   await Promise.all([
     interaction.editReply({
       content: `Поздравляю! Вы взяли роль ${roleMention(roleId)}`,
@@ -70,4 +84,24 @@ export async function verificationLog(
       iconURL: interaction.user.displayAvatarURL(),
     });
   return logChannel.send({ embeds: [embed] });
+}
+
+export async function verificationGreatings(
+  interaction: ButtonInteraction | StringSelectMenuInteraction
+) {
+  const existed = await VerificationHelloModel.findOne({
+    guildId: interaction.guild.id,
+  });
+  const channel = interaction.guild.channels.cache.get(
+    existed.channelId
+  ) as TextChannel;
+  if (!channel) return;
+  if (existed.message.messages.length <= 0) return;
+  for (const message of existed.message.messages) {
+    channel.send({
+      ...message.data,
+      content: `${cacheArr.map((userId) => userMention(userId)).join(" ")}`,
+    });
+  }
+  cacheArr = [];
 }

@@ -17,7 +17,7 @@ export const VerificationHelloSchema = new Schema<VerificationHelloDocument>({
   },
   message: {
     type: Object,
-    default: null,
+    default: [],
   },
   channelId: {
     type: String,
