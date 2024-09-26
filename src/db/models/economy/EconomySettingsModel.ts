@@ -1,5 +1,5 @@
 import { BaseModuleGuildDocument } from "@/db/base/GuildDocument";
-import { Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 
 export interface EconomySettingsDocument extends BaseModuleGuildDocument {
   currencyEmoji: string;
@@ -21,6 +21,8 @@ export interface EconomySettingsDocument extends BaseModuleGuildDocument {
       instrumental: string;
     };
   };
+  categories: string[];
+  ignoredChannels: string[];
 }
 
 export const EconomySettingsSchema = new Schema<EconomySettingsDocument>({
@@ -35,62 +37,83 @@ export const EconomySettingsSchema = new Schema<EconomySettingsDocument>({
   currencyEmoji: {
     type: String,
     required: false,
-    default: null
+    default: "💵",
+  },
+  categories: {
+    type: [],
+    default: [],
+  },
+  messageRates: {
+    type: Number,
+    default: 0.25,
+  },
+  voiceRates: {
+    type: Number,
+    default: 1,
+  },
+  ignoredChannels: {
+    type: [],
+    default: [],
   },
   currencyCases: {
     singular: {
       nominative: {
         type: String,
         required: true,
-        default: `оксид`
+        default: `оксид`,
       },
       genitive: {
         type: String,
         required: true,
-        default: "оксид"
+        default: "оксид",
       },
       dative: {
         type: String,
         required: true,
-        default: "оксидам"
+        default: "оксидам",
       },
       accusative: {
         type: String,
         required: true,
-        default: "оксид"
+        default: "оксид",
       },
       instrumental: {
         type: String,
         required: true,
-        default: "оксидом"
+        default: "оксидом",
       },
     },
     plural: {
       nominative: {
         type: String,
         required: true,
-        default: `оксиды`
+        default: `оксиды`,
       },
       genitive: {
         type: String,
         required: true,
-        default: "оксидов"
+        default: "оксидов",
       },
       dative: {
         type: String,
         required: true,
-        default: "оксидам"
+        default: "оксидам",
       },
       accusative: {
         type: String,
         required: true,
-        default: "оксиды"
+        default: "оксиды",
       },
       instrumental: {
         type: String,
         required: true,
-        default: "оксидами"
+        default: "оксидами",
       },
-    }
+    },
   },
 });
+
+export const EconomySettingsModel = model<EconomySettingsDocument>(
+  "guild_economy_settings",
+  EconomySettingsSchema
+);

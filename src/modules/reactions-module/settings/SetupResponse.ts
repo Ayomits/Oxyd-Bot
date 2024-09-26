@@ -29,7 +29,7 @@ export async function reactionModuleResponse(
     })) ||
     (await ReactionModuleModel.create({ guildId: interaction.guild.id }));
   const embed = new EmbedBuilder()
-    .setTitle(`Настройка модуля реакций для ${interaction.guild.name}`)
+    .setTitle(`Настройка модуля реакций`)
     .setFields(
       {
         name: `Состояние модуля`,
@@ -110,7 +110,7 @@ function generateSelectMenu(
         settings[field].filter((channel) => !!guild.channels.cache.get(channel))
       )
       .setChannelTypes(ChannelType.GuildText)
-      .setMinValues(1)
+      .setMinValues(0)
       .setMaxValues(25)
   );
 }

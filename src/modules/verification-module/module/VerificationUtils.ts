@@ -50,7 +50,7 @@ export async function verifyUser(
   if (timeout) clearTimeout(timeout);
 
   timeout = setTimeout(() => {
-    verificationGreatings(interaction)
+    verificationGreatings(interaction);
   }, 5000);
 
   await Promise.all([
@@ -92,6 +92,7 @@ export async function verificationGreatings(
   const existed = await VerificationHelloModel.findOne({
     guildId: interaction.guild.id,
   });
+  if (!existed.enable) return;
   const channel = interaction.guild.channels.cache.get(
     existed.channelId
   ) as TextChannel;
