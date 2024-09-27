@@ -1,7 +1,15 @@
 import BaseCommand from "@/abstractions/BaseCommand";
 import { SnowflakeColors, SnowflakeType } from "@/enums";
+import { Currency } from "@/modules/economy-module-block/configs";
 import { EconomyUserActions } from "@/utils/economy/user";
-import { CommandInteraction, EmbedBuilder, SlashCommandBuilder, User } from "discord.js";
+import {
+  ActionRowBuilder,
+  ButtonBuilder,
+  CommandInteraction,
+  EmbedBuilder,
+  SlashCommandBuilder,
+  User,
+} from "discord.js";
 
 export class BalanceCommand extends BaseCommand {
   constructor() {
@@ -21,11 +29,23 @@ export class BalanceCommand extends BaseCommand {
   }
 
   public async execute(interaction: CommandInteraction) {
-    const user = interaction.options.get("user")?.user || interaction.user
-    const dbUser = new EconomyUserActions(interaction.guildId, user.id)
-    const fetched = await dbUser.fetch()
+    await interaction.deferReply();
+    const user = interaction.options.get("user")?.user || interaction.user;
+    const dbUser = new EconomyUserActions(interaction.guildId, user.id);
+    const fetched = await dbUser.fetch();
     const embed = new EmbedBuilder()
       .setColor(SnowflakeColors.DEFAULT)
-      .setDescription(``)
+      .setTitle(`Баланс пользователя ${user.globalName}`)
+      .setThumbnail(interaction.user.displayAvatarURL())
+      .setTimestamp(new Date())
+      .setFooter({
+        text: interaction.user.globalName,
+        iconURL: interaction.user.displayAvatarURL(),
+      })
+      .setFields({
+        name: `> ${Currency.PluralName} ${Currency.Emoji}:`,
+        value: `\`\`\`${fetched.balance}\`\`\``,
+      });
+    return interaction.editReply({ embeds: [embed] });
   }
 }

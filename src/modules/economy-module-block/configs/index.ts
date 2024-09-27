@@ -1,5 +1,5 @@
 export enum Currency {
-  Emoji = "<:money:1288869854136373289>",
+  Emoji = "<:oxyd:1288872859992850525>",
   SingularName = "оксид",
   PluralName = "оксиды"
 }
