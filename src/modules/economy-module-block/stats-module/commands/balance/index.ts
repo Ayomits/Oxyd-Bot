@@ -3,12 +3,9 @@ import { SnowflakeColors, SnowflakeType } from "@/enums";
 import { Currency } from "@/modules/economy-module-block/configs";
 import { EconomyUserActions } from "@/utils/economy/user";
 import {
-  ActionRowBuilder,
-  ButtonBuilder,
   CommandInteraction,
   EmbedBuilder,
   SlashCommandBuilder,
-  User,
 } from "discord.js";
 
 export class BalanceCommand extends BaseCommand {
