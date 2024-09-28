@@ -10,7 +10,7 @@ import { verifyUser } from "./VerificationUtils";
 
 export class ButtonVerification extends BaseComponent {
   constructor() {
-    super("validvericiationbutton");
+    super("validvericiationbutton", null, true);
   }
 
   async execute(interaction: ButtonInteraction, args: string[]) {

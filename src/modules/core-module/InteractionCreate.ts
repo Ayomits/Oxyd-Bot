@@ -62,6 +62,10 @@ export class InteractionCreate extends BaseEvent {
         const splitterRegex = /(?<=_\()[^)]*(?=\))|_/;
         const splitedCustomId = interaction.customId.split(splitterRegex);
         const component = interaction.client.buttons.get(splitedCustomId[0]);
+        if (component.authorOnly) {
+          if (interaction.user.id !== interaction.message.interaction.user.id)
+            return;
+        }
         if (component?.ttl) {
           const msgCreated = Math.floor(
             interaction.message.createdTimestamp / 1000

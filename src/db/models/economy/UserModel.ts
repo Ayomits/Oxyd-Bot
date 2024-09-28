@@ -8,6 +8,7 @@ export interface EconomyUserDocument extends UserDocument {
   lvl: number;
   status: string;
   birthday: string; // 22.11 ... etc
+  bankBalance: number;
 }
 
 // Defining the Mongoose schema for EconomyUserDocument
@@ -21,6 +22,10 @@ export const EconomyUserSchema = new Schema<EconomyUserDocument>({
     required: true,
   },
   balance: {
+    type: Number,
+    default: 0,
+  },
+  bankBalance: {
     type: Number,
     default: 0,
   },
