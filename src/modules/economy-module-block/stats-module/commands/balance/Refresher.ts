@@ -7,7 +7,11 @@ import {
 
 export class EconomyBalanceRefresherButton extends BaseComponent {
   constructor() {
-    super("economybalancerefresher", 600);
+    super({
+      customId: "economybalancerefresher",
+      ttl: 600,
+      authorOnly: true,
+    });
   }
 
   async execute(interaction: ButtonInteraction, args: string[]) {
@@ -19,7 +23,11 @@ export class EconomyBalanceRefresherButton extends BaseComponent {
 }
 export class EconomyBalanceBackButton extends BaseComponent {
   constructor() {
-    super("economybalancebackbutton", 600);
+    super({
+      customId: "economybalancebackbutton",
+      ttl: 600,
+      authorOnly: true,
+    });
   }
 
   async execute(interaction: ButtonInteraction, args: string[]) {
@@ -32,7 +40,11 @@ export class EconomyBalanceBackButton extends BaseComponent {
 
 export class EconomyBalanceTransfer extends BaseComponent {
   constructor() {
-    super("economybalancetransfer", 600);
+    super({
+      customId: "economybalancetransfer",
+      ttl: 600,
+      authorOnly: true,
+    });
   }
 
   async execute(interaction: ButtonInteraction, args: string[]) {

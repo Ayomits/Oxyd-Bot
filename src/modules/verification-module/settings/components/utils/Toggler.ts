@@ -6,7 +6,11 @@ import { ButtonInteraction } from "discord.js";
 
 export class VerificationModuleToggler extends BaseComponent {
   constructor() {
-    super("toggleVerificationModule", 600);
+    super({
+      customId: "toggleVerificationModule",
+      ttl: 600,
+      authorOnly: true,
+    });
   }
   async execute(interaction: ButtonInteraction, args: string[]) {
     try {

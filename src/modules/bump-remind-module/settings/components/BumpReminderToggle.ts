@@ -8,7 +8,11 @@ import { MonitoringBots } from "../../module/MonitoringBots";
 
 export class BumpReminderToggler extends BaseComponent {
   constructor() {
-    super("bumpremindertoggler", 600);
+    super({
+      customId: "bumpremindertoggler",
+      ttl: 600,
+      authorOnly: true,
+    });
   }
 
   async execute(interaction: ButtonInteraction) {

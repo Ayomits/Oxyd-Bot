@@ -5,7 +5,11 @@ import { ButtonInteraction } from "discord.js";
 
 export class SetupToggleModule extends BaseComponent {
   constructor() {
-    super("logsToggleModule", 600);
+    super({
+      customId: "logsToggleModule",
+      ttl: 600,
+      authorOnly: true,
+    });
   }
 
   async execute(interaction: ButtonInteraction, _args?: string[]) {
@@ -28,7 +32,7 @@ export class SetupToggleModule extends BaseComponent {
           $set: {
             enable: enable ? !enable : true,
           },
-        },
+        }
       );
     } catch {
       return new SomethingWentWrong(interaction);

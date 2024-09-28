@@ -11,7 +11,11 @@ import {
 
 export class EconomyBaseSettingsSetterButton extends BaseComponent {
   constructor() {
-    super("economysetter", 600);
+    super({
+      customId: "economysetter",
+      ttl: 600,
+      authorOnly: true,
+    });
   }
 
   async execute(interaction: ButtonInteraction, args: string[]) {
@@ -34,7 +38,11 @@ export class EconomyBaseSettingsSetterButton extends BaseComponent {
 
 export class EconomyBaseSettingsSetterModal extends BaseComponent {
   constructor() {
-    super("economysettermodal", 600);
+    super({
+      customId: "economysettermodal",
+      ttl: 600,
+      authorOnly: true,
+    });
   }
 
   async execute(interaction: ModalSubmitInteraction, args: string[]) {

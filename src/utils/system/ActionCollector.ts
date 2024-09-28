@@ -51,7 +51,7 @@ const actionCollector = async (client: Client) => {
             } else if (exported.prototype instanceof BaseComponent) {
               const componentInstance = new exported() as BaseComponent;
               client.buttons?.set(
-                componentInstance.customId,
+                componentInstance.options.customId,
                 componentInstance
               );
             } else if (exported.prototype instanceof BaseSubCommand) {

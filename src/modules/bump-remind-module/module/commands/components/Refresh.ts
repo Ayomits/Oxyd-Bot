@@ -4,7 +4,11 @@ import { bumpReminderStatusResponse } from "../Response";
 
 export class PingRefreshButton extends BaseComponent {
   constructor() {
-    super("bumpreminderstaturefresh", 600);
+    super({
+      customId: "bumpreminderstaturefresh",
+      ttl: 600,
+      authorOnly: true,
+    });
   }
   async execute(interaction: ButtonInteraction, args: string[]) {
     await interaction.deferUpdate();

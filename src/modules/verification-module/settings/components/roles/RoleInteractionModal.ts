@@ -4,7 +4,11 @@ import { ButtonStyle, ModalSubmitInteraction } from "discord.js";
 
 export class RoleInteractionModal extends BaseComponent {
   constructor() {
-    super("verificationrolescreatenewmodal", 600);
+    super({
+      customId: "verificationrolescreatenewmodal",
+      ttl: 600,
+      authorOnly: true,
+    });
   }
 
   async execute(interaction: ModalSubmitInteraction, args?: string[]) {
@@ -24,7 +28,10 @@ export class RoleInteractionModal extends BaseComponent {
       return interaction.editReply({
         content: `Указанный Вами стиль не является числом`,
       });
-    if (Number(optionsStyle) > ButtonStyle.Danger || Number(optionsStyle) < ButtonStyle.Primary)
+    if (
+      Number(optionsStyle) > ButtonStyle.Danger ||
+      Number(optionsStyle) < ButtonStyle.Primary
+    )
       return interaction.editReply({
         content: `Указанный вами цвет **не существует**.\n 1-синий\n 2-серый\n3-зелёный\n4-красный`,
       });

@@ -5,7 +5,11 @@ import { VerificationResponse } from "../../Response";
 
 export class VerificationSettingsRefresh extends BaseComponent {
   constructor() {
-    super("refreshVerificationSettings", 600);
+    super({
+      customId: "refreshVerificationSettings",
+      ttl: 600,
+      authorOnly: true,
+    });
   }
 
   async execute(interaction: ButtonInteraction) {

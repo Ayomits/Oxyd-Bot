@@ -5,11 +5,15 @@ import { RoleSelectMenuInteraction } from "discord.js";
 
 export class BumpReminderPingRoles extends BaseComponent {
   constructor() {
-    super("bumpreminderroles", 600);
+    super({
+      customId: "bumpreminderroles",
+      ttl: 600,
+      authorOnly: true,
+    });
   }
   async execute(interaction: RoleSelectMenuInteraction) {
     try {
-      await interaction.deferReply({ephemeral: true});
+      await interaction.deferReply({ ephemeral: true });
       await BumpReminderModuleModel.updateOne(
         { guildId: interaction.guild.id },
         { pingRoleIds: interaction.values }

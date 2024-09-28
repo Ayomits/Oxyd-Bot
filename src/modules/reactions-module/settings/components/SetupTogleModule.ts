@@ -5,7 +5,11 @@ import { ReactionModuleModel } from "@/db/models/economy/ReactionsModel";
 
 export class SetupToggleModule extends BaseComponent {
   constructor() {
-    super("toggleReactionModule", 600);
+    super({
+      customId: "toggleReactionModule",
+      ttl: 600,
+      authorOnly: true,
+    });
   }
   async execute(interaction: ButtonInteraction, args?: string[]) {
     const authorId = args[0];

@@ -4,7 +4,11 @@ import { roleMention, RoleSelectMenuInteraction } from "discord.js";
 
 export class MarryRoleSelect extends BaseComponent {
   constructor() {
-    super("marryroleselect", 600);
+    super({
+      customId: "marryroleselect",
+      ttl: 600,
+      authorOnly: true,
+    });
   }
 
   async execute(interaction: RoleSelectMenuInteraction) {

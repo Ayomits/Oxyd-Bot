@@ -2,15 +2,15 @@ import BaseComponent from "@/abstractions/BaseComponent";
 import { VerificationModuleModel } from "@/db/models/verification/VerificationModel";
 import {
   ButtonInteraction,
-  GuildMember,
-  roleMention,
   StringSelectMenuInteraction,
 } from "discord.js";
 import { verifyUser } from "./VerificationUtils";
 
 export class ButtonVerification extends BaseComponent {
   constructor() {
-    super("validvericiationbutton", null, true);
+    super({
+      customId: "validvericiationbutton",
+    });
   }
 
   async execute(interaction: ButtonInteraction, args: string[]) {
@@ -20,7 +20,9 @@ export class ButtonVerification extends BaseComponent {
 
 export class SelectMenuVerification extends BaseComponent {
   constructor() {
-    super("validverificationselect");
+    super({
+      customId: "validvericiationbutton",
+    });
   }
 
   async execute(interaction: StringSelectMenuInteraction, args: string[]) {

@@ -5,7 +5,11 @@ import { isEnabled } from "@/utils/functions/isEnabled";
 
 export class EconomyBaseSettingsSetter extends BaseComponent {
   constructor() {
-    super("economysetterselectmenu", 600);
+    super({
+      customId: "economysetterselectmenu",
+      ttl: 600,
+      authorOnly: true,
+    });
   }
 
   async execute(interaction: ChannelSelectMenuInteraction, args: string[]) {

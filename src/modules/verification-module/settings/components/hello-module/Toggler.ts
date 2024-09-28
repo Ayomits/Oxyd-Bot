@@ -5,7 +5,11 @@ import { ButtonInteraction } from "discord.js";
 
 export class VerifcationHelloToggler extends BaseComponent {
   constructor() {
-    super("helloverifcationtoggler", 600);
+    super({
+      customId: "helloverifcationtoggler",
+      ttl: 600,
+      authorOnly: true,
+    });
   }
 
   async execute(interaction: ButtonInteraction) {

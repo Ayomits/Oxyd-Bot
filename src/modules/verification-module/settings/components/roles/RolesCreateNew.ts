@@ -3,10 +3,6 @@ import { SnowflakeVerificationRolesLimit } from "@/enums/SnowflakeVerificationRo
 import { VerificationRoleModel } from "@/db/models/verification/VerificationRoleModel";
 import {
   StringSelectMenuInteraction,
-  RoleSelectMenuInteraction,
-  ChannelSelectMenuInteraction,
-  UserSelectMenuInteraction,
-  AnySelectMenuInteraction,
   ModalBuilder,
   ActionRowBuilder,
   TextInputBuilder,

@@ -4,7 +4,11 @@ import { channelMention, ChannelSelectMenuInteraction } from "discord.js";
 
 export class VerificationHelloChannelSelect extends BaseComponent {
   constructor() {
-    super("helloverifcationchannelselect", 600);
+    super({
+      customId: "helloverifcationchannelselect",
+      ttl: 600,
+      authorOnly: true,
+    });
   }
 
   async execute(interaction: ChannelSelectMenuInteraction, _args?: string[]) {

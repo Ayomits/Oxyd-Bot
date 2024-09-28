@@ -4,10 +4,13 @@ import { ChannelDoesNotExists } from "@/errors/ChannelDoesNotExists";
 import { ChannelTypeError } from "@/errors/ChannelTypeError";
 import { LogModuleModel } from "@/db/models/logging/LogsModel";
 
-
 export class SettingsModal extends BaseComponent {
   constructor() {
-    super("settingsModal", 600);
+    super({
+      customId: "settingsModal",
+      ttl: 600,
+      authorOnly: true,
+    });
   }
   async execute(interaction: ModalSubmitInteraction, args: string[]) {
     await interaction.deferReply({ ephemeral: true });

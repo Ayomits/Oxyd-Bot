@@ -26,7 +26,11 @@ function resPrepare(messages: any, row: any) {
 
 export class VerificationRolesPublish extends BaseComponent {
   constructor() {
-    super("publishVerificationSettings", 600);
+    super({
+      customId: "publishVerificationSettings",
+      ttl: 600,
+      authorOnly: true,
+    });
   }
 
   async execute(interaction: ButtonInteraction) {

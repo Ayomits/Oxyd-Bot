@@ -12,7 +12,7 @@ import {
 
 export class VerificationRoleDelete extends BaseComponent {
   constructor() {
-    super("verificationrolesdelete", 600);
+    super({ customId: "verificationrolesdelete", ttl: 600, authorOnly: true });
   }
 
   async execute(interaction: ButtonInteraction) {
@@ -37,7 +37,11 @@ export class VerificationRoleDelete extends BaseComponent {
 
 export class VerificationRoleDeleteModal extends BaseComponent {
   constructor() {
-    super("verificationroledeletemodal", 600);
+    super({
+      customId: "verificationroledeletemodal",
+      ttl: 600,
+      authorOnly: true,
+    });
   }
 
   async execute(interaction: ModalSubmitInteraction) {

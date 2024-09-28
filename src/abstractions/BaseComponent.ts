@@ -9,17 +9,9 @@ import {
 } from "discord.js";
 
 export default abstract class BaseComponent {
-  declare readonly customId: string;
-  declare readonly ttl: number | null | undefined;
-  declare readonly authorOnly: boolean;
-  constructor(
-    customId: string,
-    ttl: number = null,
-    authorOnly: boolean = true
-  ) {
-    this.customId = customId;
-    this.ttl = ttl;
-    this.authorOnly = authorOnly;
+  declare readonly options: ComponentOptions;
+  constructor(options: ComponentOptions) {
+    this.options = options;
   }
   execute(
     _interaction:

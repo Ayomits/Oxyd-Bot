@@ -4,7 +4,11 @@ import { VerificationResponse } from "../../Response";
 
 export class VerificationHelloBackButton extends BaseComponent {
   constructor() {
-    super("helloverifcationbackbutton", 600);
+    super({
+      customId: "helloverifcationbackbutton",
+      ttl: 600,
+      authorOnly: true
+    });
   }
 
   async execute(interaction: ButtonInteraction) {

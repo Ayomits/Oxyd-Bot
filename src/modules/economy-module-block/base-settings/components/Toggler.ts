@@ -5,7 +5,11 @@ import { isEnabled } from "@/utils/functions/isEnabled";
 
 export class EconomyBaseSettingsToggler extends BaseComponent {
   constructor() {
-    super("economytoggler", 600);
+    super({
+      customId: "economytoggler",
+      ttl: 600,
+      authorOnly: true,
+    });
   }
 
   async execute(interaction: ButtonInteraction) {

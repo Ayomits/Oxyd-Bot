@@ -4,7 +4,11 @@ import { reactionModuleResponse } from "../SetupResponse";
 
 export class RefreshButton extends BaseComponent {
   constructor() {
-    super("reactionRefresh", 600);
+    super({
+      customId: "reactionRefresh",
+      ttl: 600,
+      authorOnly: true,
+    });
   }
   async execute(interaction: ButtonInteraction, args?: string[]) {
     const authorId = args[0];

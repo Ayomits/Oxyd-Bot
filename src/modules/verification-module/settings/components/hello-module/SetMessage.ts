@@ -10,7 +10,11 @@ import { VerificationHelloResponse } from "./Response";
 
 export class VerificationHelloSetMessage extends BaseComponent {
   constructor() {
-    super("helloverifcationsetmessage", 600);
+    super({
+      customId: "helloverifcationsetmessage",
+      ttl: 600,
+      authorOnly: true,
+    });
   }
 
   async execute(interaction: ButtonInteraction) {

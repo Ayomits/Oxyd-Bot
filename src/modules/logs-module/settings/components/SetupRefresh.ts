@@ -1,12 +1,14 @@
 import BaseComponent from "@/abstractions/BaseComponent";
-import {
-  ButtonInteraction
-} from "discord.js";
+import { ButtonInteraction } from "discord.js";
 import { settingsResponse } from "../SetupResponse";
 
 export class SettingsRefreshButton extends BaseComponent {
   constructor() {
-    super("logsrefresh", 600);
+    super({
+      customId: "logsrefresh",
+      ttl: 600,
+      authorOnly: true,
+    });
   }
 
   async execute(interaction: ButtonInteraction, args: string[]): Promise<void> {

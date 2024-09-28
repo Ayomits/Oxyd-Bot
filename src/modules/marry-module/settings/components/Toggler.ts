@@ -5,7 +5,11 @@ import { ButtonInteraction } from "discord.js";
 
 export class MarrySettingsToggler extends BaseComponent {
   constructor() {
-    super("marrysettingstoggleridkdk", 600);
+    super({
+      customId: "marrysettingstoggleridkdk",
+      ttl: 600,
+      authorOnly: true,
+    });
   }
 
   async execute(interaction: ButtonInteraction) {

@@ -4,7 +4,11 @@ import { MarrySettingsResponse } from "../Response";
 
 export class RefreshButton extends BaseComponent {
   constructor() {
-    super("marrysettingsrefreshidkdk", 600);
+    super({
+      customId: "marrysettingsrefreshidkdk",
+      ttl: 600,
+      authorOnly: true,
+    });
   }
 
   async execute(interaction: ButtonInteraction) {

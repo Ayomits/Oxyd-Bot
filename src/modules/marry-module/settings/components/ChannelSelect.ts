@@ -4,7 +4,11 @@ import { channelMention, ChannelSelectMenuInteraction } from "discord.js";
 
 export class MarryChannelSelect extends BaseComponent {
   constructor() {
-    super("categoryselect", 600);
+    super({
+      customId: "categoryselect",
+      ttl: 600,
+      authorOnly: true,
+    });
   }
 
   async execute(interaction: ChannelSelectMenuInteraction) {

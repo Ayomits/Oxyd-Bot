@@ -1,6 +1,5 @@
 export type ComponentOptions = {
   customId: string;
-  lifetime?: {
-    ttl: number;
-  };
+  ttl?: number;
+  authorOnly?: boolean;
 };

@@ -6,7 +6,11 @@ import { VerificationResponse } from "../../Response";
 
 export class RolesGoBack extends BaseComponent {
   constructor() {
-    super("verificationrolesgoback", 600);
+    super({
+      customId: "verificationrolesgoback",
+      ttl: 600,
+      authorOnly: true,
+    });
   }
 
   async execute(interaction: ButtonInteraction) {

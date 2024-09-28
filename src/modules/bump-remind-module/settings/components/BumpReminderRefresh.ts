@@ -5,7 +5,11 @@ import { SomethingWentWrong } from "@/errors/SomethingWentWrong";
 
 export class BumpReminderRefresh extends BaseComponent {
   constructor() {
-    super("bumprefreshbutton", 600);
+    super({
+      customId: "bumprefreshbutton",
+      ttl: 600,
+      authorOnly: true,
+    });
   }
   async execute(interaction: ButtonInteraction) {
     try {

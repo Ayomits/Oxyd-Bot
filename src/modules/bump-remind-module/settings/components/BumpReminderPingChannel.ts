@@ -5,11 +5,15 @@ import { ChannelSelectMenuInteraction } from "discord.js";
 
 export class BumpReminderPingChannel extends BaseComponent {
   constructor() {
-    super("bumpreminderchannel", 600);
+    super({
+      customId: "bumpreminderchannel",
+      ttl: 600,
+      authorOnly: true,
+    });
   }
   async execute(interaction: ChannelSelectMenuInteraction) {
     try {
-      await interaction.deferReply({ephemeral: true});
+      await interaction.deferReply({ ephemeral: true });
       await BumpReminderModuleModel.updateOne(
         { guildId: interaction.guild.id },
         { pingChannelId: interaction.values[0] }

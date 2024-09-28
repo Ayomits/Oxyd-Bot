@@ -1,12 +1,14 @@
 import BaseComponent from "@/abstractions/BaseComponent";
 import { ReactionModuleModel } from "@/db/models/economy/ReactionsModel";
-import {
-  ChannelSelectMenuInteraction,
-} from "discord.js";
+import { ChannelSelectMenuInteraction } from "discord.js";
 
 export class ReactionsChannelsSetup extends BaseComponent {
   constructor() {
-    super("setupRolesChannels", 600);
+    super({
+      customId: "setupRolesChannels",
+      ttl: 600,
+      authorOnly: true,
+    });
   }
 
   async execute(interaction: ChannelSelectMenuInteraction, args: string[]) {

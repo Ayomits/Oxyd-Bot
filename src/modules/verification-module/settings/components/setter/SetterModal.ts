@@ -16,7 +16,11 @@ import {
 
 export class VerificationSettingsSetterModal extends BaseComponent {
   constructor() {
-    super("setterModal", 600);
+    super({
+      customId: "setterModal",
+      ttl: 600,
+      authorOnly: true,
+    });
   }
   async execute(interaction: ModalSubmitInteraction, args?: string[]) {
     try {

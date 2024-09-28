@@ -5,7 +5,11 @@ import { ModalSubmitInteraction } from "discord.js";
 
 export class VerificationHelloSetMessageModal extends BaseComponent {
   constructor() {
-    super("verificationhellomodal", 600);
+    super({
+      customId: "verificationhellomodal", 
+      ttl: 600,
+      authorOnly: true
+    });
   }
 
   async execute(interaction: ModalSubmitInteraction) {

@@ -1,10 +1,10 @@
 import BaseComponent from "@/abstractions/BaseComponent";
 import { ButtonInteraction } from "discord.js";
-import { EconomySettingsResponse } from "./Response";
+import { EconomySettingsResponse } from "../Response";
 
 export class EconomyBaseSettingsRefresher extends BaseComponent {
   constructor() {
-    super("economyrefresher", 600);
+    super({ customId: "economyrefresher", ttl: 600, authorOnly: true });
   }
 
   async execute(interaction: ButtonInteraction) {

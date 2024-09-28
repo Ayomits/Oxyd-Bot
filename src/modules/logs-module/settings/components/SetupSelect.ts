@@ -9,7 +9,11 @@ import {
 
 export class SettingsSelect extends BaseComponent {
   constructor() {
-    super("logSelect", 600);
+    super({
+      customId: "logSelect",
+      ttl: 600,
+      authorOnly: true,
+    });
   }
 
   async execute(interaction: StringSelectMenuInteraction) {

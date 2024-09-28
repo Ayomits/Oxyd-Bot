@@ -5,7 +5,11 @@ import { ModalSubmitInteraction } from "discord.js";
 
 export class VerificationSettingsEmbedModal extends BaseComponent {
   constructor() {
-    super("manageEmbedModal", 600);
+    super({
+      customId: "manageEmbedModal",
+      ttl: 600,
+      authorOnly: true,
+    });
   }
   async execute(interaction: ModalSubmitInteraction, args?: string[]) {
     await interaction.deferReply({ ephemeral: true });
@@ -16,7 +20,7 @@ export class VerificationSettingsEmbedModal extends BaseComponent {
         content: `Сссылка **должна** быть на discohook. Используйте кнопку share на сайте!`,
       });
     }
-    const json = await discohookParser(url)
+    const json = await discohookParser(url);
     await VerificationModuleModel.updateOne(
       {
         guildId: interaction.guild.id,
