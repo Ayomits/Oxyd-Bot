@@ -4,8 +4,16 @@ import { SnowflakeType } from "@/enums";
 import { GuildDocument, GuildModel } from "@/db/models/guilds/GuildsModel";
 import configService from "@/utils/system/ConfigService";
 import Logger from "@/utils/system/Logger";
-import { ActivityType, Client, Events, REST, Routes, TextChannel } from "discord.js";
+import {
+  ActivityType,
+  Client,
+  Events,
+  REST,
+  Routes,
+  TextChannel,
+} from "discord.js";
 import mongoose from "mongoose";
+import { ReactionCollector } from "../reactions-module/module/ReactionCollector";
 
 export class ReadyEvent extends BaseEvent {
   constructor() {
@@ -49,6 +57,7 @@ export class ReadyEvent extends BaseEvent {
     const _developer = [] as BaseCommand[];
     const _public = [] as BaseCommand[];
     const rest = new REST().setToken(client.token);
+    const reactions = ReactionCollector(client);
     client.commands
       .filter((command) => command.options.isSlash)
       .forEach((command) => {
@@ -58,11 +67,15 @@ export class ReadyEvent extends BaseEvent {
         }
         _public.push(command);
       });
+    const slashCommands = [
+      ..._public.map((command) => command.options.builder),
+      ...reactions,
+    ];
     try {
       const promises = [];
       promises.push(
         rest.put(Routes.applicationCommands(client.user.id), {
-          body: _public.map((command) => command.options.builder.toJSON()),
+          body: slashCommands.map((command) => command.toJSON()),
         })
       );
       if (_developer) {
@@ -80,7 +93,7 @@ export class ReadyEvent extends BaseEvent {
         }
       }
       await Promise.all(promises);
-      Logger.success(`${_public.length} public commands registered`);
+      Logger.success(`${slashCommands.length} public commands registered`);
       Logger.success(`${_developer.length} developer commands registered`);
     } catch (err) {
       Logger.error(err);

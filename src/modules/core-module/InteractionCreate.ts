@@ -62,18 +62,17 @@ export class InteractionCreate extends BaseEvent {
         const splitterRegex = /(?<=_\()[^)]*(?=\))|_/;
         const splitedCustomId = interaction.customId.split(splitterRegex);
         const component = interaction.client.buttons.get(splitedCustomId[0]);
-        if (!component) return;
-        const {authorOnly, ttl, customId} = component.options
-        if (authorOnly) {
+
+        if (component?.options?.authorOnly) {
           if (interaction.user?.id !== interaction.message?.interaction.user.id)
             return;
         }
-        if (ttl) {
+        if (component?.options?.ttl) {
           const msgCreated = Math.floor(
             interaction.message.createdTimestamp / 1000
           );
           const now = Math.floor(new Date().getTime() / 1000);
-          if (now > msgCreated + ttl) return;
+          if (now > msgCreated + component.options.ttl) return;
         }
         if (interaction.isStringSelectMenu()) {
           const value = interaction.values[0].split(splitterRegex);
@@ -90,9 +89,8 @@ export class InteractionCreate extends BaseEvent {
             }
           }
         }
-        
         try {
-          component!.execute(interaction, splitedCustomId.slice(1));
+          component?.execute(interaction, splitedCustomId.slice(1));
           Logger.log(
             `${interaction.customId} ${this.componentCalc(
               interaction
