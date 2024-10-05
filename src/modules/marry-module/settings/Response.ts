@@ -1,9 +1,9 @@
 import { MarrySettingsModel } from "@/db/models/economy/MarrySettingsModel";
 import { SnowflakeColors } from "@/enums";
 import { SnowflakeMentionType } from "@/enums/SnowflakeMentionType";
-import { buttonStyle } from "@/utils/functions/buttonStyle";
-import { isEnabled } from "@/utils/functions/isEnabled";
-import { mentionOrNot } from "@/utils/functions/mentions";
+import { buttonStyle } from "@/libs/embeds-functions/buttonStyle";
+import { isEnabled } from "@/libs/embeds-functions/isEnabled";
+import { mentionOrNot } from "@/libs/embeds-functions/mentions";
 import {
   ActionRowBuilder,
   ButtonBuilder,

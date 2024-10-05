@@ -1,6 +1,6 @@
 import BaseComponent from "@/abstractions/BaseComponent";
 import { VerificationModuleModel } from "@/db/models/verification/VerificationModel";
-import { discohookParser } from "@/utils/parsers/discohookParser";
+import { discohookParser } from "@/libs/parsers-functions/discohookParser";
 import { ModalSubmitInteraction } from "discord.js";
 
 export class VerificationSettingsEmbedModal extends BaseComponent {

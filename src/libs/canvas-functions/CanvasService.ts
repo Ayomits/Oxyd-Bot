@@ -10,7 +10,8 @@ import {
   CanvasOptionsType,
   FontsType,
 } from "./CanvasTypes";
-import Logger from "../system/Logger";
+import Logger from "../core-functions/Logger";
+
 // Types remain unchanged
 // ...
 
@@ -20,9 +21,8 @@ export class CanvasService {
   constructor() {
     this.imageCache = new Map();
   }
-  
-  async generate(options: CanvasOptionsType) {
 
+  async generate(options: CanvasOptionsType) {
     const canvas = createCanvas(options.width, options.height);
     const ctx = canvas.getContext("2d");
     const ctx2 = canvas.getContext("2d");
@@ -124,10 +124,7 @@ export class CanvasService {
         );
       }
     } catch (error) {
-      Logger.error(
-        `Failed to load avatar image from ${data.image.url}`,
-        error
-      );
+      Logger.error(`Failed to load avatar image from ${data.image.url}`, error);
       throw error;
     }
   }

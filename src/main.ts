@@ -7,9 +7,9 @@ import BaseComponent from "@/abstractions/BaseComponent";
 import BaseSelectMenuValue from "@/abstractions/BaseSelectMenuValue";
 
 import i18n from "@/i18n/i18n-instance";
-import configService from "@/utils/system/ConfigService";
-import actionCollector from "@/utils/system/ActionCollector";
-import Logger from "./utils/system/Logger";
+import actionCollector from "./libs/core-functions/ActionCollector";
+import Logger from "./libs/core-functions/Logger";
+import configService from "./libs/core-functions/ConfigService";
 
 declare module "discord.js" {
   export interface Client {
@@ -47,7 +47,11 @@ const client = new Client({
 
 global.rootDir = path.resolve(__dirname);
 global.testGuilds = ["1268160506623950868"];
-global.developers = ["1129162686194790572", "1043515070153494538", "1140333208467152916"];
+global.developers = [
+  "1129162686194790572",
+  "1043515070153494538",
+  "1140333208467152916",
+];
 
 client.commands = new Collection<string, BaseCommand>();
 client.subCommands = new Collection<string, BaseSubCommand>();

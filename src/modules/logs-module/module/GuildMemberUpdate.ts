@@ -2,7 +2,7 @@ import BaseEvent from "@/abstractions/BaseEvent";
 import { EmbedBuilder, Events, GuildMember, TextChannel } from "discord.js";
 import SettingsService from "../settings/SetupService";
 import { SnowflakeColors } from "@/enums";
-import Logger from "@/utils/system/Logger";
+import Logger from "@/libs/core-functions/Logger";
 
 export class GuildMemberUpdate extends BaseEvent {
   constructor() {

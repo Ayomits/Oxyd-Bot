@@ -1,6 +1,6 @@
 import BaseComponent from "@/abstractions/BaseComponent";
 import { MarrySettingsModel } from "@/db/models/economy/MarrySettingsModel";
-import { isEnabled } from "@/utils/functions/isEnabled";
+import { isEnabled } from "@/libs/embeds-functions/isEnabled";
 import { ButtonInteraction } from "discord.js";
 
 export class MarrySettingsToggler extends BaseComponent {

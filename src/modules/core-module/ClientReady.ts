@@ -2,18 +2,11 @@ import BaseCommand from "@/abstractions/BaseCommand";
 import BaseEvent from "@/abstractions/BaseEvent";
 import { SnowflakeType } from "@/enums";
 import { GuildDocument, GuildModel } from "@/db/models/guilds/GuildsModel";
-import configService from "@/utils/system/ConfigService";
-import Logger from "@/utils/system/Logger";
-import {
-  ActivityType,
-  Client,
-  Events,
-  REST,
-  Routes,
-  TextChannel,
-} from "discord.js";
+import { ActivityType, Client, Events, REST, Routes } from "discord.js";
 import mongoose from "mongoose";
 import { ReactionCollector } from "../reactions-module/module/ReactionCollector";
+import Logger from "@/libs/core-functions/Logger";
+import configService from "@/libs/core-functions/ConfigService";
 
 export class ReadyEvent extends BaseEvent {
   constructor() {

@@ -1,7 +1,7 @@
 import BaseComponent from "@/abstractions/BaseComponent";
 import { ButtonInteraction, ChannelSelectMenuInteraction } from "discord.js";
 import { EconomySettingsModel } from "@/db/models/economy/EconomySettingsModel";
-import { isEnabled } from "@/utils/functions/isEnabled";
+import { isEnabled } from "@/libs/embeds-functions/isEnabled";
 
 export class EconomyBaseSettingsSetter extends BaseComponent {
   constructor() {

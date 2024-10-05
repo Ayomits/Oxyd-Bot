@@ -1,6 +1,6 @@
 import BaseCommand from "@/abstractions/BaseCommand";
 import { SnowflakeType } from "@/enums";
-import Logger from "@/utils/system/Logger";
+
 import {
   ActionRowBuilder,
   ButtonBuilder,
@@ -10,6 +10,7 @@ import {
 } from "discord.js";
 import { BumpReminderResponse } from "./BumpReminderResponse";
 import { SomethingWentWrong } from "@/errors/SomethingWentWrong";
+import Logger from "@/libs/core-functions/Logger";
 
 export class BumpReminderSettings extends BaseCommand {
   constructor() {

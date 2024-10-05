@@ -1,6 +1,6 @@
 import BaseCommand from "@/abstractions/BaseCommand";
 import { SnowflakeColors, SnowflakeType } from "@/enums";
-import SnowflakeParser from "@/utils/parsers/snowflakeParser";
+import SnowflakeParser from "@/libs/parsers-functions/snowflakeParser";
 import {
   CommandInteraction,
   EmbedBuilder,

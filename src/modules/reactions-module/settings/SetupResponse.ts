@@ -3,9 +3,9 @@ import {
   ReactionModuleDocument,
   ReactionModuleModel,
 } from "@/db/models/economy/ReactionsModel";
-import { buttonStyle } from "@/utils/functions/buttonStyle";
-import { isEnabled } from "@/utils/functions/isEnabled";
-import { snowflakeArraysFilter } from "@/utils/functions/snowflakeArraysFilter";
+import { buttonStyle } from "@/libs/embeds-functions/buttonStyle";
+import { isEnabled } from "@/libs/embeds-functions/isEnabled";
+import { snowflakeArraysFilter } from "@/libs/embeds-functions/snowflakeArraysFilter";
 import {
   ActionRowBuilder,
   AnySelectMenuInteraction,

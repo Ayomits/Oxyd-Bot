@@ -17,7 +17,7 @@ import reactionsLinks from "./configs/reactlink.json";
 import { findReactionByAliases, ReactionConfig } from "./ReactionTypes";
 import axios from "axios";
 import { SnowflakeColors } from "@/enums";
-import { randomValue } from "@/utils/functions/random";
+import { randomValue } from "@/libs/embeds-functions/random";
 import { ReactionModuleModel } from "@/db/models/economy/ReactionsModel";
 const API_URL = "https://api.otakugifs.xyz/gif?reaction=";
 

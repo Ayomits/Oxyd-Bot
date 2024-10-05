@@ -1,7 +1,7 @@
 import { BumpReminderModuleDocument } from "@/db/models/bump-reminder/BumpReminderModel";
 import { Message } from "discord.js";
 import { BumpReminderSchedule } from "./BumpReminderFuncs";
-import { findHHMMSS } from "@/utils/functions/findHHMM";
+import { findHHMMSS } from "@/libs/embeds-functions/findHHMM";
 
 export enum MonitoringBots {
   SDC_MONITORING = "464272403766444044",

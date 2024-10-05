@@ -1,4 +1,4 @@
-export async function discohookParser(url: string) {
+  export async function discohookParser(url: string) {
   try {
     const response = await fetch(url);
     const endUrl = response.url;

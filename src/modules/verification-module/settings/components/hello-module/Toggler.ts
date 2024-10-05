@@ -1,6 +1,6 @@
 import BaseComponent from "@/abstractions/BaseComponent";
 import { VerificationHelloModel } from "@/db/models/verification/VerificationHelloModel";
-import { isEnabled } from "@/utils/functions/isEnabled";
+import { isEnabled } from "@/libs/embeds-functions/isEnabled";
 import { ButtonInteraction } from "discord.js";
 
 export class VerifcationHelloToggler extends BaseComponent {

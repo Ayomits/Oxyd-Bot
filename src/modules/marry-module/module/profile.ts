@@ -7,10 +7,10 @@ import {
   SlashCommandBuilder,
 } from "discord.js";
 import { marryFormula, MarryType } from "./configs";
-import { getFontPath, getImagePath } from "@/utils/canvas/getPath";
+import { getFontPath, getImagePath } from "@/libs/canvas-functions/getPath";
 import { CanvasServiceInstance } from "@/utils";
-import { formatNumber } from "@/utils/functions/formatNumber";
-import { calculateTimeDifference } from "@/utils/functions/calculateTimeDifference";
+import { formatNumber } from "@/libs/embeds-functions/formatNumber";
+import { calculateTimeDifference } from "@/libs/embeds-functions/calculateTimeDifference";
 import { MarrySettingsModel } from "@/db/models/economy/MarrySettingsModel";
 
 export class MarryProfile extends BaseCommand {

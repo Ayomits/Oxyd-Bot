@@ -1,5 +1,5 @@
 import BaseComponent from "@/abstractions/BaseComponent";
-import { discohookParser } from "@/utils/parsers/discohookParser";
+import { discohookParser } from "@/libs/parsers-functions/discohookParser";
 import { VerificationHelloModel } from "@/db/models/verification/VerificationHelloModel";
 import { ModalSubmitInteraction } from "discord.js";
 

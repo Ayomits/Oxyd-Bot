@@ -1,7 +1,7 @@
 import BaseSelectMenuValue from "@/abstractions/BaseSelectMenuValue";
 import { VerificationModuleModel } from "@/db/models/verification/VerificationModel";
 import { SomethingWentWrong } from "@/errors/SomethingWentWrong";
-import { dischookDeParses } from "@/utils/parsers/discohookParser";
+import { dischookDeParses } from "@/libs/parsers-functions/discohookParser";
 import { ModalBuilder } from "@discordjs/builders";
 import {
   ActionRowBuilder,

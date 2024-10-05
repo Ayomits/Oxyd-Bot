@@ -17,7 +17,7 @@ import {
   TextChannel,
 } from "discord.js";
 import { SnowflakeColors } from "@/enums";
-import { calculateTimeDifference } from "@/utils/functions/calculateTimeDifference";
+import { calculateTimeDifference } from "@/libs/embeds-functions/calculateTimeDifference";
 
 export class BumpReminderSchedule {
   private static cache = new Map<string, Job>();

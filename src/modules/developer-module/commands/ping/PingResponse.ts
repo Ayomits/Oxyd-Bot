@@ -1,6 +1,6 @@
 import { SnowflakeColors } from "@/enums";
-import { positiveNumber } from "@/utils/functions/positiveNumber";
-import Logger from "@/utils/system/Logger";
+import Logger from "@/libs/core-functions/Logger";
+import { positiveNumber } from "@/libs/embeds-functions/positiveNumber";
 import {
   ActionRowBuilder,
   ButtonBuilder,

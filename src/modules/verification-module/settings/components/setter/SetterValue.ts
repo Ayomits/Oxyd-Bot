@@ -1,7 +1,8 @@
 import BaseSelectMenuValue from "@/abstractions/BaseSelectMenuValue";
 import { SomethingWentWrong } from "@/errors/SomethingWentWrong";
 import { VerificationModuleDocument } from "@/db/models/verification/VerificationModel";
-import Logger from "@/utils/system/Logger";
+import Logger from "@/libs/core-functions/Logger";
+
 import {
   StringSelectMenuInteraction,
   ModalBuilder,

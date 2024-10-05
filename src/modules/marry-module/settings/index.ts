@@ -7,7 +7,7 @@ import {
   SlashCommandBuilder,
 } from "discord.js";
 import { MarrySettingsResponse } from "./Response";
-import Logger from "@/utils/system/Logger";
+import Logger from "@/libs/core-functions/Logger";
 
 export class MarrySettingsCommand extends BaseCommand {
   constructor() {

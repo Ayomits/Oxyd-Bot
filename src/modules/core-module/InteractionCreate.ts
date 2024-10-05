@@ -1,6 +1,7 @@
 import BaseEvent from "@/abstractions/BaseEvent";
 import { SnowflakeType } from "@/enums";
-import Logger from "@/utils/system/Logger";
+import Logger from "@/libs/core-functions/Logger";
+
 import {
   ButtonInteraction,
   ChannelSelectMenuInteraction,

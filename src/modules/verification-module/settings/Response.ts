@@ -1,10 +1,10 @@
 import { SnowflakeColors } from "@/enums";
 import { SnowflakeMentionType } from "@/enums/SnowflakeMentionType";
 import { VerificationModuleModel } from "@/db/models/verification/VerificationModel";
-import { buttonStyle } from "@/utils/functions/buttonStyle";
-import { isEnabled } from "@/utils/functions/isEnabled";
-import { mentionOrNot } from "@/utils/functions/mentions";
-import { snowflakeArraysFilter } from "@/utils/functions/snowflakeArraysFilter";
+import { buttonStyle } from "@/libs/embeds-functions/buttonStyle";
+import { isEnabled } from "@/libs/embeds-functions/isEnabled";
+import { mentionOrNot } from "@/libs/embeds-functions/mentions";
+import { snowflakeArraysFilter } from "@/libs/embeds-functions/snowflakeArraysFilter";
 import {
   ActionRowBuilder,
   ButtonBuilder,

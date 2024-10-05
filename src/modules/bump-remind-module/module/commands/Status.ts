@@ -3,7 +3,7 @@ import { SnowflakeType } from "@/enums";
 import { SomethingWentWrong } from "@/errors/SomethingWentWrong";
 import { CommandInteraction, SlashCommandBuilder } from "discord.js";
 import { bumpReminderStatusResponse } from "./Response";
-import Logger from "@/utils/system/Logger";
+import Logger from "@/libs/core-functions/Logger";
 
 export class BumpReminderStatus extends BaseCommand {
   constructor() {

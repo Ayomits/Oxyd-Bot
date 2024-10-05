@@ -1,7 +1,7 @@
 import BaseComponent from "@/abstractions/BaseComponent";
 import { SomethingWentWrong } from "@/errors/SomethingWentWrong";
 import { VerificationModuleModel } from "@/db/models/verification/VerificationModel";
-import { isEnabled } from "@/utils/functions/isEnabled";
+import { isEnabled } from "@/libs/embeds-functions/isEnabled";
 import { ButtonInteraction } from "discord.js";
 
 export class VerificationModuleToggler extends BaseComponent {
