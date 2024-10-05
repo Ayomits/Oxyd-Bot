@@ -41,4 +41,7 @@ export const TeleportSchema = new Schema<TeleportDocument>({
   },
 });
 
-export const TeleportModel = model<TeleportDocument>("guild_teleports");
+export const TeleportModel = model<TeleportDocument>(
+  "guild_teleports",
+  TeleportSchema
+);

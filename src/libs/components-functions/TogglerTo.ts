@@ -14,7 +14,7 @@ type TogglerParams = {
   ephemeral?: boolean;
 };
 
-export async function RefreshSomething(params: TogglerParams) {
+export async function SetTogglerTo(params: TogglerParams) {
   const { interaction, moduleName, ephemeral, model } = params;
   const existed = await model.findOne({ guildId: interaction.guild.id });
   await existed.updateOne({

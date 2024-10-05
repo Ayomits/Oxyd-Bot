@@ -1,5 +1,7 @@
 import BaseComponent from "@/abstractions/BaseComponent";
+import { SetResponseTo } from "@/libs/components-functions/SetResponseTo";
 import { ButtonInteraction } from "discord.js";
+import { TeleportSettingsResponse } from "../../Response";
 
 export class TeleportSettingsRefresher extends BaseComponent {
   constructor() {
@@ -11,5 +13,6 @@ export class TeleportSettingsRefresher extends BaseComponent {
   }
 
   async execute(interaction: ButtonInteraction){
+    await SetResponseTo(interaction, TeleportSettingsResponse)
   }
 }

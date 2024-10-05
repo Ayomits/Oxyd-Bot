@@ -1,7 +1,6 @@
 import BaseComponent from "@/abstractions/BaseComponent";
-import { ButtonInteraction, ChannelSelectMenuInteraction } from "discord.js";
-import { EconomySettingsModel } from "@/db/models/economy/EconomySettingsModel";
-import { isEnabled } from "@/libs/embeds-functions/isEnabled";
+import { ChannelSelectMenuInteraction } from "discord.js";
+import { SetValue } from "@/libs/components-functions/SetValuesTo";
 
 export class EconomyBaseSettingsSetter extends BaseComponent {
   constructor() {
@@ -13,16 +12,11 @@ export class EconomyBaseSettingsSetter extends BaseComponent {
   }
 
   async execute(interaction: ChannelSelectMenuInteraction, args: string[]) {
-    await interaction.deferReply({ ephemeral: true });
-    const values = interaction.values;
-    await EconomySettingsModel.updateOne(
-      { guildId: interaction.guild.id },
-      {
-        $set: {
-          [args[0]]: values,
-        },
-      }
-    );
-    return interaction.editReply({ content: `Данные были обновлены` });
+    await SetValue({
+      interaction: interaction,
+      field: args[0],
+      once: false,
+      model: EconomyBaseSettingsSetter,
+    });
   }
 }

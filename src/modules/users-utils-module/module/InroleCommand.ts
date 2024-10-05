@@ -65,7 +65,7 @@ export class InRole extends BaseCommand {
       const disabledPreviousCondition = pageNumber <= 1;
 
       firstRole.setDisabled(pageNumber === 1);
-      lastRole.setDisabled(lastPage === 0);
+      lastRole.setDisabled(lastPage === 1 || lastPage === 0);
       next.setDisabled(disabledNextCondition);
       previous.setDisabled(disabledPreviousCondition);
     };
@@ -81,7 +81,7 @@ export class InRole extends BaseCommand {
       .setCustomId(
         `lastRole_${interaction.user.id}_${interaction.guild.id}_${interaction.id}`
       )
-      .setDisabled(lastPage === 0)
+      .setDisabled(lastPage === 1 || lastPage === 0)
       .setStyle(ButtonStyle.Secondary)
       .setEmoji("⏭");
 

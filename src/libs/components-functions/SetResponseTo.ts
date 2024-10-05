@@ -13,8 +13,12 @@ interface IResponse {
  */
 export async function SetResponseTo(
   interaction: any,
-  resposeFunc: any
+  resposeFunc: any,
+  deferUpdate = true,
+  mustEphemeral = true
 ) {
-  await interaction.deferUpdate();
+  if (deferUpdate) {
+    await interaction.deferUpdate();
+  } else await interaction.deferReply({ ephemeral: mustEphemeral });
   interaction.editReply(await resposeFunc(interaction));
 }

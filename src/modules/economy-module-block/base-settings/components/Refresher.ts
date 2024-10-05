@@ -1,6 +1,7 @@
 import BaseComponent from "@/abstractions/BaseComponent";
 import { ButtonInteraction } from "discord.js";
 import { EconomySettingsResponse } from "../Response";
+import { SetResponseTo } from "@/libs/components-functions/SetResponseTo";
 
 export class EconomyBaseSettingsRefresher extends BaseComponent {
   constructor() {
@@ -8,7 +9,6 @@ export class EconomyBaseSettingsRefresher extends BaseComponent {
   }
 
   async execute(interaction: ButtonInteraction) {
-    await interaction.deferUpdate();
-    interaction.editReply(await EconomySettingsResponse(interaction));
+    await SetResponseTo(interaction, EconomySettingsResponse);
   }
 }
