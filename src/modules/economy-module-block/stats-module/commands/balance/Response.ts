@@ -1,5 +1,5 @@
 import { SnowflakeColors } from "@/enums";
-import { EconomyUserActions } from "@/libs/economy-functions/user";
+import { EconomyUserActions } from "@/libs/db-wrapper-functions/user";
 import {
   ActionRowBuilder,
   bold,
