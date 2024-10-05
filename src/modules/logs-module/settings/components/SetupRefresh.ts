@@ -1,6 +1,7 @@
 import BaseComponent from "@/abstractions/BaseComponent";
 import { ButtonInteraction } from "discord.js";
 import { settingsResponse } from "../SetupResponse";
+import { SetResponseTo } from "@/libs/components-functions/SetResponseTo";
 
 export class SettingsRefreshButton extends BaseComponent {
   constructor() {
@@ -12,8 +13,6 @@ export class SettingsRefreshButton extends BaseComponent {
   }
 
   async execute(interaction: ButtonInteraction, args: string[]): Promise<void> {
-    await interaction.deferUpdate();
-    const res = await settingsResponse(interaction);
-    await interaction.editReply(res);
+    await SetResponseTo(interaction, settingsResponse)
   }
 }

@@ -8,10 +8,10 @@ import {
 } from "discord.js";
 import { marryFormula, MarryType } from "./configs";
 import { getFontPath, getImagePath } from "@/libs/canvas-functions/getPath";
-import { CanvasServiceInstance } from "@/utils";
 import { formatNumber } from "@/libs/embeds-functions/formatNumber";
 import { calculateTimeDifference } from "@/libs/embeds-functions/calculateTimeDifference";
 import { MarrySettingsModel } from "@/db/models/economy/MarrySettingsModel";
+import { CanvasServiceInstance } from "@/libs/canvas-functions";
 
 export class MarryProfile extends BaseCommand {
   constructor() {

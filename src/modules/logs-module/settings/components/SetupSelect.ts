@@ -1,11 +1,19 @@
 import BaseComponent from "@/abstractions/BaseComponent";
+import { SnowflakeColors } from "@/enums";
+import { SetResponseTo } from "@/libs/components-functions/SetResponseTo";
 import {
   ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  ChannelSelectMenuBuilder,
+  ChannelType,
+  EmbedBuilder,
   ModalBuilder,
   StringSelectMenuInteraction,
   TextInputBuilder,
   TextInputStyle,
 } from "discord.js";
+import { LogChannelSetupResponse } from "./channel-setup-embed/Response";
 
 export class SettingsSelect extends BaseComponent {
   constructor() {
@@ -17,21 +25,6 @@ export class SettingsSelect extends BaseComponent {
   }
 
   async execute(interaction: StringSelectMenuInteraction) {
-    const value = interaction.values;
-    const modal = new ModalBuilder()
-      .setCustomId(`settingsModal_${value.map((val) => val).join("_")}`)
-      .setTitle(`Настройка логгирования`);
-    const channelId = new ActionRowBuilder<TextInputBuilder>().addComponents(
-      new TextInputBuilder()
-        .setCustomId(`channelId`)
-        .setLabel(`Айди канала`)
-        .setPlaceholder(`1268160506623950868`)
-        .setRequired(false)
-        .setStyle(TextInputStyle.Short)
-        .setMaxLength(21)
-        .setMinLength(17)
-    );
-    modal.addComponents(channelId);
-    return interaction.showModal(modal);
+    await SetResponseTo(interaction, LogChannelSetupResponse)
   }
 }
