@@ -64,12 +64,12 @@ export async function TeleportsResponse(
       .setDisabled(pageNumber * pageSize >= allTelepors.length)
       .setStyle(ButtonStyle.Secondary)
   );
-  const backButton = new ActionRowBuilder<ButtonBuilder>().addComponents(
-    new ButtonBuilder()
-      .setCustomId(`teleportbackbutton`)
-      .setLabel("Назад")
-      .setStyle(ButtonStyle.Danger)
-  );
+  // const backButton = new ActionRowBuilder<ButtonBuilder>().addComponents(
+  //   new ButtonBuilder()
+  //     .setCustomId(`teleportbackbutton`)
+  //     .setLabel("Назад")
+  //     .setStyle(ButtonStyle.Danger)
+  // );
   const selectMenu =
     new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
       new StringSelectMenuBuilder()
@@ -77,7 +77,7 @@ export async function TeleportsResponse(
         .setPlaceholder(`Выберите нужный телепорт`)
         .setOptions(options)
     );
-  const components = [backButton, buttons] as any[];
+  const components = [buttons] as any[];
   if (options.length >= 1) components.push(selectMenu);
-  return { embeds: [embed], components: components.reverse() };
+  return { embeds: [embed], components: components};
 }
