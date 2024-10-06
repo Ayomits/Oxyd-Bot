@@ -5,7 +5,7 @@ import {
   ComponentType,
   InteractionResponse,
 } from "discord.js";
-import { TeleportsResponse } from "./Response";
+import { TeleportsResponse } from "./AllTeleportsResponse";
 
 export class TeleportsButton extends BaseComponent {
   constructor() {
@@ -18,7 +18,7 @@ export class TeleportsButton extends BaseComponent {
 
   async execute(interaction: ButtonInteraction) {
     let pageNumber = 1;
-    const repl = (await SetResponseTo(interaction, TeleportsResponse)) as any;
+    const repl = (await SetResponseTo(interaction, TeleportsResponse))
     const collector = repl.createMessageComponentCollector({
       filter: (i) => i.user.id === interaction.user.id,
       componentType: ComponentType.Button,

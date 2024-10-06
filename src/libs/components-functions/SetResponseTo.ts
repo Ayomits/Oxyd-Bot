@@ -17,8 +17,12 @@ export async function SetResponseTo(
   deferUpdate = true,
   mustEphemeral = true
 ) {
-  if (deferUpdate) {
-    await interaction.deferUpdate();
-  } else await interaction.deferReply({ ephemeral: mustEphemeral });
-  interaction.editReply(await resposeFunc(interaction));
+  try {
+    if (deferUpdate) {
+      await interaction.deferUpdate();
+    } else {
+      await interaction.deferReply({ ephemeral: mustEphemeral });
+    }
+    return interaction.editReply(await resposeFunc(interaction));
+  } catch {}
 }

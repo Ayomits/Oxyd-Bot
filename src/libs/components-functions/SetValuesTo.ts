@@ -5,7 +5,7 @@ type SetValueParams = {
   interaction: AnySelectMenuInteraction;
   model: any;
   /**
-   * Обновляемое поле
+   * Обновляемое(-ые) поле(-я)
    */
   field: string | string[];
   /**

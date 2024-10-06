@@ -20,7 +20,9 @@ export async function TeleportsResponse(
   const options = [];
   const allTelepors = await TeleportModel.find({
     guildId: interaction.guild.id,
-  });
+  })
+    .skip((pageNumber - 1) * pageSize)
+    .limit(pageSize + 1);
   const embed = new EmbedBuilder()
     .setTitle(`Телепорты`)
     .setColor(SnowflakeColors.DEFAULT)
@@ -49,15 +51,17 @@ export async function TeleportsResponse(
   const buttons = new ActionRowBuilder<ButtonBuilder>().addComponents(
     new ButtonBuilder()
       .setCustomId(`teleportprevious`)
+      .setDisabled(pageNumber === 1)
       .setEmoji("◀")
       .setStyle(ButtonStyle.Secondary),
     new ButtonBuilder()
       .setCustomId(`teleportcreate`)
-      .setEmoji("Создать")
+      .setLabel("Создать")
       .setStyle(ButtonStyle.Primary),
     new ButtonBuilder()
       .setCustomId(`teleportnext`)
       .setEmoji("▶")
+      .setDisabled(pageNumber * pageSize >= allTelepors.length)
       .setStyle(ButtonStyle.Secondary)
   );
   const backButton = new ActionRowBuilder<ButtonBuilder>().addComponents(
@@ -73,7 +77,7 @@ export async function TeleportsResponse(
         .setPlaceholder(`Выберите нужный телепорт`)
         .setOptions(options)
     );
-  const components = [buttons, backButton] as any[]
-  if (options.length >= 1) components.push(selectMenu)
+  const components = [backButton, buttons] as any[];
+  if (options.length >= 1) components.push(selectMenu);
   return { embeds: [embed], components: components.reverse() };
 }

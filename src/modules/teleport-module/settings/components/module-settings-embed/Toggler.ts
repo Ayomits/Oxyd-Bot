@@ -15,11 +15,14 @@ export class TeleportSettingsToggler extends BaseComponent {
   }
 
   async execute(interaction: ButtonInteraction) {
-    await SetTogglerTo({
-      interaction,
-      model: TeleportSettingsModel,
-      moduleName: "телепортов",
-      ephemeral: true
-    });
+    try {
+      await SetTogglerTo({
+        interaction,
+        model: TeleportSettingsModel,
+        moduleName: "телепортов",
+        ephemeral: true,
+        field: "enable",
+      });
+    } catch {}
   }
 }

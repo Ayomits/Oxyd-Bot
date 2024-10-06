@@ -12,7 +12,9 @@ export class TeleportSettingsRefresher extends BaseComponent {
     });
   }
 
-  async execute(interaction: ButtonInteraction){
-    await SetResponseTo(interaction, TeleportSettingsResponse)
+  async execute(interaction: ButtonInteraction) {
+    try {
+      await SetResponseTo(interaction, TeleportSettingsResponse);
+    } catch {}
   }
 }
