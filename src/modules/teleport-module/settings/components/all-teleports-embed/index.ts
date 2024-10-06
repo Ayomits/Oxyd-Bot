@@ -5,7 +5,7 @@ import {
   ComponentType,
   InteractionResponse,
 } from "discord.js";
-import { TeleportsResponse } from "./AllTeleportsResponse";
+import { AllTeleportsResponse } from "./AllTeleportsResponse";
 
 export class TeleportsButton extends BaseComponent {
   constructor() {
@@ -18,7 +18,14 @@ export class TeleportsButton extends BaseComponent {
 
   async execute(interaction: ButtonInteraction) {
     let pageNumber = 1;
-    const repl = (await SetResponseTo(interaction, TeleportsResponse))
+    const repl = await SetResponseTo({
+      interaction,
+      replFunc: AllTeleportsResponse,
+      defer: {
+        update: true,
+      },
+      ephemeral: true,
+    });
     const collector = repl.createMessageComponentCollector({
       filter: (i) => i.user.id === interaction.user.id,
       componentType: ComponentType.Button,
@@ -31,7 +38,7 @@ export class TeleportsButton extends BaseComponent {
       } else if (inter.customId.includes("previous")) {
         pageNumber = Math.max(pageNumber - 1, 1);
       }
-      inter.editReply(await TeleportsResponse(inter, pageNumber));
+      inter.editReply(await AllTeleportsResponse(inter, pageNumber));
     });
   }
 }

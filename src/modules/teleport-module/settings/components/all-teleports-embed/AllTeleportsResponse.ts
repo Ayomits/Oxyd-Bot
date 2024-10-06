@@ -12,7 +12,7 @@ import {
   StringSelectMenuOptionBuilder,
 } from "discord.js";
 
-export async function TeleportsResponse(
+export async function AllTeleportsResponse(
   interaction: ButtonInteraction,
   pageNumber = 1,
   pageSize = 5
@@ -38,7 +38,7 @@ export async function TeleportsResponse(
     for (const teleport of allTelepors.slice(start, end)) {
       description += `${bold(index.toString())}) ${
         teleport.displayName
-      }\n${channelMention(teleport.channelId)}`;
+      }\n${channelMention(teleport.channelId)}\n\n`;
       options.push(
         new StringSelectMenuOptionBuilder()
           .setLabel(`${teleport.displayName}`)
@@ -55,7 +55,7 @@ export async function TeleportsResponse(
       .setEmoji("◀")
       .setStyle(ButtonStyle.Secondary),
     new ButtonBuilder()
-      .setCustomId(`teleportcreate`)
+      .setCustomId(`teleportcreate_${Math.random()}`)
       .setLabel("Создать")
       .setStyle(ButtonStyle.Primary),
     new ButtonBuilder()
@@ -64,20 +64,20 @@ export async function TeleportsResponse(
       .setDisabled(pageNumber * pageSize >= allTelepors.length)
       .setStyle(ButtonStyle.Secondary)
   );
-  // const backButton = new ActionRowBuilder<ButtonBuilder>().addComponents(
-  //   new ButtonBuilder()
-  //     .setCustomId(`teleportbackbutton`)
-  //     .setLabel("Назад")
-  //     .setStyle(ButtonStyle.Danger)
-  // );
+  const backButton = new ActionRowBuilder<ButtonBuilder>().addComponents(
+    new ButtonBuilder()
+      .setCustomId(`teleportbackbutton`)
+      .setLabel("Назад")
+      .setStyle(ButtonStyle.Danger)
+  );
   const selectMenu =
     new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
       new StringSelectMenuBuilder()
-        .setCustomId(`teleportselectmenu`)
+        .setCustomId(`teleportselectmenu_${Math.random()}`)
         .setPlaceholder(`Выберите нужный телепорт`)
         .setOptions(options)
     );
-  const components = [buttons] as any[];
+  const components = [backButton ,buttons] as any[];
   if (options.length >= 1) components.push(selectMenu);
-  return { embeds: [embed], components: components};
+  return { embeds: [embed], components: components.reverse()};
 }

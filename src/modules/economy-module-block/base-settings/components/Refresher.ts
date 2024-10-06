@@ -9,6 +9,12 @@ export class EconomyBaseSettingsRefresher extends BaseComponent {
   }
 
   async execute(interaction: ButtonInteraction) {
-    await SetResponseTo(interaction, EconomySettingsResponse);
+    await SetResponseTo({
+      interaction,
+      replFunc: EconomySettingsResponse,
+      defer: {
+        update: true,
+      },
+    });
   }
 }

@@ -29,7 +29,7 @@ export const TeleportSchema = new Schema<TeleportDocument>({
   },
   channelId: {
     type: String,
-    required: true,
+    default: null,
   },
   ignoredChannels: {
     type: [],

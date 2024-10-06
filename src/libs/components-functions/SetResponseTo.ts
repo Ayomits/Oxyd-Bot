@@ -1,28 +1,44 @@
 import { EmbedBuilder } from "@discordjs/builders";
-import { ActionRowBuilder, Embed } from "discord.js";
+import {
+  ActionRowBuilder,
+  AnySelectMenuInteraction,
+  ButtonInteraction,
+  CommandInteraction,
+  Embed,
+  Interaction,
+  ModalSubmitInteraction,
+} from "discord.js";
 
-interface IResponse {
-  embeds: EmbedBuilder[];
-  components: ActionRowBuilder[];
-  files: any[];
-  content: string | null;
-}
+type SetResponseParams = {
+  interaction:
+    | AnySelectMenuInteraction
+    | ButtonInteraction
+    | CommandInteraction
+    | ModalSubmitInteraction;
+  defer?: {
+    reply?: boolean;
+    update?: boolean;
+  };
+  ephemeral?: boolean;
+  replFunc: (...args: any[]) => {};
+};
 
 /**
  * Функция служит для обработки кнопки: "refresh"
  */
-export async function SetResponseTo(
-  interaction: any,
-  resposeFunc: any,
-  deferUpdate = true,
-  mustEphemeral = true
-) {
+export async function SetResponseTo(params: SetResponseParams) {
   try {
-    if (deferUpdate) {
-      await interaction.deferUpdate();
-    } else {
-      await interaction.deferReply({ ephemeral: mustEphemeral });
+    const { interaction, defer, replFunc, ephemeral } = params;
+    const { reply, update } = defer;
+    const res = await replFunc();
+    if (defer) {
+      if (reply) {
+        await interaction.deferReply({ ephemeral: ephemeral });
+      } else if (update) {
+        await (interaction as any).deferUpdate({ ephemeral: !!ephemeral });
+      }
+      return interaction.editReply(res);
     }
-    return interaction.editReply(await resposeFunc(interaction));
+    return interaction.reply(res);
   } catch {}
 }

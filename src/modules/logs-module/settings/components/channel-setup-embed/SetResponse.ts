@@ -16,7 +16,11 @@ export class LogChannelSetupRefresh extends BaseComponent {
   }
 
   async execute(interaction: ButtonInteraction) {
-    await SetResponseTo(interaction, LogChannelSetupResponse);
+    await SetResponseTo({
+      interaction,
+      replFunc: LogChannelSetupResponse,
+      defer: { update: true },
+    });
   }
 }
 export class LogChannelSetupBack extends BaseComponent {
@@ -29,7 +33,11 @@ export class LogChannelSetupBack extends BaseComponent {
   }
 
   async execute(interaction: ButtonInteraction) {
-    await SetResponseTo(interaction, settingsResponse);
+    await SetResponseTo({
+      interaction,
+      replFunc: settingsResponse,
+      defer: { update: true },
+    });
   }
 }
 

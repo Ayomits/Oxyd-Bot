@@ -25,6 +25,12 @@ export class SettingsSelect extends BaseComponent {
   }
 
   async execute(interaction: StringSelectMenuInteraction) {
-    await SetResponseTo(interaction, LogChannelSetupResponse)
+    await SetResponseTo({
+      interaction,
+      replFunc: LogChannelSetupResponse,
+      defer: {
+        update: true,
+      },
+    });
   }
 }

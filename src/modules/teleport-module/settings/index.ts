@@ -21,6 +21,13 @@ export class TeleportSettingsCommand extends BaseCommand {
   }
 
   async execute(interaction: CommandInteraction) {
-    await SetResponseTo(interaction, TeleportSettingsResponse, false);
+    await SetResponseTo({
+      interaction,
+      replFunc: TeleportSettingsResponse,
+      ephemeral: true,
+      defer: {
+        reply: true,
+      },
+    });
   }
 }

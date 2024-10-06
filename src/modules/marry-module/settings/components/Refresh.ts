@@ -13,6 +13,10 @@ export class RefreshButton extends BaseComponent {
   }
 
   async execute(interaction: ButtonInteraction) {
-    await SetResponseTo(interaction, MarrySettingsResponse);
+    await SetResponseTo({
+      interaction,
+      replFunc: MarrySettingsResponse,
+      defer: { update: true },
+    });
   }
 }

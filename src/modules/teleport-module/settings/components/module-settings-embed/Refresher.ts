@@ -14,7 +14,14 @@ export class TeleportSettingsRefresher extends BaseComponent {
 
   async execute(interaction: ButtonInteraction) {
     try {
-      await SetResponseTo(interaction, TeleportSettingsResponse);
+      await SetResponseTo({
+        interaction: interaction,
+        replFunc: TeleportSettingsResponse,
+        ephemeral: true,
+        defer: {
+          update: true,
+        },
+      });
     } catch {}
   }
 }

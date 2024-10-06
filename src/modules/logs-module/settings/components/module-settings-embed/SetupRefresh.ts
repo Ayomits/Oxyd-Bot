@@ -13,6 +13,12 @@ export class SettingsRefreshButton extends BaseComponent {
   }
 
   async execute(interaction: ButtonInteraction, args: string[]): Promise<void> {
-    await SetResponseTo(interaction, settingsResponse)
+    await SetResponseTo({
+      interaction,
+      replFunc: settingsResponse,
+      defer: {
+        update: true,
+      },
+    });
   }
 }
