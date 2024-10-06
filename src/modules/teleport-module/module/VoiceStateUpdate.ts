@@ -35,11 +35,10 @@ export class TeleportVoiceStateUpdate extends BaseEvent {
         newState.guild.channels.cache.get(channel)
       ),
       teleport.channels.filter((channel) => {
-        const isIgnored = !teleport.ignoredChannels.includes(channel);
+        const isIgnored = teleport.ignoredChannels.includes(channel);
         const channelFromGuild = newState.guild.channels.cache.get(channel);
-        if (isIgnored) return false;
+        if (isIgnored && teleport.channels.length > 1) return false;
         if (!channelFromGuild) return false;
-        console.log(channelFromGuild);
         if (!channelFromGuild.isVoiceBased()) return false;
         return true;
       }),
@@ -50,12 +49,12 @@ export class TeleportVoiceStateUpdate extends BaseEvent {
     const randomArr = randomValue(values);
     const randomArrValue = randomValue(randomArr);
     const randomArrChannel = newState.guild.channels.cache.get(randomArrValue);
-
     if (randomArrChannel.type === ChannelType.GuildCategory) {
       let randomChannel;
       const channels = newState.guild.channels.cache.filter(
-        (channel) => channel.type === ChannelType.GuildVoice &&
-        channel.parentId === randomArrChannel.id &&
+        (channel) =>
+          channel.type === ChannelType.GuildVoice &&
+          channel.parentId === randomArrChannel.id &&
           !teleport.ignoredChannels.includes(channel.id)
       );
       if (channels.size <= 0) {
@@ -68,7 +67,18 @@ export class TeleportVoiceStateUpdate extends BaseEvent {
       randomChannel = channels.random();
       return await member.voice.setChannel(randomChannel);
     } else {
-      member.voice.setChannel(randomArrChannel as VoiceChannel);
+      console.log(randomArr)
+      if (teleport.ignoredChannels.includes(randomArrChannel.id))
+      {
+        if (randomArr.length === 1)
+          return await member.voice.setChannel(
+            randomArrChannel as VoiceChannel
+          );
+        else return;
+      }
+      else {
+        return await member.voice.setChannel(randomArrChannel as VoiceChannel);
+      }
     }
   }
 }
