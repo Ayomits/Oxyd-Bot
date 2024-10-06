@@ -105,10 +105,12 @@ export async function TeleportEmbedResponse(
     field: keyof TeleportDocument,
     channelType: ChannelType = ChannelType.GuildText,
     once: boolean = false,
-    placeholder = "Выберите хз"
+    placeholder = "Выберите хз",
+    min = 1
   ) => {
     const select = new ChannelSelectMenuBuilder()
       .setPlaceholder(placeholder)
+      .setMinValues(min)
       .setChannelTypes(channelType);
     if (once) select.setMaxValues(1);
     else {
@@ -138,19 +140,22 @@ export async function TeleportEmbedResponse(
         "categories",
         ChannelType.GuildCategory,
         false,
-        "Выберите категории телепорта"
+        "Выберите категории телепорта",
+        0
       ),
       selectMenu(
         "channels",
         ChannelType.GuildVoice,
         false,
-        "Выберите каналы телепорта"
+        "Выберите каналы телепорта",
+        0
       ),
       selectMenu(
         "ignoredChannels",
         ChannelType.GuildVoice,
         false,
-        "Выберите игнорируемые каналы"
+        "Выберите игнорируемые каналы",
+        0
       ),
       buttons,
     ],
