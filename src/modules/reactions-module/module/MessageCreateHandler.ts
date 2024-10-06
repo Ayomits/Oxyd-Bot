@@ -170,9 +170,7 @@ export class MessageReactionHandler extends BaseEvent {
       await inter.deferUpdate();
       const accepted = inter.customId === "reaction_accept";
       isClicked = true;
-      console.log(marriage, accepted);
       if (accepted && marriage) {
-        console.log(`here`);
         await this.xpAdder(reactionConfig, marriage);
       }
       reply.edit({

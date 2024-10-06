@@ -25,7 +25,6 @@ export class SetupCommand extends BaseCommand {
       const response = await reactionModuleResponse(interaction);
       return interaction.editReply({ ...response });
     } catch (err) {
-      console.log(err);
       return interaction.editReply({
         embeds: [],
         content: `Упс, что-то пошло не так`,

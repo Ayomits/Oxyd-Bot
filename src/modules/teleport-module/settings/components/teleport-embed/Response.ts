@@ -104,9 +104,12 @@ export async function TeleportEmbedResponse(
   const selectMenu = (
     field: keyof TeleportDocument,
     channelType: ChannelType = ChannelType.GuildText,
-    once: boolean = false
+    once: boolean = false,
+    placeholder = "Выберите хз"
   ) => {
-    const select = new ChannelSelectMenuBuilder().setChannelTypes(channelType);
+    const select = new ChannelSelectMenuBuilder()
+      .setPlaceholder(placeholder)
+      .setChannelTypes(channelType);
     if (once) select.setMaxValues(1);
     else {
       select.setMaxValues(25);
@@ -125,10 +128,30 @@ export async function TeleportEmbedResponse(
   return {
     embeds: [embed],
     components: [
-      selectMenu("channelId", ChannelType.GuildVoice, true),
-      selectMenu("categories", ChannelType.GuildCategory, false),
-      selectMenu("channels", ChannelType.GuildVoice, false),
-      selectMenu("ignoredChannels", ChannelType.GuildVoice, false),
+      selectMenu(
+        "channelId",
+        ChannelType.GuildVoice,
+        true,
+        "Выберите триггер канал"
+      ),
+      selectMenu(
+        "categories",
+        ChannelType.GuildCategory,
+        false,
+        "Выберите категории телепорта"
+      ),
+      selectMenu(
+        "channels",
+        ChannelType.GuildVoice,
+        false,
+        "Выберите каналы телепорта"
+      ),
+      selectMenu(
+        "ignoredChannels",
+        ChannelType.GuildVoice,
+        false,
+        "Выберите игнорируемые каналы"
+      ),
       buttons,
     ],
   };

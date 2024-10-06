@@ -46,7 +46,6 @@ export const MonitoringBotsObjs: MonitoringBotsObjsType = {
       const timestamp = new Date().getTime() + 4 * 1000 * 3600;
       const match = msg.embeds[0].description.match(/<t:(\d+):/);
       const nextTimestamp = match && !isSuccess ? Number(match[1]) * 1000 : timestamp;
-      console.log(nextTimestamp);
       return new Date(nextTimestamp);
     },
     dbKey: "sdc",

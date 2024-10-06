@@ -17,7 +17,6 @@ export class TeleportEmbedSelectMenu extends BaseComponent {
     const id = args[1];
     const once = args[2]
     const values = interaction.values;
-    console.log(field, id, once, values);
     await TeleportModel.updateOne(
       {
         _id: id,
