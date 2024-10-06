@@ -50,6 +50,14 @@ export async function reactionModuleResponse(
           interaction.guild,
           "channels"
         )}`,
+      },
+      {
+        name: `> Использование слеш реакций`,
+        value: `${isEnabled(reactionSettings.useSlash)}`,
+      },
+      {
+        name: `> Использование префикс реакций`,
+        value: `${isEnabled(reactionSettings.usePrefix)}`,
       }
     )
     .setColor(SnowflakeColors.DEFAULT)
@@ -71,7 +79,15 @@ export async function reactionModuleResponse(
         `reactionRefresh_${interaction.user.id}_${interaction.guild.id}`
       )
       .setLabel(`Обновить`)
-      .setStyle(ButtonStyle.Primary)
+      .setStyle(ButtonStyle.Primary),
+    new ButtonBuilder()
+      .setCustomId(`toggleruse_useSlash`)
+      .setLabel(`Слэш реакции`)
+      .setStyle(buttonStyle(reactionSettings.useSlash)),
+    new ButtonBuilder()
+      .setCustomId(`toggleruse_usePrefix`)
+      .setLabel(`Слэш реакции`)
+      .setStyle(buttonStyle(reactionSettings.usePrefix))
   );
   return {
     embeds: [embed],

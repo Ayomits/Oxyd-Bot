@@ -4,6 +4,8 @@ import { BaseModuleGuildDocument } from "../../base/GuildDocument";
 export interface ReactionModuleDocument extends BaseModuleGuildDocument {
   nsfwReactions: string[];
   commonReactions: string[];
+  useSlash: boolean;
+  usePrefix: boolean;
 }
 
 export const ReactionModuleSchema = new Schema<ReactionModuleDocument>({
@@ -24,6 +26,14 @@ export const ReactionModuleSchema = new Schema<ReactionModuleDocument>({
     type: [],
     default: [],
     maxlength: 25,
+  },
+  usePrefix: {
+    type: Boolean,
+    default: false,
+  },
+  useSlash: {
+    type: Boolean,
+    default: false,
   },
 });
 

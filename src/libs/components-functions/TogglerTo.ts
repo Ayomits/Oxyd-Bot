@@ -12,13 +12,14 @@ type TogglerParams = {
    */
   model: any;
   ephemeral?: boolean;
+  field?: string;
 };
 
 export async function SetTogglerTo(params: TogglerParams) {
-  const { interaction, moduleName, ephemeral, model } = params;
+  const { interaction, moduleName, ephemeral, model, field } = params;
   const existed = await model.findOne({ guildId: interaction.guild.id });
   await existed.updateOne({
-    enable: !existed.enable,
+    [field ? field : "enable"]: !existed.enable,
   });
   await interaction.deferReply({ ephemeral: !!ephemeral });
   interaction.editReply({
