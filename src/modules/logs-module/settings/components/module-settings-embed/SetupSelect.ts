@@ -13,7 +13,7 @@ import {
   TextInputBuilder,
   TextInputStyle,
 } from "discord.js";
-import { LogChannelSetupResponse } from "./channel-setup-embed/Response";
+import { LogChannelSetupResponse } from "../channel-setup-embed/Response";
 
 export class SettingsSelect extends BaseComponent {
   constructor() {

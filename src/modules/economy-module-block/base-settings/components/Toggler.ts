@@ -18,6 +18,7 @@ export class EconomyBaseSettingsToggler extends BaseComponent {
       interaction: interaction,
       model: EconomySettingsModel,
       moduleName: `экономики`,
+      ephemeral: true,
     });
   }
 }

@@ -17,6 +17,7 @@ export class MarrySettingsToggler extends BaseComponent {
       interaction: interaction,
       moduleName: "браков",
       model: MarrySettingsModel,
+      ephemeral: true
     });
   }
 }

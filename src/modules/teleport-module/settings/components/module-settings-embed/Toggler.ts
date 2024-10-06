@@ -19,6 +19,7 @@ export class TeleportSettingsToggler extends BaseComponent {
       interaction,
       model: TeleportSettingsModel,
       moduleName: "телепортов",
+      ephemeral: true
     });
   }
 }
