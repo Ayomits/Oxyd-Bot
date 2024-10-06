@@ -1,6 +1,10 @@
 import BaseCommand from "@/abstractions/BaseCommand";
 import { SnowflakeType } from "@/enums";
-import { CommandInteraction, SlashCommandBuilder } from "discord.js";
+import {
+  CommandInteraction,
+  PermissionFlagsBits,
+  SlashCommandBuilder,
+} from "discord.js";
 import { TeleportSettingsResponse } from "./Response";
 import { SetResponseTo } from "@/libs/components-functions/SetResponseTo";
 
@@ -9,6 +13,7 @@ export class TeleportSettingsCommand extends BaseCommand {
     super({
       builder: new SlashCommandBuilder()
         .setName(`teleport-settings`)
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .setDescription(`Настройка модуля телепортов`),
       type: SnowflakeType.Everyone,
       isSlash: true,

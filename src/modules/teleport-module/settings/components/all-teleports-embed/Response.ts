@@ -8,6 +8,8 @@ import {
   ButtonStyle,
   channelMention,
   EmbedBuilder,
+  StringSelectMenuBuilder,
+  StringSelectMenuOptionBuilder,
 } from "discord.js";
 
 export async function TeleportsResponse(
@@ -15,6 +17,7 @@ export async function TeleportsResponse(
   pageNumber = 1,
   pageSize = 5
 ) {
+  const options = [];
   const allTelepors = await TeleportModel.find({
     guildId: interaction.guild.id,
   });
@@ -24,14 +27,21 @@ export async function TeleportsResponse(
     .setTimestamp(new Date())
     .setThumbnail(interaction.user.displayAvatarURL());
   let description = "";
+  let start = (pageNumber - 1) * pageSize;
+  const end = pageNumber * pageSize;
   if (allTelepors.length <= 0) {
     description = "Телепортов нет";
   } else {
     let index = 1;
-    for (const teleport of allTelepors) {
+    for (const teleport of allTelepors.slice(start, end)) {
       description += `${bold(index.toString())}) ${
         teleport.displayName
       }\n${channelMention(teleport.channelId)}`;
+      options.push(
+        new StringSelectMenuOptionBuilder()
+          .setLabel(`${teleport.displayName}`)
+          .setValue(`${teleport._id}`)
+      );
       index += 1;
     }
   }
@@ -41,6 +51,10 @@ export async function TeleportsResponse(
       .setCustomId(`teleportprevious`)
       .setEmoji("◀")
       .setStyle(ButtonStyle.Secondary),
+    new ButtonBuilder()
+      .setCustomId(`teleportcreate`)
+      .setEmoji("Создать")
+      .setStyle(ButtonStyle.Primary),
     new ButtonBuilder()
       .setCustomId(`teleportnext`)
       .setEmoji("▶")
@@ -52,5 +66,14 @@ export async function TeleportsResponse(
       .setLabel("Назад")
       .setStyle(ButtonStyle.Danger)
   );
-  return { embeds: [embed], components: [buttons, backButton] };
+  const selectMenu =
+    new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+      new StringSelectMenuBuilder()
+        .setCustomId(`teleportselectmenu`)
+        .setPlaceholder(`Выберите нужный телепорт`)
+        .setOptions(options)
+    );
+  const components = [buttons, backButton] as any[]
+  if (options.length >= 1) components.push(selectMenu)
+  return { embeds: [embed], components: components.reverse() };
 }

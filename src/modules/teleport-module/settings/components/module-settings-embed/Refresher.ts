@@ -6,7 +6,7 @@ import { TeleportSettingsResponse } from "../../Response";
 export class TeleportSettingsRefresher extends BaseComponent {
   constructor() {
     super({
-      customId: "",
+      customId: "teleportsettingsrefresher",
       ttl: 600,
       authorOnly: true,
     });

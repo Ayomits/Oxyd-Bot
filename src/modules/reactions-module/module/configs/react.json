@@ -9,14 +9,7 @@
     "verbal": "послал(-а)",
     "type": "love",
     "isAcceptable": false,
-    "translations": {
-      "en": "airkiss",
-      "ru": "воздушный-поцелуй"
-    },
-    "description": {
-      "ru": "Послать воздушный поцелуй",
-      "en": "Send an air kiss"
-    },
+    "aliases": ["айркисс", "воздушный"],
     "cost": 15
   },
   "bite": {
@@ -28,14 +21,7 @@
     "memberVerb": "пользователя",
     "verbal": "укусил(-а)",
     "type": "action",
-    "translations": {
-      "en": "bite",
-      "ru": "укусить"
-    },
-    "description": {
-      "ru": "Укусить",
-      "en": "Bite"
-    },
+    "aliases": ["кусь", "кусание", "укусить"],
     "cost": 5
   },
   "blush": {
@@ -47,15 +33,22 @@
     "memberVerb": "из-за пользователя",
     "verbal": "смущается",
     "type": "emotion",
-    "translations": {
-      "en": "blush",
-      "ru": "смущаться"
-    },
-    "description": {
-      "en": "Blush",
-      "ru": "Смущаться"
-    },
+    "aliases": ["краснеет", "стесняется"],
     "cost": 10
+  },
+  "celebrate": {
+    "action": "Праздновать",
+    "api_name": "celebrate",
+    "everyone": true,
+    "everyoneVerb": "со всем сервером",
+    "isApi": true,
+    "memberVerb": "с пользователем",
+    "verbal": "Празднует",
+    "type": "action",
+    "isAcceptable": false,
+    "nsfw": false,
+    "aliases": ["праздник", "празднование"],
+    "cost": 5
   },
   "cheers": {
     "action": "Выпить",
@@ -68,14 +61,7 @@
     "type": "action",
     "isAcceptable": false,
     "nsfw": false,
-    "translations": {
-      "en": "drink",
-      "ru": "выпить"
-    },
-    "description": {
-      "en": "Drink some alchol",
-      "ru": "Выпить алкоголя"
-    },
+    "aliases": ["дринк", "выпить", "drink"],
     "cost": 5
   },
   "clap": {
@@ -89,15 +75,22 @@
     "type": "action",
     "isAcceptable": false,
     "nsfw": false,
-    "translations": {
-      "en": "clap",
-      "ru": "апплодисменты"
-    },
-    "description": {
-      "en": "Clap",
-      "ru": "Апплодировать"
-    },
+    "aliases": ["аплодисменты", "хлопки"],
     "cost": 5
+  },
+  "confused": {
+    "action": "Озадачиться",
+    "api_name": "confused",
+    "everyone": true,
+    "everyoneVerb": "",
+    "isApi": true,
+    "memberVerb": "пользователем",
+    "verbal": "Озадачен",
+    "type": "emotion",
+    "isAcceptable": false,
+    "nsfw": false,
+    "aliases": ["озадаченность", "запутаться"],
+    "cost": 10
   },
   "cry": {
     "action": "Плакать",
@@ -110,14 +103,7 @@
     "type": "emotion",
     "isAcceptable": false,
     "nsfw": false,
-    "translations": {
-      "en": "cry",
-      "ru": "плакать"
-    },
-    "description": {
-      "en": "Cry",
-      "ru": "Плакать"
-    },
+    "aliases": ["грусть", "печаль"],
     "cost": 10
   },
   "dance": {
@@ -131,16 +117,23 @@
     "type": "action",
     "isAcceptable": true,
     "nsfw": false,
-    "translations": {
-      "en": "dance",
-      "ru": "танцевать"
-    },
-    "description": {
-      "en": "Dance",
-      "ru": "Танцевать"
-    },
+    "aliases": ["танец", "танцы", "танцевать"],
     "cost": 5,
     "message": "хочет потанцевать с тобой"
+  },
+  "facepalm": {
+    "action": "Разочароваться",
+    "api_name": "facepalm",
+    "everyone": true,
+    "everyoneVerb": "",
+    "isApi": true,
+    "memberVerb": "в пользователе",
+    "verbal": "разочарован",
+    "type": "emotion",
+    "isAcceptable": false,
+    "nsfw": false,
+    "aliases": ["фейспалм", "печаль"],
+    "cost": 10
   },
   "handhold": {
     "action": "Держаться за руки",
@@ -153,16 +146,23 @@
     "type": "love",
     "isAcceptable": true,
     "nsfw": false,
-    "translations": {
-      "ru": "держаться-за-руки",
-      "en": "handhold"
-    },
-    "description": {
-      "en": "Handhold",
-      "ru": "Держаться за руки"
-    },
+    "aliases": ["руки", "подержаться", "ручки"],
     "cost": 15,
     "message": "хочет взять тебя за ручку"
+  },
+  "happy": {
+    "action": "Радоваться",
+    "api_name": "happy",
+    "everyone": true,
+    "everyoneVerb": "",
+    "isApi": true,
+    "memberVerb": "пользователю",
+    "verbal": "радуется",
+    "type": "emotion",
+    "isAcceptable": false,
+    "nsfw": false,
+    "aliases": ["радость", "счастье", "хэппи"],
+    "cost": 10
   },
   "tickle": {
     "action": "Щекотать",
@@ -174,14 +174,30 @@
     "type": "action",
     "isAcceptable": false,
     "nsfw": false,
-    "translations": {
-      "en": "tickle",
-      "ru": "щекотать"
-    },
-    "description": {
-      "en": "Tickle someone",
-      "ru": "Щекотать кого-то"
-    }
+    "aliases": ["щекотать", "тикл", "тикле"],
+    "cost": 10
+  },
+  "scared": {
+    "action": "Испуг",
+    "api_name": "scared",
+    "everyone": true,
+    "isApi": true,
+    "everyoneVerb": "",
+    "memberVerb": "пользователя",
+    "verbal": "испугался",
+    "type": "emotion",
+    "isAcceptable": false,
+    "nsfw": false,
+    "aliases": [
+      "пугаться",
+      "скаред",
+      "испуг",
+      "боюсь",
+      "страшна",
+      "страшно",
+      "fear",
+      "страх"
+    ]
   },
   "hug": {
     "action": "Обнять",
@@ -194,14 +210,7 @@
     "type": "love",
     "isAcceptable": false,
     "nsfw": false,
-    "translations": {
-      "en": "hug",
-      "ru": "обнять"
-    },
-    "description": {
-      "en": "Give someone a hug",
-      "ru": "Обнять кого-то"
-    },
+    "aliases": ["объятие", "обнимашки", "обнять"],
     "cost": 15
   },
   "kiss": {
@@ -215,15 +224,23 @@
     "type": "love",
     "isAcceptable": true,
     "nsfw": false,
-    "translations": {
-      "en": "kiss",
-      "ru": "поцеловать"
-    },
-    "description": {
-      "en": "Give someone a kiss",
-      "ru": "Поцеловать кого-то"
-    },
+    "aliases": ["поцелуй", "целую", "поцеловать", "кис"],
+    "cost": 15,
     "message": "хочет поцеловать тебя"
+  },
+  "laugh": {
+    "action": "Смеяться",
+    "api_name": "laugh",
+    "everyone": true,
+    "everyoneVerb": "",
+    "isApi": true,
+    "memberVerb": "с пользователем",
+    "verbal": "смеется",
+    "type": "emotion",
+    "isAcceptable": false,
+    "nsfw": false,
+    "aliases": ["смех", "хаха"],
+    "cost": 10
   },
   "lick": {
     "action": "Облизывать",
@@ -236,10 +253,7 @@
     "type": "love",
     "isAcceptable": false,
     "nsfw": false,
-    "translations": {
-      "en": "lick",
-      "ru": "облизать"
-    },
+    "aliases": ["лизать", "лизание", "лизь"],
     "cost": 15
   },
   "love": {
@@ -270,7 +284,7 @@
     "cost": 15,
     "type": "love"
   },
-
+ 
   "admire": {
     "action": "Любоваться",
     "api_name": "admire",

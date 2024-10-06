@@ -8,7 +8,7 @@ import { TeleportSettingsModel } from "@/db/models/teleport/TeleportSettingsMode
 export class TeleportSettingsToggler extends BaseComponent {
   constructor() {
     super({
-      customId: "",
+      customId: "teleportsettingstoggler",
       ttl: 600,
       authorOnly: true,
     });
