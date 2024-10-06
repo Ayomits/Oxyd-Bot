@@ -27,18 +27,27 @@ export class TeleportsButton extends BaseComponent {
       ephemeral: true,
     });
     const collector = repl.createMessageComponentCollector({
-      filter: (i) => i.user.id === interaction.user.id,
+      filter: (i) =>
+        i.user.id === interaction.user.id &&
+        (i.customId === "teleportnext" || i.customId === "teleportprevious"),
       componentType: ComponentType.Button,
     });
-
     collector.on("collect", async (inter) => {
-      await inter.deferUpdate();
-      if (inter.customId.includes("next")) {
+      if (inter.customId === "teleportnext") {
         pageNumber += 1;
-      } else if (inter.customId.includes("previous")) {
+      } else if (inter.customId === "teleportprevious") {
         pageNumber = Math.max(pageNumber - 1, 1);
       }
-      inter.editReply(await AllTeleportsResponse(inter, pageNumber));
+      const replFunc = async () => {
+        return await AllTeleportsResponse(inter, pageNumber);
+      };
+      return await SetResponseTo({
+        interaction: inter,
+        replFunc,
+        defer: {
+          update: true,
+        },
+      });
     });
   }
 }

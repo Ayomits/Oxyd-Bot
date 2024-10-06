@@ -8,6 +8,7 @@ import {
   Interaction,
   ModalSubmitInteraction,
 } from "discord.js";
+import Logger from "../core-functions/Logger";
 
 type SetResponseParams = {
   interaction:
@@ -27,18 +28,16 @@ type SetResponseParams = {
  * Функция служит для обработки кнопки: "refresh"
  */
 export async function SetResponseTo(params: SetResponseParams) {
-  try {
-    const { interaction, defer, replFunc, ephemeral } = params;
-    const { reply, update } = defer;
-    const res = await replFunc();
-    if (defer) {
-      if (reply) {
-        await interaction.deferReply({ ephemeral: ephemeral });
-      } else if (update) {
-        await (interaction as any).deferUpdate({ ephemeral: !!ephemeral });
-      }
-      return interaction.editReply(res);
+  const { interaction, defer, replFunc, ephemeral } = params;
+  const { reply, update } = defer;
+  const res = await replFunc(interaction);
+  if (defer) {
+    if (reply) {
+      await interaction.deferReply({ ephemeral: ephemeral });
+    } else if (update) {
+      await (interaction as any).deferUpdate({ ephemeral: !!ephemeral });
     }
-    return interaction.reply(res);
-  } catch {}
+    return await interaction.editReply(res);
+  }
+  return await interaction.reply(res);
 }

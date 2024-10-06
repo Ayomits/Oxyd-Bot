@@ -1,42 +1,36 @@
 import BaseComponent from "@/abstractions/BaseComponent";
 import { TeleportModel } from "@/db/models/teleport/TeleportModel";
-import { SetResponseTo } from "@/libs/components-functions/SetResponseTo";
 import {
   ActionRowBuilder,
-  ButtonInteraction,
   ModalBuilder,
   ModalSubmitInteraction,
+  StringSelectMenuInteraction,
   TextInputBuilder,
   TextInputStyle,
 } from "discord.js";
 import { TeleportEmbedResponse } from "../teleport-embed/Response";
+import BaseSelectMenuValue from "@/abstractions/BaseSelectMenuValue";
 
-export class CreateTeleportButton extends BaseComponent {
+export class CreateTeleportValue extends BaseSelectMenuValue {
   constructor() {
-    super({
-      customId: "teleportcreate",
-      ttl: 600,
-      authorOnly: true,
-    });
+    super("teleportcreate");
   }
 
-  async execute(interaction: ButtonInteraction) {
-    try {
-      const modal = new ModalBuilder()
-        .setCustomId(`allteleportscreatemodal`)
-        .setTitle(`Создание телепорта`)
-        .setComponents(
-          new ActionRowBuilder<TextInputBuilder>().addComponents(
-            new TextInputBuilder()
-              .setCustomId(`displayname`)
-              .setPlaceholder(`privateroom`)
-              .setStyle(TextInputStyle.Short)
-              .setRequired(true)
-              .setLabel(`Название телепорта`)
-          )
-        );
-      return await interaction.showModal(modal);
-    } catch {}
+  async execute(interaction: StringSelectMenuInteraction) {
+    const modal = new ModalBuilder()
+      .setCustomId(`allteleportscreatemodal`)
+      .setTitle(`Создание телепорта`)
+      .setComponents(
+        new ActionRowBuilder<TextInputBuilder>().addComponents(
+          new TextInputBuilder()
+            .setCustomId(`displayname`)
+            .setPlaceholder(`privateroom`)
+            .setStyle(TextInputStyle.Short)
+            .setRequired(true)
+            .setLabel(`Название телепорта`)
+        )
+      );
+    return await interaction.showModal(modal);
   }
 }
 

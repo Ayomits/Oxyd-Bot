@@ -77,7 +77,7 @@ export async function TeleportEmbedResponse(
     );
   const buttons = new ActionRowBuilder<ButtonBuilder>().addComponents(
     new ButtonBuilder()
-      .setCustomId(`teleporttoggler_${Math.random()}`)
+      .setCustomId(`teleporembedttoggler_${objectId}`)
       .setLabel(`Включить/Выключить`)
       .setStyle(buttonStyle(teleport.enable)),
     new ButtonBuilder()
@@ -85,15 +85,15 @@ export async function TeleportEmbedResponse(
       .setLabel(`Сменить название`)
       .setStyle(ButtonStyle.Secondary),
     new ButtonBuilder()
-      .setCustomId(`teleportrefresher_${objectId}`)
+      .setCustomId(`teleportembedrefresher_${objectId}`)
       .setLabel(`Обновить`)
       .setStyle(ButtonStyle.Primary),
     new ButtonBuilder()
-      .setCustomId(`teleportdeletebutton_${objectId}`)
+      .setCustomId(`teleportembeddeletebutton_${objectId}`)
       .setLabel(`Удалить`)
       .setStyle(ButtonStyle.Danger),
     new ButtonBuilder()
-      .setCustomId(`teleportbackbuttone_${Math.random()}`)
+      .setCustomId(`teleportsettingsgoto_${Math.random()}`)
       .setLabel(`Назад`)
       .setStyle(ButtonStyle.Danger)
   );

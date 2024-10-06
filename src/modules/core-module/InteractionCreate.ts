@@ -41,7 +41,7 @@ export class InteractionCreate extends BaseEvent {
           return;
         }
         if (command) {
-          command?.execute(interaction);
+          await command?.execute(interaction);
           Logger.log(`${interaction.commandName} successfully launched`);
         }
       }
@@ -50,7 +50,7 @@ export class InteractionCreate extends BaseEvent {
           interaction.commandName
         );
         if (!command) return;
-        command?.autoComplete(interaction);
+        await command?.autoComplete(interaction);
         Logger.success(
           `${interaction.commandName} autocomplete successfully launched`
         );
@@ -80,7 +80,7 @@ export class InteractionCreate extends BaseEvent {
           const valueCallback = interaction.client.values.get(value[0]);
           if (valueCallback) {
             try {
-              valueCallback.execute(interaction, value.slice(1));
+              await valueCallback.execute(interaction, value.slice(1));
               Logger.log(
                 `value ${value[0]} launched for select menu ${splitedCustomId[0]}`
               );
@@ -91,7 +91,7 @@ export class InteractionCreate extends BaseEvent {
           }
         }
         try {
-          component?.execute(interaction, splitedCustomId.slice(1));
+          await component?.execute(interaction, splitedCustomId.slice(1));
           Logger.log(
             `${interaction.customId} ${this.componentCalc(
               interaction

@@ -13,10 +13,10 @@ import { SetResponseTo } from "@/libs/components-functions/SetResponseTo";
 import { TeleportModel } from "@/db/models/teleport/TeleportModel";
 import { AllTeleportsResponse } from "../all-teleports-embed/AllTeleportsResponse";
 
-export class DeleteButton extends BaseComponent {
+export class TeleportDeleteButton extends BaseComponent {
   constructor() {
     super({
-      customId: "teleportdeletebutton",
+      customId: "teleportembeddeletebutton",
       ttl: 600,
       authorOnly: true,
     });
@@ -30,11 +30,11 @@ export class DeleteButton extends BaseComponent {
       const _id = args[0];
       const buttons = new ActionRowBuilder<ButtonBuilder>().addComponents(
         new ButtonBuilder()
-          .setCustomId(`teleportdeleteconfirm`)
+          .setCustomId(`teleportembeddeleteconfirm`)
           .setLabel(`Подтвердить`)
           .setStyle(ButtonStyle.Success),
         new ButtonBuilder()
-          .setCustomId(`teleportdeletedecline`)
+          .setCustomId(`teleportembeddeletedecline`)
           .setLabel(`Отменить`)
           .setStyle(ButtonStyle.Danger)
       );

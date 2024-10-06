@@ -17,7 +17,11 @@ export async function AllTeleportsResponse(
   pageNumber = 1,
   pageSize = 5
 ) {
-  const options = [];
+  const options = [
+    new StringSelectMenuOptionBuilder()
+      .setLabel(`Создать`)
+      .setValue(`teleportcreate`),
+  ];
   const allTelepors = await TeleportModel.find({
     guildId: interaction.guild.id,
   })
@@ -55,10 +59,6 @@ export async function AllTeleportsResponse(
       .setEmoji("◀")
       .setStyle(ButtonStyle.Secondary),
     new ButtonBuilder()
-      .setCustomId(`teleportcreate_${Math.random()}`)
-      .setLabel("Создать")
-      .setStyle(ButtonStyle.Primary),
-    new ButtonBuilder()
       .setCustomId(`teleportnext`)
       .setEmoji("▶")
       .setDisabled(pageNumber * pageSize >= allTelepors.length)
@@ -77,7 +77,7 @@ export async function AllTeleportsResponse(
         .setPlaceholder(`Выберите нужный телепорт`)
         .setOptions(options)
     );
-  const components = [backButton ,buttons] as any[];
+  const components = [backButton, buttons] as any[];
   if (options.length >= 1) components.push(selectMenu);
-  return { embeds: [embed], components: components.reverse()};
+  return { embeds: [embed], components: components.reverse() };
 }
