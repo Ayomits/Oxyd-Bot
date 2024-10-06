@@ -28,13 +28,15 @@ export class TeleportDeleteButton extends BaseComponent {
         await interaction.deferUpdate();
       } catch {}
       const _id = args[0];
+      const deleteConfirmCustomId = `teleportembeddeleteconfirm_${Math.random()}`;
+      const deleteDeclineCustomId = `teleportembeddeletedecline_${Math.random()}`;
       const buttons = new ActionRowBuilder<ButtonBuilder>().addComponents(
         new ButtonBuilder()
-          .setCustomId(`teleportembeddeleteconfirm`)
+          .setCustomId(deleteConfirmCustomId)
           .setLabel(`Подтвердить`)
           .setStyle(ButtonStyle.Success),
         new ButtonBuilder()
-          .setCustomId(`teleportembeddeletedecline`)
+          .setCustomId(deleteDeclineCustomId)
           .setLabel(`Отменить`)
           .setStyle(ButtonStyle.Danger)
       );
@@ -50,11 +52,14 @@ export class TeleportDeleteButton extends BaseComponent {
       });
       const collector = repl.createMessageComponentCollector({
         time: 600_000,
-        filter: (i) => i.user.id === interaction.user.id,
+        filter: (i) =>
+          i.user.id === interaction.user.id &&
+          (i.customId === deleteDeclineCustomId ||
+            i.customId === deleteConfirmCustomId),
         componentType: ComponentType.Button,
       });
       collector.on("collect", async (inter) => {
-        if (inter.customId.includes("decline")) {
+        if (inter.customId === deleteDeclineCustomId) {
           try {
             const replFunc = async () => {
               await TeleportEmbedResponse(inter, _id);
@@ -63,9 +68,9 @@ export class TeleportDeleteButton extends BaseComponent {
               interaction: inter,
               replFunc,
               defer: {
-                update: true
+                update: true,
               },
-              ephemeral: true
+              ephemeral: true,
             });
           } catch {}
         } else {

@@ -1,34 +1,33 @@
 import BaseComponent from "@/abstractions/BaseComponent";
-import { TeleportModel } from "@/db/models/teleport/TeleportModel";
 import {
   ActionRowBuilder,
+  ButtonInteraction,
   ModalBuilder,
   ModalSubmitInteraction,
-  StringSelectMenuInteraction,
   TextInputBuilder,
   TextInputStyle,
 } from "discord.js";
-import { TeleportEmbedResponse } from "../teleport-embed/Response";
-import BaseSelectMenuValue from "@/abstractions/BaseSelectMenuValue";
+import { TeleportEmbedResponse } from "./Response";
+import { TeleportModel } from "@/db/models/teleport/TeleportModel";
 
-export class CreateTeleportValue extends BaseComponent {
+export class RenameButton extends BaseComponent {
   constructor() {
     super({
-      customId: "teleportcreate",
+      customId: "teleportrename",
       ttl: 600,
       authorOnly: true,
     });
   }
 
-  async execute(interaction: StringSelectMenuInteraction) {
+  async execute(interaction: ButtonInteraction, args: string[]) {
     const modal = new ModalBuilder()
-      .setCustomId(`allteleportscreatemodal`)
+      .setCustomId(`allteleportsupdatemodal_${args[0]}`)
       .setTitle(`Создание телепорта`)
       .setComponents(
         new ActionRowBuilder<TextInputBuilder>().addComponents(
           new TextInputBuilder()
             .setCustomId(`displayname`)
-            .setPlaceholder(`privateroom`)
+            .setPlaceholder(`loverooms`)
             .setStyle(TextInputStyle.Short)
             .setRequired(true)
             .setLabel(`Название телепорта`)
@@ -41,22 +40,24 @@ export class CreateTeleportValue extends BaseComponent {
 export class CreateTeleportModal extends BaseComponent {
   constructor() {
     super({
-      customId: "allteleportscreatemodal",
+      customId: "allteleportsupdatemodal",
       ttl: 600,
       authorOnly: true,
     });
   }
 
-  async execute(interaction: ModalSubmitInteraction) {
+  async execute(interaction: ModalSubmitInteraction, args: string[]) {
     try {
       const displayName = interaction.fields.getField("displayname")
         .value as string;
-      const teleportDb = await TeleportModel.create({
-        guildId: interaction.guild.id,
-        displayName,
-      });
+      const teleportDb = await TeleportModel.findByIdAndUpdate(
+        { _id: args[0] },
+        {
+          displayName,
+        },
+        { new: true }
+      );
 
-      // TODO: set response function
       await interaction.deferUpdate();
       interaction.editReply(
         await TeleportEmbedResponse(interaction, teleportDb._id)

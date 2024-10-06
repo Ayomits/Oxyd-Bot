@@ -6,6 +6,7 @@ import { SnowflakeColors } from "@/enums";
 import { SnowflakeMentionType } from "@/enums/SnowflakeMentionType";
 import { buttonStyle } from "@/libs/embeds-functions/buttonStyle";
 import { isEnabled } from "@/libs/embeds-functions/isEnabled";
+import { mentionOrNot } from "@/libs/embeds-functions/mentions";
 import { snowflakeArraysFilter } from "@/libs/embeds-functions/snowflakeArraysFilter";
 import {
   ActionRowBuilder,
@@ -41,7 +42,10 @@ export async function TeleportEmbedResponse(
       },
       {
         name: `> Триггер канал`,
-        value: `${channelMention(teleport.channelId)}`,
+        value: `${mentionOrNot(
+          teleport.channelId,
+          SnowflakeMentionType.CHANNEL
+        )}`,
         inline: true,
       },
       {
@@ -81,7 +85,7 @@ export async function TeleportEmbedResponse(
       .setLabel(`Включить/Выключить`)
       .setStyle(buttonStyle(teleport.enable)),
     new ButtonBuilder()
-      .setCustomId(`teleportrename_${Math.random()}`)
+      .setCustomId(`teleportrename_${objectId}`)
       .setLabel(`Сменить название`)
       .setStyle(ButtonStyle.Secondary),
     new ButtonBuilder()

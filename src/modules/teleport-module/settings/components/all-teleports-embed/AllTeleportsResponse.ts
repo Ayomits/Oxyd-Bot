@@ -1,5 +1,7 @@
 import { TeleportModel } from "@/db/models/teleport/TeleportModel";
 import { SnowflakeColors } from "@/enums";
+import { SnowflakeMentionType } from "@/enums/SnowflakeMentionType";
+import { mentionOrNot } from "@/libs/embeds-functions/mentions";
 import {
   ActionRowBuilder,
   bold,
@@ -17,11 +19,7 @@ export async function AllTeleportsResponse(
   pageNumber = 1,
   pageSize = 5
 ) {
-  const options = [
-    new StringSelectMenuOptionBuilder()
-      .setLabel(`Создать`)
-      .setValue(`teleportcreate`),
-  ];
+  const options = [];
   const allTelepors = await TeleportModel.find({
     guildId: interaction.guild.id,
   })
@@ -42,7 +40,7 @@ export async function AllTeleportsResponse(
     for (const teleport of allTelepors.slice(start, end)) {
       description += `${bold(index.toString())}) ${
         teleport.displayName
-      }\n${channelMention(teleport.channelId)}\n\n`;
+      }\n${mentionOrNot(teleport.channelId, SnowflakeMentionType.CHANNEL)}\n\n`;
       options.push(
         new StringSelectMenuOptionBuilder()
           .setLabel(`${teleport.displayName}`)
@@ -58,6 +56,10 @@ export async function AllTeleportsResponse(
       .setDisabled(pageNumber === 1)
       .setEmoji("◀")
       .setStyle(ButtonStyle.Secondary),
+    new ButtonBuilder()
+      .setCustomId(`teleportcreate`)
+      .setLabel("Создать")
+      .setStyle(ButtonStyle.Primary),
     new ButtonBuilder()
       .setCustomId(`teleportnext`)
       .setEmoji("▶")
