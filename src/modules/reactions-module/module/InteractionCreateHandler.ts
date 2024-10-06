@@ -39,6 +39,7 @@ export class MessageReactionHandler extends BaseEvent {
           guildId: interaction.guild.id,
         });
         if (!reactionModule?.enable) return;
+        if (!reactionModule?.useSlash) return;
 
         const channel = interaction.channel as TextChannel;
         const isNSFW =

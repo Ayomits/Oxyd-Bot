@@ -21,6 +21,7 @@ export class ReactionTogglerUseSetup extends BaseComponent {
       model: ReactionModuleModel,
       moduleName,
       field,
+      ephemeral: true,
     });
   }
 }

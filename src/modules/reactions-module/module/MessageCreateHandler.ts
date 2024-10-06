@@ -44,6 +44,7 @@ export class MessageReactionHandler extends BaseEvent {
 
     if (!reactionModule?.enable || !msg.content.startsWith(guild.prefix))
       return;
+    if (!reactionModule?.usePrefix) return;
 
     const [command, ...args] = msg.content
       .slice(guild.prefix.length)
