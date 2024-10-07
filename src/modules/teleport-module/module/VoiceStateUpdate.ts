@@ -14,71 +14,51 @@ export class TeleportVoiceStateUpdate extends BaseEvent {
 
   async execute(_oldState: VoiceState, newState: VoiceState) {
     if (!newState) return;
-    const member = newState.member;
-    const channel = newState.channel;
+
+    const { member, channel, guild } = newState;
+    if (!member || !channel) return;
 
     const [teleportSettings, teleport] = await Promise.all([
-      TeleportSettingsModel.findOne({ guildId: newState.guild.id }),
-      TeleportModel.findOne({
-        guildId: newState.guild.id,
-        channelId: channel?.id,
-      }),
+      TeleportSettingsModel.findOne({ guildId: guild.id }),
+      TeleportModel.findOne({ guildId: guild.id, channelId: channel.id }),
     ]);
-    if (!teleportSettings || !teleport) {
-      return;
-    }
-    if (!teleportSettings.enable || !teleport.enable) {
-      return;
-    }
-    const values = [
-      teleport.categories.filter((channel) =>
-        newState.guild.channels.cache.get(channel)
-      ),
-      teleport.channels.filter((channel) => {
-        const isIgnored = teleport.ignoredChannels.includes(channel);
-        const channelFromGuild = newState.guild.channels.cache.get(channel);
-        if (isIgnored && teleport.channels.length > 1) return false;
-        if (!channelFromGuild) return false;
-        if (!channelFromGuild.isVoiceBased()) return false;
-        return true;
-      }),
-    ].filter((arr) => {
-      if (!arr || arr.length <= 0) return false;
-      return true;
-    });
-    const randomArr = randomValue(values);
-    const randomArrValue = randomValue(randomArr);
-    const randomArrChannel = newState.guild.channels.cache.get(randomArrValue);
-    if (randomArrChannel.type === ChannelType.GuildCategory) {
-      let randomChannel;
-      const channels = newState.guild.channels.cache.filter(
-        (channel) =>
-          channel.type === ChannelType.GuildVoice &&
-          channel.parentId === randomArrChannel.id &&
-          !teleport.ignoredChannels.includes(channel.id)
+
+    if (!teleportSettings?.enable || !teleport?.enable) return;
+
+    const availableChannels = teleport.channels.filter((ch) => {
+      const guildChannel = guild.channels.cache.get(ch);
+      return (
+        guildChannel?.isVoiceBased() && !teleport.ignoredChannels.includes(ch)
       );
-      if (channels.size <= 0) {
-        if (values.length >= 2) {
-          const arr = values[1];
-          if (arr.length <= 0) return;
-          randomChannel = newState.guild.channels.cache.get(randomValue(arr));
-        }
-      }
-      randomChannel = channels.random();
-      return await member.voice.setChannel(randomChannel);
-    } else {
-      console.log(randomArr)
-      if (teleport.ignoredChannels.includes(randomArrChannel.id))
-      {
-        if (randomArr.length === 1)
-          return await member.voice.setChannel(
-            randomArrChannel as VoiceChannel
-          );
-        else return;
-      }
-      else {
-        return await member.voice.setChannel(randomArrChannel as VoiceChannel);
-      }
+    });
+
+    const availableCategories = teleport.categories.filter((category) =>
+      guild.channels.cache.has(category)
+    );
+
+    const randomArr = randomValue(
+      [availableCategories, availableChannels].filter((arr) => arr.length > 0)
+    );
+    const randomChannelId = randomValue(randomArr);
+    const randomChannel = guild.channels.cache.get(randomChannelId);
+
+    if (!randomChannel) return;
+
+    if (randomChannel.type === ChannelType.GuildCategory) {
+      const channels = guild.channels.cache.filter(
+        (ch) =>
+          ch.type === ChannelType.GuildVoice &&
+          ch.parentId === randomChannel.id &&
+          !teleport.ignoredChannels.includes(ch.id)
+      );
+
+      const targetChannel =
+        channels.random() ??
+        guild.channels.cache.get(randomValue(availableChannels));
+      if (targetChannel)
+        await member.voice.setChannel(targetChannel as VoiceChannel);
+    } else if (!teleport.ignoredChannels.includes(randomChannel.id)) {
+      await member.voice.setChannel(randomChannel as VoiceChannel);
     }
   }
 }

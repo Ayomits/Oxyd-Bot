@@ -86,7 +86,7 @@ export async function reactionModuleResponse(
       .setStyle(buttonStyle(reactionSettings.useSlash)),
     new ButtonBuilder()
       .setCustomId(`toggleruse_usePrefix`)
-      .setLabel(`Слэш реакции`)
+      .setLabel(`Префикс реакции`)
       .setStyle(buttonStyle(reactionSettings.usePrefix))
   );
   return {

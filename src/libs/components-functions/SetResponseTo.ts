@@ -1,11 +1,7 @@
-import { EmbedBuilder } from "@discordjs/builders";
 import {
-  ActionRowBuilder,
   AnySelectMenuInteraction,
   ButtonInteraction,
   CommandInteraction,
-  Embed,
-  Interaction,
   ModalSubmitInteraction,
 } from "discord.js";
 import Logger from "../core-functions/Logger";
@@ -37,7 +33,9 @@ export async function SetResponseTo(params: SetResponseParams) {
     } else if (update) {
       await (interaction as any).deferUpdate({ ephemeral: !!ephemeral });
     }
+    Logger.log(`Response was edited for ${interaction.id}`);
     return await interaction.editReply(res);
   }
+  Logger.log(`Response was replied for ${interaction.id}`);
   return await interaction.reply(res);
 }
